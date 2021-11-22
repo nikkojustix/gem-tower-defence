@@ -1,0 +1,528 @@
+{
+    "frames": [
+        {
+            "filename": "chipped-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "chipped-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 0
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawed-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 256
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "normal-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "perfect-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}
