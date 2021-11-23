@@ -4,8 +4,8 @@ import MyGame from './MyGame';
 
 const config = {
   type: Phaser.AUTO,
-  width: atlas.board.cols * atlas.board.size,
-  height: atlas.board.rows * atlas.board.size,
+  width: 900,
+  height: 900,
   scene: MyGame,
 };
 
