@@ -46,6 +46,7 @@ class MyGame extends Phaser.Scene {
       })
 
     const cam = this.cameras.main.setBounds(0, 0, 9472, 9472)
+
     cam.setZoom(this.scale)
     this.input.on('wheel', (e) => {
       if (cam.zoom > 0.095)
