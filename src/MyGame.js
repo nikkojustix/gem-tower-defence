@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import mapImg from './assets/blank_map.png';
+import mapImg from './assets/new-map.png';
 import spritesheet from './assets/original/gem_spritesheet.png';
 import atlas from './assets/atlas.json';
 
@@ -20,49 +20,41 @@ class MyGame extends Phaser.Scene {
     const map = this.add.image(0, 0, 'map').setOrigin(0).setInteractive();
     const atlas = this.cache.json.get('atlas');
 
-    const cursors = this.input.keyboard.createCursorKeys();
+    const cam = this.cameras.main.setBounds(0, 0, 9472, 9472, true)
+    cam.zoom = 0.12
 
-    const controlConfig = {
-      camera: this.cameras.main,
-      left: cursors.left,
-      right: cursors.right,
-      up: cursors.up,
-      down: cursors.down,
-      zoomIn: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.Q),
-      zoomOut: this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.E),
-      acceleration: 0.06,
-      drag: 0.0005,
-      maxSpeed: 1.0
-    };
+    map.on('pointerdown', (e) => {
+      console.log(e.x, e.y);
+      if (e.button === 0) {
+        const gem = this.add.sprite((e.x / cam.zoom) + cam.worldView.x, (e.y / cam.zoom) + cam.worldView.y, 'spritesheet', 36)
+      }
+    })
 
-    this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
+    map.on('pointermove', (e) => {
+      if (!e.isDown) return
+      if (e.button === 1) {
+        cam.scrollX -= (e.x - e.prevPosition.x) / cam.zoom
+        cam.scrollY -= (e.y - e.prevPosition.y) / cam.zoom
+      }
+    })
 
-    this.scale = 0.5
-    const spritesheet =
-      map.on('pointerdown', (e) => {
-        console.log(e.x, e.y);
-        const gem = this.add.sprite(e.x / this.scale, e.y / this.scale, 'spritesheet')
+    map.on('keydown', (e) => {
+      console.log(e.target);
+    })
 
-      })
-
-    const cam = this.cameras.main.setBounds(0, 0, 9472, 9472)
-
-    cam.setZoom(this.scale)
     this.input.on('wheel', (e) => {
-      if (cam.zoom > 0.095)
-        if (e.deltaY > 0) {
-          this.scale -= 0.005
-          cam.setZoom(this.scale)
-        }
+      console.log(cam.zoom);
+      if (cam.zoom > 0.095 && e.deltaY > 0) {
+        cam.zoom -= 0.005
+      }
       if (e.deltaY < 0) {
-        this.scale += 0.01
-        cam.setZoom(this.scale)
+        cam.zoom += 0.005
       }
     })
   }
 
   update(time, delta) {
-    this.controls.update(delta)
+    // this.controls.update(delta)
   }
 }
 
