@@ -1,12 +1,12 @@
 import Phaser from 'phaser';
-import atlas from './assets/atlas.json';
 import MyGame from './MyGame';
+import Hud from './Hud';
 
 const config = {
   type: Phaser.AUTO,
-  width: 804,
-  height: 804,
-  scene: MyGame,
+  width: 1100,
+  height: 900,
+  scene: [MyGame, Hud],
 };
 
 
