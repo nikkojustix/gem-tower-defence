@@ -2,6 +2,7 @@ import Phaser from "phaser"
 import bg from './assets/CartoonTexturePack/bricks4_dark.png'
 import btn from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Normal/standart button normal 3.png'
 import btnHover from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Hover/standart button hover 3.png'
+import btnActive from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Active/standart button active 3.png'
 
 class Hud extends Phaser.Scene {
   constructor() {
@@ -11,24 +12,30 @@ class Hud extends Phaser.Scene {
   preload() {
     this.load.image('btn', btn)
     this.load.image('btnHover', btnHover)
+    this.load.image('btnActive', btnActive)
   }
 
   create() {
-    const buildBtn = this.add.image(940, 50, 'btn').setOrigin(0).setInteractive()
-    const buildBtnHover = this.add.image(940, 50, 'btnHover').setOrigin(0).setInteractive().setVisible(0)
+    const buildBtn = this.add.image(940, 50, 'btn').setOrigin(0).setInteractive({ cursor: 'pointer' })
+    // const buildBtnHover = this.add.image(940, 50, 'btnHover').setOrigin(0).setInteractive().setVisible(0)
     const buildText = this.add.text(960, 59, 'BUILD').setFont('24px Arial Black')
     buildBtn.on('pointerdown', () => {
       const gameScene = this.scene.get('GameScene')
       gameScene.placeGem()
     })
-    buildBtn.on('pointerover', () => {
-      buildBtn.setVisible(0)
-      buildBtnHover.setVisible(1)
+    this.input.on('gameobjectover', (pointer, gameObject) => {
+
+      gameObject.setTexture('btnHover')
     })
-    // buildBtn.on('pointerout', () => {
-    //   buildBtn.setVisible(1)
-    //   buildBtnHover.setVisible(0)
-    // })
+    this.input.on('gameobjectout', (pointer, gameObject) => {
+      gameObject.setTexture('btn')
+    })
+    this.input.on('gameobjectdown', (pointer, gameObject) => {
+      gameObject.setTexture('btnActive')
+    })
+    this.input.on('gameobjectup', (pointer, gameObject) => {
+      gameObject.setTexture('btn')
+    })
 
   }
 }

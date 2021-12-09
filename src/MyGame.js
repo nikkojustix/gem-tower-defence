@@ -35,12 +35,7 @@ class MyGame extends Phaser.Scene {
       }
     })
 
-    this.map.on('keydown', (e) => {
-      console.log(e.target);
-    })
-
     this.input.on('wheel', (e) => {
-      console.log(this.cam.zoom);
       if (this.cam.zoom > 0.095 && e.deltaY > 0) {
         this.cam.zoom -= 0.005
       }
@@ -67,7 +62,7 @@ class MyGame extends Phaser.Scene {
         }
       }
       else {
-        this.input.removeAllListeners()
+        this.input.removeListener('pointerdown')
         this.newGemCounter = 0
       }
     })
