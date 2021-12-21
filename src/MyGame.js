@@ -12,6 +12,8 @@ class MyGame extends Phaser.Scene {
     this.atlas
     this.cam
     this.newGemCounter = 0
+    this.roundLevel = 1
+    this.maze
   }
 
   preload() {
@@ -43,14 +45,22 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.005
       }
     })
+
+    // this.addNewGem()
   }
 
   update(time, delta) {
     // this.controls.update(delta)
   }
 
-  placeGem() {
-    this.input.addListener('pointerdown', (e) => {
+  buildPhase() {
+    console.log('1');
+    this.input.on('pointerdown', this.addNewGem)
+  }
+
+  addNewGem(e) {
+    this.input.on('pointerdown', (e) => {
+
       if (this.newGemCounter < 5) {
         console.log(e.x, e.y);
 
@@ -62,7 +72,7 @@ class MyGame extends Phaser.Scene {
         }
       }
       else {
-        this.input.removeListener('pointerdown')
+        this.input.off('pointerdown')
         this.newGemCounter = 0
       }
     })

@@ -19,22 +19,23 @@ class Hud extends Phaser.Scene {
     const buildBtn = this.add.image(940, 50, 'btn').setOrigin(0).setInteractive({ cursor: 'pointer' })
     // const buildBtnHover = this.add.image(940, 50, 'btnHover').setOrigin(0).setInteractive().setVisible(0)
     const buildText = this.add.text(960, 59, 'BUILD').setFont('24px Arial Black')
-    buildBtn.on('pointerdown', () => {
-      const gameScene = this.scene.get('GameScene')
-      gameScene.placeGem()
-    })
-    this.input.on('gameobjectover', (pointer, gameObject) => {
 
+    buildBtn.on('pointerdown', () => {
+      this.scene.get('GameScene').addNewGem()
+    })
+
+
+    this.input.on('gameobjectover', (pointer, gameObject) => {
       gameObject.setTexture('btnHover')
     })
     this.input.on('gameobjectout', (pointer, gameObject) => {
       gameObject.setTexture('btn')
     })
     this.input.on('gameobjectdown', (pointer, gameObject) => {
-      gameObject.setTexture('btnActive')
+      buildBtn.setTexture('btnActive')
     })
     this.input.on('gameobjectup', (pointer, gameObject) => {
-      gameObject.setTexture('btn')
+      buildBtn.setTexture('btn')
     })
 
   }
