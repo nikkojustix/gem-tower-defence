@@ -3,6 +3,8 @@ import mapImg from './assets/new-map.png';
 import spritesheet from './assets/original/gem_spritesheet.png';
 import atlas from './assets/atlas.json';
 import GemSprite from './GemSprite';
+import map from './assets/tilemap.json'
+import tileset from './assets/Sprites/tileset.png'
 
 class MyGame extends Phaser.Scene {
   constructor() {
@@ -18,24 +20,29 @@ class MyGame extends Phaser.Scene {
 
   preload() {
     this.load.json('atlas', atlas);
-    this.load.image('map', mapImg);
+    this.load.image('tileset', tileset);
+    this.load.tilemapTiledJSON('map', map)
     this.load.spritesheet('spritesheet', spritesheet, { frameWidth: 256, frameHeight: 256, });
   }
 
   create() {
-    this.map = this.add.image(0, 0, 'map',).setOrigin(0).setInteractive();
+    this.map = this.make.tilemap({ key: 'map' });
+    this.tileset = this.map.addTilesetImage('tileset')
+    this.bgLayer = this.map.createLayer(this.map.getLayer('bg').name, this.tileset, this.map.getLayer('bg').x, this.map.getLayer('bg').y)
+    this.pointsLayer = this.map.createLayer(this.map.getLayer('points').name, this.tileset, this.map.getLayer('points').x, this.map.getLayer('points').y)
+
     this.atlas = this.cache.json.get('atlas');
     this.cam = this.cameras.main.setBounds(0, 0, 9472, 9472, true)
     this.cam.setViewport(0, 0, 900, 900)
     this.cam.zoom = 0.095
 
-    this.map.on('pointermove', (e) => {
-      if (!e.isDown) return
-      if (e.button === 1) {
-        this.cam.scrollX -= (e.x - e.prevPosition.x) / this.cam.zoom
-        this.cam.scrollY -= (e.y - e.prevPosition.y) / this.cam.zoom
-      }
-    })
+    // this.map.on('pointermove', (e) => {
+    //   if (!e.isDown) return
+    //   if (e.button === 1) {
+    //     this.cam.scrollX -= (e.x - e.prevPosition.x) / this.cam.zoom
+    //     this.cam.scrollY -= (e.y - e.prevPosition.y) / this.cam.zoom
+    //   }
+    // })
 
     this.input.on('wheel', (e) => {
       if (this.cam.zoom > 0.095 && e.deltaY > 0) {
