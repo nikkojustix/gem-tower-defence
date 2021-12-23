@@ -1,0 +1,190 @@
+{
+    "frames": [
+        {
+            "filename": "tileset_0",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 2,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_1",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 262,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_2",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 522,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_3",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 782,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_4",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1042,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_5",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1302,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_6",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1562,
+                "y": 2
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_7",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 2,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_8",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 262,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_9",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 522,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_10",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 782,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_11",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1042,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_12",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1302,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "tileset_13",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1562,
+                "y": 262
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        }
+    ],
+    "meta": {
+        "description": "Atlas generado con Atlas Packer Gamma V2",
+        "web": "https://gammafp.github.io/atlas-packer-phaser/"
+    }
+}

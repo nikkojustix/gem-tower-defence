@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="37" height="37" tilewidth="256" tileheight="256" infinite="0" nextlayerid="3" nextobjectid="1">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="left-up" compressionlevel="0" width="37" height="37" tilewidth="256" tileheight="256" infinite="0" nextlayerid="4" nextobjectid="1">
  <editorsettings>
   <export target="tilemap.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" name="tileset" tilewidth="256" tileheight="256" spacing="2" margin="2" tilecount="14" columns="7">
-  <image source="Sprites/tileset.png" width="1808" height="518"/>
+ <tileset firstgid="1" name="tileset" tilewidth="256" tileheight="256" spacing="4" margin="2" tilecount="14" columns="7">
+  <image source="Sprites/tileset.png" width="1820" height="520"/>
  </tileset>
  <layer id="2" name="bg" width="37" height="37">
   <data encoding="csv">
@@ -47,7 +47,7 @@
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,2
 </data>
  </layer>
- <layer id="1" name="points" width="37" height="37">
+ <layer id="3" name="points" width="37" height="37">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
