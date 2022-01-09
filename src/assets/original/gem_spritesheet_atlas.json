@@ -209,116 +209,12 @@
             }
         },
         {
-            "filename": "flawless-amethyst",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 0,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-aquamarine",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 256,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-diamond",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 512,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-emerald",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 768,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-opal",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 1024,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-ruby",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 1280,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-sapphire",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 1536,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
-            "filename": "flawless-topaz",
-            "frame": {
-                "w": 256,
-                "h": 256,
-                "x": 1792,
-                "y": 512
-            },
-            "anchor": {
-                "x": 0.5,
-                "y": 0.5
-            }
-        },
-        {
             "filename": "normal-amethyst",
             "frame": {
                 "w": 256,
                 "h": 256,
                 "x": 0,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -331,7 +227,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 256,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -344,7 +240,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 512,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -357,7 +253,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 768,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -370,7 +266,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 1024,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -383,7 +279,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 1280,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -396,7 +292,7 @@
                 "w": 256,
                 "h": 256,
                 "x": 1536,
-                "y": 768
+                "y": 512
             },
             "anchor": {
                 "x": 0.5,
@@ -405,6 +301,110 @@
         },
         {
             "filename": "normal-topaz",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1792,
+                "y": 512
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-amethyst",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-aquamarine",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 256,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-diamond",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 512,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-emerald",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 768,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-opal",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1024,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-ruby",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1280,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-sapphire",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 1536,
+                "y": 768
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "flawless-topaz",
             "frame": {
                 "w": 256,
                 "h": 256,
@@ -514,6 +514,19 @@
                 "h": 256,
                 "x": 1792,
                 "y": 1024
+            },
+            "anchor": {
+                "x": 0.5,
+                "y": 0.5
+            }
+        },
+        {
+            "filename": "rock",
+            "frame": {
+                "w": 256,
+                "h": 256,
+                "x": 0,
+                "y": 1280
             },
             "anchor": {
                 "x": 0.5,

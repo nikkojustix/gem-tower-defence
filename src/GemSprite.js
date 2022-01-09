@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 
 class GemSprite extends Phaser.GameObjects.Sprite {
   constructor(scene, x, y) {
-    super(scene, x, y, 'spritesheet');
+    super(scene, x, y, 'gemImages');
 
     // this.setFrame(1)
     // this.x = x;
