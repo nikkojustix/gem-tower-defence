@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import gemImages from './assets/original/gem_spritesheet.png';
+// import gemImages from './assets/original/gem_spritesheet.png';
+import gemImages from './assets/gems-img.png';
 import gemAtlas from './assets/original/gem_spritesheet_atlas.json'
 import atlas from './assets/atlas.json';
 import GemSprite from './GemSprite';
@@ -15,7 +16,8 @@ class MyGame extends Phaser.Scene {
     this.atlas
     this.cam
     this.newGemCounter = 1
-    this.roundLevel = 1
+    this.currentLevel = 1
+    this.currentWave = 1
     this.maze
 
     this.worldPoint;
@@ -26,7 +28,7 @@ class MyGame extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map', map)
     this.load.image('tileset', tileset);
-    this.load.spritesheet('gemImages', gemImages, { frameWidth: 256, frameHeight: 256 });
+    this.load.spritesheet('gemImages', gemImages, { frameWidth: 32, frameHeight: 32 });
 
     // this.load.atlas('gemAtlas', gemImages, gemAtlas)
     this.load.tilemapTiledJSON('gemMap', gemAtlas)
@@ -41,14 +43,10 @@ class MyGame extends Phaser.Scene {
     this.gameLayer = this.map.createBlankLayer('game', 'gemTileset')
     this.gemTileset = this.map.addTilesetImage('gemTileset', 'gemTileset', 256, 256)
 
-    // console.log(this.gemTileset.tileWidth);
-
-
     this.marker = this.add.graphics();
     this.marker.lineStyle(4, 0xffffff, 1);
     this.marker.strokeRect(0, 0, this.map.tileWidth, this.map.tileHeight);
 
-    // this.atlas = this.cache.json.get('atlas');
     this.cam = this.cameras.main.setBounds(0, 0, 9472, 9472, true)
     this.cam.setViewport(0, 0, 900, 900)
     this.cam.zoom = 0.095
@@ -69,23 +67,19 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.005
       }
     })
-
-    // this.addNewGem()
   }
 
   update(time, delta) {
-    // this.controls.update(delta)
 
     this.worldPoint = this.input.activePointer.positionToCamera(this.cameras.main);
 
     this.pointerTileX = this.map.worldToTileX(this.worldPoint.x);
     this.pointerTileY = this.map.worldToTileY(this.worldPoint.y);
 
-    // Snap to tile coordinates, but in world space
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
-    if (this.input.manager.activePointer.isDown) {
+    if (this.input.manager.activePointer.leftButtonDown()) {
       var tile = this.map.getTileAt(this.pointerTileX, this.pointerTileY);
 
       if (tile) {
@@ -106,12 +100,18 @@ class MyGame extends Phaser.Scene {
   addNewGem(e) {
     this.input.on('pointerdown', (e) => {
       if (e.button === 0) {
-        const gem = new GemSprite(this, this.map.tileToWorldX(this.pointerTileX) + 128, this.map.tileToWorldY(this.pointerTileY) + 128).setInteractive();
-        gem.setFrame(26)
-        // gem.setScale(4, 4)
-        this.map.putTileAt(1, this.pointerTileX, this.pointerTileY)
-        // this.add.existing(gem)
-        console.log(this.newGemCounter);
+        const gem = new GemSprite(
+          this,
+          this.map.tileToWorldX(this.pointerTileX) + 128,
+          this.map.tileToWorldY(this.pointerTileY) + 128,
+          this.getFrame(),
+          600).setInteractive();
+        gem.on('pointerdown', function () {
+          console.log(this.frame.name);
+        })
+        gem.setScale(8, 8)
+        // this.map.putTileAt(1, this.pointerTileX, this.pointerTileY)
+
 
         if (this.newGemCounter === 5) {
           this.input.off('pointerdown')
@@ -121,6 +121,10 @@ class MyGame extends Phaser.Scene {
       }
 
     })
+  }
+
+  getFrame() {
+    return Math.floor(40 * Math.random())
   }
 }
 

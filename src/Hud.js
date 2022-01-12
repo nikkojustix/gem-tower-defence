@@ -1,8 +1,7 @@
 import Phaser from "phaser"
-import bg from './assets/CartoonTexturePack/bricks4_dark.png'
-import btn from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Normal/standart button normal 3.png'
-import btnHover from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Hover/standart button hover 3.png'
-import btnActive from './assets/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Active/standart button active 3.png'
+import btn from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Normal/standart button normal 3.png'
+import btnHover from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Hover/standart button hover 3.png'
+import btnActive from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Active/standart button active 3.png'
 
 class Hud extends Phaser.Scene {
   constructor() {
