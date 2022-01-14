@@ -1,11 +1,14 @@
 import Phaser from 'phaser';
 // import gemImages from './assets/original/gem_spritesheet.png';
-import gemImages from './assets/gems-img.png';
+// import gemImages from './assets/gems-img.png';
+import gemImages from './assets/32px/gem_images.png';
 import gemAtlas from './assets/original/gem_spritesheet_atlas.json'
 import atlas from './assets/atlas.json';
 import GemSprite from './GemSprite';
-import map from './assets/tilemap.json'
-import tileset from './assets/Sprites/tileset.png'
+// import map from './assets/tilemap.json'
+import map from './assets/32px/tilemap.json'
+// import tileset from './assets/Sprites/tileset.png'
+import tileset from './assets/32px/map_tiles.png'
 
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
@@ -40,19 +43,20 @@ class MyGame extends Phaser.Scene {
 
   create() {
     this.map = this.add.tilemap('map');
-    this.tileset = this.map.addTilesetImage('tileset', 'tileset', 256, 256, 2, 4)
+    this.tileset = this.map.addTilesetImage('tileset', 'tileset', FRAME_SIZE, FRAME_SIZE, 2, 4)
     this.bgLayer = this.map.createLayer(this.map.getLayer('bg').name, this.tileset, this.map.getLayer('bg').x, this.map.getLayer('bg').y)
-    this.pointsLayer = this.map.createLayer(this.map.getLayer('points').name, this.tileset, this.map.getLayer('points').x, this.map.getLayer('points').y)
+    this.pointsLayer = this.map.createLayer(this.map.getLayer('numbers').name, this.tileset, this.map.getLayer('numbers').x, this.map.getLayer('numbers').y)
     // this.gameLayer = this.map.createBlankLayer('game', 'gemTileset')
     // this.gemTileset = this.map.addTilesetImage('gemTileset', 'gemTileset', 256, 256)
 
     this.marker = this.add.graphics();
-    this.marker.lineStyle(4, 0xffffff, 1);
+    this.marker.lineStyle(2, 0xffffff, 1);
     this.marker.strokeRect(0, 0, this.map.tileWidth, this.map.tileHeight);
 
-    this.cam = this.cameras.main.setBounds(0, 0, 9472, 9472, true)
+    this.cam = this.cameras.main.setBounds(0, 0, FRAME_SIZE * BOARD_SIZE, FRAME_SIZE * BOARD_SIZE, true)
     this.cam.setViewport(0, 0, 900, 900)
-    this.cam.zoom = 0.095
+    // this.cam.zoom = 0.095
+    this.cam.zoom = 0.76
 
     this.input.on('pointermove', (e) => {
       if (!e.isDown) return
@@ -63,11 +67,11 @@ class MyGame extends Phaser.Scene {
     })
 
     this.input.on('wheel', (e) => {
-      if (this.cam.zoom > 0.095 && e.deltaY > 0) {
-        this.cam.zoom -= 0.005
+      if (this.cam.zoom > 0.76 && e.deltaY > 0) {
+        this.cam.zoom -= 0.01
       }
       if (e.deltaY < 0) {
-        this.cam.zoom += 0.005
+        this.cam.zoom += 0.01
       }
     })
   }
@@ -105,14 +109,14 @@ class MyGame extends Phaser.Scene {
       if (e.button === 0) {
         const gem = new GemSprite(
           this,
-          this.map.tileToWorldX(this.pointerTileX) + 128,
-          this.map.tileToWorldY(this.pointerTileY) + 128,
+          this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
+          this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
           this.getFrame(),
           600).setInteractive();
         gem.on('pointerdown', function () {
           console.log(this.frame.name);
         })
-        gem.setScale(8, 8)
+        // gem.setScale(8, 8)
         // this.map.putTileAt(1, this.pointerTileX, this.pointerTileY)
 
 
