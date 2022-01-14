@@ -7,6 +7,9 @@ import GemSprite from './GemSprite';
 import map from './assets/tilemap.json'
 import tileset from './assets/Sprites/tileset.png'
 
+const FRAME_SIZE = 32;
+const BOARD_SIZE = 37;
+
 class MyGame extends Phaser.Scene {
 
   constructor() {
@@ -28,11 +31,11 @@ class MyGame extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map', map)
     this.load.image('tileset', tileset);
-    this.load.spritesheet('gemImages', gemImages, { frameWidth: 32, frameHeight: 32 });
+    this.load.spritesheet('gemImages', gemImages, { frameWidth: FRAME_SIZE, frameHeight: FRAME_SIZE });
 
     // this.load.atlas('gemAtlas', gemImages, gemAtlas)
-    this.load.tilemapTiledJSON('gemMap', gemAtlas)
-    this.load.image('gemTileset', gemImages)
+    // this.load.tilemapTiledJSON('gemMap', gemAtlas)
+    // this.load.image('gemTileset', gemImages)
   }
 
   create() {
@@ -40,8 +43,8 @@ class MyGame extends Phaser.Scene {
     this.tileset = this.map.addTilesetImage('tileset', 'tileset', 256, 256, 2, 4)
     this.bgLayer = this.map.createLayer(this.map.getLayer('bg').name, this.tileset, this.map.getLayer('bg').x, this.map.getLayer('bg').y)
     this.pointsLayer = this.map.createLayer(this.map.getLayer('points').name, this.tileset, this.map.getLayer('points').x, this.map.getLayer('points').y)
-    this.gameLayer = this.map.createBlankLayer('game', 'gemTileset')
-    this.gemTileset = this.map.addTilesetImage('gemTileset', 'gemTileset', 256, 256)
+    // this.gameLayer = this.map.createBlankLayer('game', 'gemTileset')
+    // this.gemTileset = this.map.addTilesetImage('gemTileset', 'gemTileset', 256, 256)
 
     this.marker = this.add.graphics();
     this.marker.lineStyle(4, 0xffffff, 1);
