@@ -3,6 +3,8 @@ import btn from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Sta
 import btnHover from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Hover/standart button hover 3.png'
 import btnActive from './assets/UI/Wenrexa Assets GUI Dark Miko/Standart Button V1/Standart Button Active/standart button active 3.png'
 
+const FONT_STYLE = { align: 'center', fontSize: '18px', fontFamily: 'Arial', fontWeight: 'bold', }
+
 class Hud extends Phaser.Scene {
   constructor() {
     super({ key: 'HudScene', active: true })
@@ -15,9 +17,12 @@ class Hud extends Phaser.Scene {
   }
 
   create() {
-    const buildBtn = this.add.image(940, 50, 'btn').setOrigin(0).setInteractive({ cursor: 'pointer' })
-    // const buildBtnHover = this.add.image(940, 50, 'btnHover').setOrigin(0).setInteractive().setVisible(0)
-    const buildText = this.add.text(960, 59, 'BUILD').setFont('24px Arial Black')
+    const buildBtn = this.add.image(940, 50, 'btn').setOrigin(0).setInteractive({ useHandCursor: 'true' })
+    const buildText = this.add.text(940, 50, 'BUILD', FONT_STYLE).setPadding(30, 10)
+    const removeBtn = this.add.image(940, 120, 'btn').setOrigin(0).setInteractive({ useHandCursor: 'true' })
+    const removeText = this.add.text(960, 129, 'REMOVE', FONT_STYLE)
+
+
 
     buildBtn.on('pointerdown', () => {
       this.scene.get('GameScene').addNewGem()
