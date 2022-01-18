@@ -1,0 +1,281 @@
+{
+  "frames": [
+    {
+      "filename": "build_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "build_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "build_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "remove_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 44
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "remove_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 44
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "remove_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 44
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "select_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 88
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "select_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 88
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "select_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 88
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 132
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 132
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 132
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge2_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 176
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge2_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 176
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "merge2_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 176
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "downgrade_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 220
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "downgrade_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 220
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "downgrade_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 220
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "combine_btn",
+      "frame": {
+        "w": 140,
+        "h": 44,
+        "x": 0,
+        "y": 264
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "combine_btn_pressed",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 140,
+        "y": 264
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "filename": "combine_btn_disable",
+      "frame": {
+        "w": 140,
+        "h": 40,
+        "x": 280,
+        "y": 264
+      },
+      "anchor": {
+        "x": 0,
+        "y": 0
+      }
+    }
+  ],
+  "meta": {
+    "description": "Atlas generado con Atlas Packer Gamma V2",
+    "web": "https://gammafp.github.io/atlas-packer-phaser/"
+  }
+}

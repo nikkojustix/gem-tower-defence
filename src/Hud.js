@@ -1,10 +1,7 @@
 import Phaser from "phaser"
 import bg from './assets/UI/bg.png'
-import btn from './assets/UI/btn.png'
-import btnActive from './assets/UI/btn_pressed.png'
-import btnDisabled from './assets/UI/btn_disabled.png'
-
-const FONT_STYLE = { fontSize: '18px', fontFamily: 'KenVector', color: '#88E060', }
+import buttons from './assets/UI/buttons/buttons.png'
+import buttonsAtlas from './assets/UI/buttons/buttons_atlas.json'
 
 class Hud extends Phaser.Scene {
   constructor() {
@@ -12,24 +9,14 @@ class Hud extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('bg', bg)
-    this.load.image('btn', btn)
-    this.load.image('btnActive', btnActive)
-    this.load.image('btnDisabled', btnDisabled)
+    this.load.image('bg', bg,)
+    this.load.atlas('btns', buttons, buttonsAtlas)
   }
 
   create() {
-    this.add.image(900, 0, 'bg').setOrigin(0)
-    const buildBtn = this.add.image(930, 26, 'btn').setOrigin(0).setInteractive({ useHandCursor: 'true' })
-    const buildText = this.add.text(972, 36, 'BUILD', FONT_STYLE,)
-    const removeBtn = this.add.image(940, 120, 'btn').setOrigin(0).setInteractive({ useHandCursor: 'true' })
-    const removeText = this.add.text(960, 129, 'REMOVE', FONT_STYLE)
-
-
-
-    buildBtn.on('pointerdown', () => {
-      this.scene.get('GameScene').addNewGem()
-    })
+    const bg = this.add.image(900, 0, 'bg').setOrigin(0)
+    const buildBtn = this.add.image(930, 26, 'btns', 'build_btn',).setInteractive({ useHandCursor: 'true' })
+    const removeBtn = this.add.image(940, 120, 'btns', 'remove_btn').setInteractive({ useHandCursor: 'true' })
 
 
     // this.input.on('gameobjectover', (pointer, gameObject) => {
@@ -39,13 +26,42 @@ class Hud extends Phaser.Scene {
     //   gameObject.setTexture('btn')
     // })
     this.input.on('gameobjectdown', (pointer, gameObject) => {
-      gameObject.setTexture('btnActive').setPosition(gameObject.getTopLeft().x, gameObject.getTopLeft().y + 4)
-      gameObject.setPosition(gameObject.getTopLeft().x, gameObject.getTopLeft().y + 4)
+      gameObject.setFrame(`${gameObject.frame.name}_pressed`)
+        .setY(gameObject.getTopLeft().y + 4)
+        .once('pointerout', () => {
+          gameObject.setFrame(gameObject.frame.name.slice(0, -8))
+            .setY(gameObject.getTopLeft().y - 4)
+            .removeAllListeners()
+        })
+        .on('pointerup', () => {
+          switch (gameObject.frame.name) {
+            case 'build_btn_pressed':
+              this.scene.get('GameScene').addNewGem()
+              break;
+            case 'remove_btn_pressed':
+
+              break;
+            case 'select_btn_pressed':
+
+              break;
+            case 'merge_btn_pressed':
+
+              break;
+            default:
+              break;
+          }
+
+          gameObject.setFrame(gameObject.frame.name.slice(0, -8))
+            .setY(gameObject.getTopLeft().y - 4)
+            .removeAllListeners()
+        })
+
     })
-    this.input.on('gameobjectup', (pointer, gameObject) => {
-      gameObject.setTexture('btn').setPosition(gameObject.getTopLeft().x, gameObject.getTopLeft().y - 4)
-      gameObject.setPosition(gameObject.getTopLeft().x, gameObject.getTopLeft().y - 4)
-    })
+    // this.input.on('gameobjectup', (pointer, gameObject) => {
+    //   gameObject.setFrame('build_btn', true, false)
+    //     .setY(gameObject.getTopLeft().y - 4)
+
+    // })
 
   }
 }
