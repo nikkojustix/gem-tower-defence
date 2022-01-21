@@ -4,7 +4,7 @@ import Phaser from 'phaser';
 import gemImages from './assets/32px/gem_images.png';
 import gemAtlas from './assets/original/gem_spritesheet_atlas.json'
 import atlas from './assets/atlas.json';
-import GemSprite from './GemSprite';
+import Gem from './Gem';
 // import map from './assets/tilemap.json'
 import map from './assets/32px/tilemap.json'
 // import tileset from './assets/Sprites/tileset.png'
@@ -24,11 +24,16 @@ class MyGame extends Phaser.Scene {
     this.newGemCounter = 1
     this.currentLevel = 1
     this.currentWave = 1
+    this.life = 100
     this.maze
 
     this.worldPoint;
     this.pointerTileX;
     this.pointerTileY;
+
+    this.marker
+
+    this.hudScene
   }
 
   preload() {
@@ -42,6 +47,7 @@ class MyGame extends Phaser.Scene {
   }
 
   create() {
+    this.hudScene = this.scene.get('HudScene')
     this.map = this.add.tilemap('map');
     this.tileset = this.map.addTilesetImage('tileset', 'tileset', FRAME_SIZE, FRAME_SIZE, 2, 4)
     this.bgLayer = this.map.createLayer(this.map.getLayer('bg').name, this.tileset, this.map.getLayer('bg').x, this.map.getLayer('bg').y)
@@ -74,6 +80,7 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.01
       }
     })
+    this.input.on('gameobjectdown', this.selectItem)
   }
 
   update(time, delta) {
@@ -99,26 +106,20 @@ class MyGame extends Phaser.Scene {
     }
   }
 
-  buildPhase() {
-    console.log('1');
-    this.input.on('pointerdown', this.addNewGem)
-  }
-
   addNewGem(e) {
+    // this.hudScene.disableBtn(this.hudScene.buildBtn)
     this.input.on('pointerdown', (e) => {
       if (e.button === 0) {
-        const gem = new GemSprite(
+        const gem = new Gem(
           this,
           this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
           this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
           this.getFrame(),
-          600).setInteractive();
+          100).setInteractive();
         gem.on('pointerdown', function () {
+          this.showRadius()
           console.log(this.frame.name);
         })
-        // gem.setScale(8, 8)
-        // this.map.putTileAt(1, this.pointerTileX, this.pointerTileY)
-
 
         if (this.newGemCounter === 5) {
           this.input.off('pointerdown')
@@ -132,6 +133,10 @@ class MyGame extends Phaser.Scene {
 
   getFrame() {
     return Math.floor(40 * Math.random())
+  }
+
+  selectItem(pointer, gameObject) {
+    console.log(gameObject);
   }
 }
 
