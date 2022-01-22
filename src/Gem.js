@@ -7,7 +7,7 @@ class Gem extends Phaser.GameObjects.Image {
     this.radius = radius
     this.center
     this.selected = true
-    scene.add.existing(this)
+    // scene.add.existing(this)
   }
 
 

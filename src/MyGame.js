@@ -21,10 +21,13 @@ class MyGame extends Phaser.Scene {
     this.map
     this.atlas
     this.cam
-    this.newGemCounter = 1
+
     this.currentLevel = 1
     this.currentWave = 1
     this.life = 100
+
+    this.newGemCounter = 1
+    this.newGems
     this.maze
 
     this.worldPoint;
@@ -52,8 +55,9 @@ class MyGame extends Phaser.Scene {
     this.tileset = this.map.addTilesetImage('tileset', 'tileset', FRAME_SIZE, FRAME_SIZE, 2, 4)
     this.bgLayer = this.map.createLayer(this.map.getLayer('bg').name, this.tileset, this.map.getLayer('bg').x, this.map.getLayer('bg').y)
     this.pointsLayer = this.map.createLayer(this.map.getLayer('numbers').name, this.tileset, this.map.getLayer('numbers').x, this.map.getLayer('numbers').y)
-    // this.gameLayer = this.map.createBlankLayer('game', 'gemTileset')
-    // this.gemTileset = this.map.addTilesetImage('gemTileset', 'gemTileset', 256, 256)
+
+    this.newGems = new Phaser.Structs.Set()
+    this.maze = this.add.group()
 
     this.marker = this.add.graphics();
     this.marker.lineStyle(2, 0xffffff, 1);
@@ -80,7 +84,7 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.01
       }
     })
-    this.input.on('gameobjectdown', this.selectItem)
+    this.input.on('gameobjectdown', this.showInfo)
   }
 
   update(time, delta) {
@@ -94,40 +98,47 @@ class MyGame extends Phaser.Scene {
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
     if (this.input.manager.activePointer.leftButtonDown()) {
-      var tile = this.map.getTileAt(this.pointerTileX, this.pointerTileY);
+      const tile = this.map.getTileAt(this.pointerTileX, this.pointerTileY);
 
       if (tile) {
         // Note: JSON.stringify will convert the object tile properties to a string
         // console.log(JSON.stringify(tile.id));
-        console.log(tile);
+        // console.log(tile);
         // propertiesText.setText('Properties: ' + JSON.stringify(tile.properties));
         // tile.properties.viewed = true;
       }
     }
   }
 
-  addNewGem(e) {
+  addNewGem() {
     // this.hudScene.disableBtn(this.hudScene.buildBtn)
-    this.input.on('pointerdown', (e) => {
-      if (e.button === 0) {
+    this.input.on('pointerdown', (pointer, currentlyOver) => {
+      if (pointer.button === 0) {
+        const tile = this.map.getTileAtWorldXY(pointer.x / this.cam.zoom, pointer.y / this.cam.zoom, false, this.cam, 'bg')
+        console.log('tile: ', tile);
+
+        if (currentlyOver.length != 0 || tile.index == 2 || tile.index == 4) {
+          console.log('building blocked!')
+          return
+        }
         const gem = new Gem(
           this,
           this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
           this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
           this.getFrame(),
-          100).setInteractive();
-        gem.on('pointerdown', function () {
-          this.showRadius()
-          console.log(this.frame.name);
-        })
+          100)
+          .setInteractive();
+
+        this.maze.add(gem, true)
 
         if (this.newGemCounter === 5) {
           this.input.off('pointerdown')
           this.newGemCounter = 0
         }
+        this.newGems.set(gem)
+        console.log(this.newGems);
         this.newGemCounter++
       }
-
     })
   }
 
@@ -135,8 +146,10 @@ class MyGame extends Phaser.Scene {
     return Math.floor(40 * Math.random())
   }
 
-  selectItem(pointer, gameObject) {
+  showInfo(pointer, gameObject) {
     console.log(gameObject);
+    gameObject.showRadius()
+    console.log(gameObject.frame.name);
   }
 }
 
