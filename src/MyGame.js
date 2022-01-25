@@ -131,13 +131,12 @@ class MyGame extends Phaser.Scene {
 
         this.maze.add(gem, true)
 
-        if (this.newGemCounter === 5) {
-          this.input.off('pointerdown')
-          this.newGemCounter = 0
-        }
         this.newGems.set(gem)
+        if (this.newGems.size === 5) {
+          this.input.off('pointerdown')
+        }
+
         console.log(this.newGems);
-        this.newGemCounter++
       }
     })
   }
