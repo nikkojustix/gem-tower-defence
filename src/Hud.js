@@ -13,6 +13,7 @@ class Hud extends Phaser.Scene {
     this.bg
     this.buildBtn
     this.removeBtn
+    this.controls
   }
 
   preload() {
@@ -32,14 +33,21 @@ class Hud extends Phaser.Scene {
     this.add.text(952, 90, 'life:', FONT_STYLE).setShadow(1, 1, '#386723', 0, true)
     this.add.text(1027, 90, this.gameScene.life, FONT_STYLE).setShadow(1, 1, '#386723', 0, true)
 
-    this.buildBtn = this.add.image(930, 136, 'btns', 'build_btn',).setInteractive({ useHandCursor: 'true' })
-    this.removeBtn = this.add.image(930, 206, 'btns', 'remove_btn').setInteractive({ useHandCursor: 'true' })
+
+    this.buildBtn = this.add.image(930, 140, 'btns', 'build_btn_disable')
+    this.removeBtn = this.add.image(930, 210, 'btns', 'remove_btn')
     this.infoField = this.add.image(930, 280, 'infoField').setOrigin(0)
-    this.selectBtn = this.add.image(930, 466, 'btns', 'select_btn').setInteractive({ useHandCursor: 'true' })
-    this.mergeBtn = this.add.image(930, 536, 'btns', 'merge_btn').setInteractive({ useHandCursor: 'true' })
-    this.merge2Btn = this.add.image(930, 606, 'btns', 'merge2_btn').setInteractive({ useHandCursor: 'true' })
-    this.downgradeBtn = this.add.image(930, 676, 'btns', 'downgrade_btn').setInteractive({ useHandCursor: 'true' })
-    this.combineBtn = this.add.image(930, 746, 'btns', 'combine_btn').setInteractive({ useHandCursor: 'true' })
+    this.selectBtn = this.add.image(930, 470, 'btns', 'select_btn_disable')
+    this.mergeBtn = this.add.image(930, 540, 'btns', 'merge_btn_disable')
+    this.merge2Btn = this.add.image(930, 610, 'btns', 'merge2_btn_disable')
+    this.downgradeBtn = this.add.image(930, 680, 'btns', 'downgrade_btn_disable')
+    this.combineBtn = this.add.image(930, 750, 'btns', 'combine_btn_disable')
+
+
+    this.controls = [this.buildBtn, this.removeBtn, this.selectBtn, this.mergeBtn, this.merge2Btn, this.downgradeBtn, this.combineBtn]
+
+
+    this.enableBtn(this.buildBtn)
 
 
     this.input.on('gameobjectdown', (pointer, gameObject) => {
@@ -77,8 +85,17 @@ class Hud extends Phaser.Scene {
   }
 
   disableBtn(btn) {
-    btn.disableInteractive().setFrame(`${btn.frame.name}_disable`)
-      .setY(btn.getTopLeft().y + 4)
+    if (!btn.frame.name.includes('disable')) {
+      btn.disableInteractive().setFrame(`${btn.frame.name}_disable`)
+        .setY(btn.getTopLeft().y + 4)
+    }
+  }
+
+  enableBtn(btn) {
+    if (btn.frame.name.includes('disable') || btn.frame.name.includes('pressed')) {
+      btn.setInteractive({ useHandCursor: 'true' }).setFrame(btn.frame.name.slice(0, -8))
+        .setY(btn.getTopLeft().y - 4)
+    }
   }
 }
 

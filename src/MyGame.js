@@ -84,7 +84,7 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.01
       }
     })
-    this.input.on('gameobjectdown', this.showInfo)
+    this.input.on('gameobjectdown', this.showInfo, this)
   }
 
   update(time, delta) {
@@ -114,10 +114,10 @@ class MyGame extends Phaser.Scene {
     // this.hudScene.disableBtn(this.hudScene.buildBtn)
     this.input.on('pointerdown', (pointer, currentlyOver) => {
       if (pointer.button === 0) {
-        const tile = this.map.getTileAtWorldXY(pointer.x / this.cam.zoom, pointer.y / this.cam.zoom, false, this.cam, 'bg')
+        const tile = this.map.getTileAtWorldXY(pointer.x / this.cam.zoom, pointer.y / this.cam.zoom, true, this.cam, 'bg')
         console.log('tile: ', tile);
 
-        if (currentlyOver.length != 0 || tile.index == 2 || tile.index == 4) {
+        if (currentlyOver.length != 0 || tile == null || tile.index == 2 || tile.index == 4) {
           console.log('building blocked!')
           return
         }
@@ -146,7 +146,13 @@ class MyGame extends Phaser.Scene {
   }
 
   showInfo(pointer, gameObject) {
+    this.hudScene.controls.forEach(btn => {
+      this.hudScene.disableBtn(btn)
+    });
     console.log(gameObject);
+    if (this.newGems.contains(gameObject)) {
+      this.hudScene.enableBtn(this.hudScene.selectBtn)
+    }
     gameObject.showRadius()
     console.log(gameObject.frame.name);
   }
