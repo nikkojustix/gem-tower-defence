@@ -67,7 +67,7 @@ class Hud extends Phaser.Scene {
 
               break;
             case 'select_btn_pressed':
-
+              this.gameScene.selectGem()
               break;
             case 'merge_btn_pressed':
 

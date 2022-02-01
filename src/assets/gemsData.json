@@ -1,0 +1,406 @@
+{
+  "gems": [
+    {
+      "code": "b1",
+      "name": "chipped sapphire",
+      "damage": 2,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 1"
+    },
+    {
+      "code": "b2",
+      "name": "flawed sapphire",
+      "damage": 4,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 2"
+    },
+    {
+      "code": "b3",
+      "name": "normal sapphire",
+      "damage": 6,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 3"
+    },
+    {
+      "code": "b4",
+      "name": "flawless sapphire",
+      "damage": 8,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 4"
+    },
+    {
+      "code": "b5",
+      "name": "perfect sapphire",
+      "damage": 10,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 5"
+    },
+    {
+      "code": "b6",
+      "name": "huge sapphire",
+      "damage": 36,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow max"
+    },
+    {
+      "code": "d1",
+      "name": "chipped diamond",
+      "damage": 5,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ""
+    },
+    {
+      "code": "d2",
+      "name": "flawed diamond",
+      "damage": 10,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ""
+    },
+    {
+      "code": "d3",
+      "name": "normal diamond",
+      "damage": 20,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ""
+    },
+    {
+      "code": "d4",
+      "name": "flawless diamond",
+      "damage": 20,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "damage 1"
+    },
+    {
+      "code": "d5",
+      "name": "perfect diamond",
+      "damage": 40,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "damage 2"
+    },
+    {
+      "code": "d6",
+      "name": "huge diamond",
+      "damage": 140,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "damage 4"
+    },
+    {
+      "code": "e1",
+      "name": "chipped opal",
+      "damage": 1,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura 1"
+    },
+    {
+      "code": "e2",
+      "name": "flawed opal",
+      "damage": 2,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura 2"
+    },
+    {
+      "code": "e3",
+      "name": "normal opal",
+      "damage": 3,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura 3"
+    },
+    {
+      "code": "e4",
+      "name": "flawless opal",
+      "damage": 4,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura 4"
+    },
+    {
+      "code": "e5",
+      "name": "perfect opal",
+      "damage": 5,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura 5"
+    },
+    {
+      "code": "e6",
+      "name": "huge opal",
+      "damage": 6,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "aura max"
+    },
+    {
+      "code": "g1",
+      "name": "chipped emerald",
+      "damage": 2,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison 1"
+    },
+    {
+      "code": "g2",
+      "name": "flawed emerald",
+      "damage": 4,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison 2"
+    },
+    {
+      "code": "g3",
+      "name": "normal emerald",
+      "damage": 6,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison 3"
+    },
+    {
+      "code": "g4",
+      "name": "flawless emerald",
+      "damage": 8,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison 4"
+    },
+    {
+      "code": "g5",
+      "name": "perfect emerald",
+      "damage": 10,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison 5"
+    },
+    {
+      "code": "g6",
+      "name": "huge emerald",
+      "damage": 12,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "poison max"
+    },
+    {
+      "code": "p1",
+      "name": "chipped amethyst",
+      "damage": 2,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce 1"
+    },
+    {
+      "code": "p2",
+      "name": "flawed amethyst",
+      "damage": 4,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce 2"
+    },
+    {
+      "code": "p3",
+      "name": "normal amethyst",
+      "damage": 6,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce 3"
+    },
+    {
+      "code": "p4",
+      "name": "flawless amethyst",
+      "damage": 8,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce 4"
+    },
+    {
+      "code": "p5",
+      "name": "perfect amethyst",
+      "damage": 10,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce 5"
+    },
+    {
+      "code": "p6",
+      "name": "huge amethyst",
+      "damage": 70,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": "pierce max"
+    },
+    {
+      "code": "q1",
+      "name": "chipped aquamarine",
+      "damage": 2,
+      "attackSpeed": 367,
+      "radius": 100,
+      "ability": "speed 1"
+    },
+    {
+      "code": "q2",
+      "name": "flawed aquamarine",
+      "damage": 4,
+      "attackSpeed": 367,
+      "radius": 100,
+      "ability": "speed 1"
+    },
+    {
+      "code": "q3",
+      "name": "normal aquamarine",
+      "damage": 8,
+      "attackSpeed": 367,
+      "radius": 100,
+      "ability": "speed 1"
+    },
+    {
+      "code": "q4",
+      "name": "flawless aquamarine",
+      "damage": 16,
+      "attackSpeed": 367,
+      "radius": 100,
+      "ability": "speed 1"
+    },
+    {
+      "code": "q5",
+      "name": "perfect aquamarine",
+      "damage": 24,
+      "attackSpeed": 367,
+      "radius": 100,
+      "ability": "speed 1"
+    },
+    {
+      "code": "q6",
+      "name": "huge aquamarine",
+      "damage": 80,
+      "attackSpeed": 837,
+      "radius": 125,
+      "ability": "speed 2"
+    },
+    {
+      "code": "r1",
+      "name": "chipped ruby",
+      "damage": 4,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave 1"
+    },
+    {
+      "code": "r2",
+      "name": "flawed ruby",
+      "damage": 8,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave 2"
+    },
+    {
+      "code": "r3",
+      "name": "normal ruby",
+      "damage": 12,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave 3"
+    },
+    {
+      "code": "r4",
+      "name": "flawless ruby",
+      "damage": 24,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave 4"
+    },
+    {
+      "code": "r5",
+      "name": "perfect ruby",
+      "damage": 48,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave 5"
+    },
+    {
+      "code": "r6",
+      "name": "huge ruby",
+      "damage": 150,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": "cleave max"
+    },
+    {
+      "code": "y1",
+      "name": "chipped topaz",
+      "damage": 3,
+      "attackSpeed": 131,
+      "radius": 150,
+      "ability": "split 1"
+    },
+    {
+      "code": "y2",
+      "name": "flawed topaz",
+      "damage": 6,
+      "attackSpeed": 131,
+      "radius": 125,
+      "ability": "split 1"
+    },
+    {
+      "code": "y3",
+      "name": "normal topaz",
+      "damage": 9,
+      "attackSpeed": 131,
+      "radius": 125,
+      "ability": "split 1"
+    },
+    {
+      "code": "y4",
+      "name": "flawless topaz",
+      "damage": 18,
+      "attackSpeed": 131,
+      "radius": 125,
+      "ability": "split 1"
+    },
+    {
+      "code": "y5",
+      "name": "perfect topaz",
+      "damage": 36,
+      "attackSpeed": 131,
+      "radius": 125,
+      "ability": "split 1"
+    },
+    {
+      "code": "y6",
+      "name": "huge topaz",
+      "damage": 200,
+      "attackSpeed": 283,
+      "radius": 1250,
+      "ability": "split 1"
+    }
+  ],
+  "ranks": ["chipped", "flawed", "normal", "flawless", "perfect"],
+  "types": [
+    "sapphire",
+    "diamond",
+    "opal",
+    "emerald",
+    "amethyst",
+    "aquamarine",
+    "ruby",
+    "topaz"
+  ],
+  "chances": [
+    [1, 0, 0, 0, 0],
+    [0.8, 1, 0, 0, 0],
+    [0.6, 0.9, 1, 0, 0],
+    [0.4, 0.7, 0.9, 1, 0],
+    [0.1, 0.4, 0.7, 0.9, 1]
+  ]
+}

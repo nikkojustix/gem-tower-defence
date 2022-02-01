@@ -6,14 +6,19 @@ class Gem extends Phaser.GameObjects.Image {
 
     this.radius = radius
     this.center
-    this.selected = true
+    this.selected = false
+    this.test = false
   }
 
-
-  showRadius() {
-    this.marker = this.scene.add.graphics()
-    this.marker.lineStyle(2, 0xffffff, 1)
-    this.marker.strokeCircle(this.getCenter().x, this.getCenter().y, this.radius)
+  setSelected(selected) {
+    this.selected = selected
+    if (this.selected) {
+      this.marker = this.scene.add.graphics()
+      this.marker.lineStyle(2, 0xffffff, 1)
+      this.marker.strokeCircle(this.getCenter().x, this.getCenter().y, this.radius)
+    } else if (this.marker) {
+      this.marker.destroy()
+    }
   }
 }
 
