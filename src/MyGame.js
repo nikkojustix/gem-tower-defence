@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 import gemImages from './assets/32px/gem_images.png';
-import gemAtlas from './assets/32px/gem_images.json'
+import gemAtlas from './assets/32px/gem_images.json';
 import gemsData from './assets/gemsData.json';
 import atlas from './assets/atlas.json';
 import Gem from './Gem';
@@ -18,13 +18,15 @@ class MyGame extends Phaser.Scene {
     this.atlas;
     this.cam;
 
-    this.currentLevel = 1;
+    this.currentLevel = 5;
     this.currentWave = 1;
     this.life = 100;
 
     this.newGemCounter = 1;
     this.newGems;
     this.maze;
+
+    this.stone;
 
     this.worldPoint;
     this.pointerTileX;
@@ -42,14 +44,15 @@ class MyGame extends Phaser.Scene {
     //   frameWidth: FRAME_SIZE,
     //   frameHeight: FRAME_SIZE,
     // });
-    this.load.atlas('gemImages', gemImages, gemAtlas)
+    this.load.atlas('gemImages', gemImages, gemAtlas);
     this.load.json('gemsData', gemsData);
   }
 
   create() {
-    this.chances = this.cache.json.get('gemsData').chances
-    this.ranks = this.cache.json.get('gemsData').ranks
-    this.types = this.cache.json.get('gemsData').types
+    this.chances = this.cache.json.get('gemsData').chances;
+    this.ranks = this.cache.json.get('gemsData').ranks;
+    this.types = this.cache.json.get('gemsData').types;
+    this.gemsData = this.cache.json.get('gemsData').gems;
 
     this.hudScene = this.scene.get('HudScene');
     this.map = this.add.tilemap('map');
@@ -74,8 +77,9 @@ class MyGame extends Phaser.Scene {
       this.map.getLayer('numbers').y
     );
 
-    this.newGems = this.add.group();
     this.maze = this.add.group();
+    this.gems = this.add.group();
+    this.newGems = this.add.group();
 
     this.marker = this.add.graphics();
     this.marker.lineStyle(2, 0xffffff, 1);
@@ -142,48 +146,56 @@ class MyGame extends Phaser.Scene {
           console.log('building blocked!');
           return;
         }
+        const name = this.getFrame();
+        const gemData = this.gemsData.find((value, index, obj) => {
+          if (value.name == name) {
+            return true;
+          }
+        });
         const gem = new Gem(
           this,
           this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
           this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
-          this.getFrame(),
-          100
+          name,
+          gemData.damage,
+          gemData.attackSpeed,
+          gemData.radius,
+          gemData.ability
         ).setInteractive();
 
         this.maze.add(gem, true);
-
+        this.gems.add(gem);
         this.newGems.add(gem);
+
         if (this.newGems.getLength() === 5) {
           this.input.off('pointerdown');
         }
       }
     });
   }
+
   getRandomRank() {
     this.chances[this.currentLevel - 1].forEach((chance, i) => {
       if (Math.random() < chance) {
-        return this.ranks[i]
+        return this.ranks[i];
       }
-    })
+    });
   }
 
   getFrame() {
-    const randType = this.types[Math.floor(this.types.length * Math.random())]
-    let randRank
-    const rand = Math.random()
+    const randType = this.types[Math.floor(this.types.length * Math.random())];
+    let randRank;
+    const rand = Math.random();
     for (let i = 0; i < this.chances[this.currentLevel - 1].length; i++) {
       const element = this.chances[this.currentLevel - 1][i];
       if (rand < element) {
-        randRank = this.ranks[i]
-        break
+        randRank = this.ranks[i];
+        break;
       }
     }
 
-    console.log('randRank: ', randRank);
-    console.log('randType: ', randType);
-    return `${randRank} ${randType}.png`;
+    return `${randRank} ${randType}`;
   }
-
 
   chooseItem(pointer, gameObject) {
     this.hudScene.controls.forEach((btn) => {
@@ -193,23 +205,49 @@ class MyGame extends Phaser.Scene {
       item.setSelected(false);
     });
 
-    console.log(gameObject);
+    console.log(gameObject.frame.name);
+
+    gameObject.setSelected(true);
+
+    if (gameObject.name === 'stone') {
+      this.hudScene.enableBtn(this.hudScene.removeBtn);
+      this.stone = gameObject;
+    }
+
     if (this.newGems.contains(gameObject)) {
       this.hudScene.enableBtn(this.hudScene.selectBtn);
+      switch (this.newGems.getMatching('name', gameObject.name).length) {
+        case 5:
+        case 4:
+          this.hudScene.enableBtn(this.hudScene.merge2Btn);
+        case 3:
+        case 2:
+          this.hudScene.enableBtn(this.hudScene.mergeBtn);
+          break;
+      }
+      if (!gameObject.name.includes(this.ranks[0])) {
+        this.hudScene.enableBtn(this.hudScene.downgradeBtn);
+      }
     }
-    gameObject.setSelected(true);
-    console.log(gameObject.frame.name);
+  }
+
+  removeStone() {
+    this.maze.remove(this.stone, true, true);
   }
 
   selectGem() {
     this.newGems.children.each((gem) => {
-      if (gem.selected) {
-      } else {
-        gem.setFrame(40);
+      if (!gem.selected) {
+        gem.setFrame('stone');
+        gem.name = 'stone';
+        gem.damage = null;
+        gem.attackSpeed = null;
+        gem.radius = null;
+        gem.ability = null;
+        this.gems.remove(gem);
       }
     });
     this.newGems.clear();
-    console.log(this.newGems);
   }
 }
 
