@@ -1,11 +1,17 @@
-import Phaser from 'phaser';
+import Phaser, { Game } from 'phaser';
+import Gem from './Gem';
+import Monster from './Monster';
+
+import EasyStar from 'easystarjs';
+
 import gemImages from './assets/32px/gem_images.png';
 import gemAtlas from './assets/32px/gem_images.json';
 import gemsData from './assets/gemsData.json';
 import atlas from './assets/atlas.json';
-import Gem from './Gem';
 import map from './assets/32px/tilemap.json';
 import tileset from './assets/32px/map_tiles.png';
+
+import monsterImg from './assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
 
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
@@ -18,7 +24,7 @@ class MyGame extends Phaser.Scene {
     this.atlas;
     this.cam;
 
-    this.currentLevel = 5;
+    this.currentLevel = 1;
     this.currentWave = 1;
     this.life = 100;
 
@@ -27,6 +33,9 @@ class MyGame extends Phaser.Scene {
     this.maze;
 
     this.stone;
+    this.selectedGem;
+
+    this.monsters;
 
     this.worldPoint;
     this.pointerTileX;
@@ -46,6 +55,8 @@ class MyGame extends Phaser.Scene {
     // });
     this.load.atlas('gemImages', gemImages, gemAtlas);
     this.load.json('gemsData', gemsData);
+
+    this.load.image('monster', monsterImg);
   }
 
   create() {
@@ -79,7 +90,30 @@ class MyGame extends Phaser.Scene {
 
     this.maze = this.add.group();
     this.gems = this.add.group();
-    this.newGems = this.add.group();
+    this.newGems = this.add.group({ maxSize: 5 });
+
+    this.monsters = this.add.group({ maxSize: 10 });
+
+    this.finder = new EasyStar.js();
+    const grid = [];
+    for (let i = 0; i < BOARD_SIZE; i++) {
+      const row = [];
+      for (let j = 0; j < BOARD_SIZE; j++) {
+        row.push(0);
+      }
+      grid.push(row);
+    }
+    this.finder.setGrid(grid);
+    this.finder.setAcceptableTiles([0]);
+
+    this.finder.findPath(4, 4, 4, 18, (path) => {
+      if (path === null) {
+        console.log('not found');
+      } else {
+        console.log('found');
+      }
+    });
+    this.finder.calculate();
 
     this.marker = this.add.graphics();
     this.marker.lineStyle(2, 0xffffff, 1);
@@ -111,6 +145,8 @@ class MyGame extends Phaser.Scene {
         this.cam.zoom += 0.01;
       }
     });
+
+    this.input.keyboard.once('keydown', this.startGame, this);
     this.input.on('gameobjectdown', this.chooseItem, this);
   }
 
@@ -124,6 +160,12 @@ class MyGame extends Phaser.Scene {
 
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
+
+    Phaser.Actions.IncY(this.monsters.getChildren(), 1.74);
+  }
+
+  startGame() {
+    this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 
   addNewGem() {
@@ -157,17 +199,14 @@ class MyGame extends Phaser.Scene {
           this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
           this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
           name,
-          gemData.damage,
-          gemData.attackSpeed,
-          gemData.radius,
-          gemData.ability
+          gemData
         ).setInteractive();
 
         this.maze.add(gem, true);
         this.gems.add(gem);
         this.newGems.add(gem);
 
-        if (this.newGems.getLength() === 5) {
+        if (this.newGems.isFull()) {
           this.input.off('pointerdown');
         }
       }
@@ -198,6 +237,7 @@ class MyGame extends Phaser.Scene {
   }
 
   chooseItem(pointer, gameObject) {
+    console.log(gameObject);
     this.hudScene.controls.forEach((btn) => {
       this.hudScene.disableBtn(btn);
     });
@@ -205,16 +245,15 @@ class MyGame extends Phaser.Scene {
       item.setSelected(false);
     });
 
-    console.log(gameObject.frame.name);
-
     gameObject.setSelected(true);
+    this.selectedGem = gameObject;
 
     if (gameObject.name === 'stone') {
       this.hudScene.enableBtn(this.hudScene.removeBtn);
       this.stone = gameObject;
     }
 
-    if (this.newGems.contains(gameObject)) {
+    if (this.newGems.contains(gameObject) && this.newGems.isFull()) {
       this.hudScene.enableBtn(this.hudScene.selectBtn);
       switch (this.newGems.getMatching('name', gameObject.name).length) {
         case 5:
@@ -245,9 +284,50 @@ class MyGame extends Phaser.Scene {
         gem.radius = null;
         gem.ability = null;
         this.gems.remove(gem);
+      } else {
+        gem.setSelected(false);
       }
     });
     this.newGems.clear();
+    this.hudScene.controls.forEach((btn) => {
+      this.hudScene.disableBtn(btn);
+    });
+    this.startWave();
+  }
+
+  changeGem(x) {
+    const rank = this.ranks.find((value, index, obj) => {
+      if (obj[index - x] == this.selectedGem.rank) {
+        return true;
+      }
+    });
+    const name = `${rank} ${this.selectedGem.type}`;
+    const gemData = this.gemsData.find((value, index, obj) => {
+      if (value.name == name) {
+        return true;
+      }
+    });
+
+    this.selectedGem.setFrame(name);
+    this.selectedGem.setParams(name, gemData);
+
+    this.selectGem();
+  }
+
+  startWave() {
+    this.time.addEvent({
+      delay: 1000,
+      repeat: this.monsters.maxSize - 1,
+      callback: this.addMonsters,
+      callbackScope: this,
+    });
+  }
+
+  addMonsters() {
+    const monster = new Monster(this, 128, 128).setOrigin(0).setInteractive();
+    this.monsters.add(monster, true);
+    console.log(monster);
+    // monster.setActive(true);
   }
 }
 

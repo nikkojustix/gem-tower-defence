@@ -74,7 +74,7 @@ class Hud extends Phaser.Scene {
       this.combineBtn,
     ];
 
-    this.enableBtn(this.buildBtn);
+    // this.enableBtn(this.buildBtn);
 
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       gameObject
@@ -98,6 +98,13 @@ class Hud extends Phaser.Scene {
               this.gameScene.selectGem();
               break;
             case 'merge_btn_pressed':
+              this.gameScene.changeGem(1);
+              break;
+            case 'merge2_btn_pressed':
+              this.gameScene.changeGem(2);
+              break;
+            case 'downgrade_btn_pressed':
+              this.gameScene.changeGem(-1);
               break;
             default:
               break;
@@ -113,7 +120,10 @@ class Hud extends Phaser.Scene {
   }
 
   disableBtn(btn) {
-    if (!btn.frame.name.includes('disable')) {
+    if (
+      !btn.frame.name.includes('disable') &&
+      !btn.frame.name.includes('pressed')
+    ) {
       btn
         .disableInteractive()
         .setFrame(`${btn.frame.name}_disable`)
