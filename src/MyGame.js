@@ -16,6 +16,16 @@ import monsterImg from './assets/32px/Dungeon Crawl Stone Soup Full/monster/anim
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
 
+const POINTS = [
+  { x: 4, y: 4 },
+  { x: 4, y: 18 },
+  { x: 32, y: 18 },
+  { x: 32, y: 4 },
+  { x: 18, y: 4 },
+  { x: 18, y: 32 },
+  { x: 32, y: 32 },
+];
+
 class MyGame extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' });
@@ -36,7 +46,7 @@ class MyGame extends Phaser.Scene {
     this.selectedGem;
 
     this.monsters;
-    this.path;
+    this.path = [];
     this.pathExist;
 
     this.worldPoint;
@@ -160,6 +170,14 @@ class MyGame extends Phaser.Scene {
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
+    this.monsters.getChildren().forEach((monster) => {
+      if (
+        monster.x == POINTS[6].x * FRAME_SIZE &&
+        monster.y == POINTS[6].y * FRAME_SIZE
+      ) {
+        this.deleteMonster(monster);
+      }
+    });
     // Phaser.Actions.IncY(this.monsters.getChildren(), 1.74);
   }
 
@@ -167,7 +185,7 @@ class MyGame extends Phaser.Scene {
     this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 
-  addNewGem() {
+  buildPhase() {
     this.input.on('pointerdown', (pointer, currentlyOver) => {
       if (pointer.button === 0) {
         const tile = this.map.getTileAtWorldXY(
@@ -177,50 +195,47 @@ class MyGame extends Phaser.Scene {
           this.cam,
           'bg'
         );
-
+        this.path = [];
         this.finder.avoidAdditionalPoint(tile.x, tile.y);
-        this.checkPath();
-
-        if (this.pathExist) {
-          if (
-            currentlyOver.length != 0 ||
-            tile == null ||
-            tile.index == 2 ||
-            tile.index == 4
-          ) {
-            console.log('building blocked!');
-            return;
-          }
-
-          const name = this.getFrame();
-          const gemData = this.gemsData.find((value, index, obj) => {
-            if (value.name == name) {
-              return true;
-            }
-          });
-
-          const gem = new Gem(
-            this,
-            tile.x * FRAME_SIZE,
-            tile.y * FRAME_SIZE,
-            name,
-            gemData
-          )
-            .setInteractive()
-            .setOrigin(0);
-
-          this.maze.add(gem, true);
-          this.gems.add(gem);
-          this.newGems.add(gem);
-
-          if (this.newGems.isFull()) {
-            this.input.off('pointerdown');
-          }
-        } else {
-          this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
-        }
+        this.checkPath(POINTS[0], POINTS[1], tile, currentlyOver);
       }
     });
+  }
+
+  addNewGem(pos, currentlyOver) {
+    if (
+      currentlyOver.length != 0 ||
+      pos == null ||
+      pos.index == 2 ||
+      pos.index == 4
+    ) {
+      console.log('building blocked!');
+      return;
+    }
+    const name = this.getFrame();
+    const gemData = this.gemsData.find((value, index, obj) => {
+      if (value.name == name) {
+        return true;
+      }
+    });
+
+    const gem = new Gem(
+      this,
+      pos.x * FRAME_SIZE,
+      pos.y * FRAME_SIZE,
+      name,
+      gemData
+    )
+      .setInteractive()
+      .setOrigin(0);
+
+    this.maze.add(gem, true);
+    this.gems.add(gem);
+    this.newGems.add(gem);
+
+    if (this.newGems.isFull()) {
+      this.input.off('pointerdown');
+    }
   }
 
   getRandomRank() {
@@ -356,32 +371,41 @@ class MyGame extends Phaser.Scene {
   addMonsters() {
     const monster = this.monsters.get(128, 128);
     monster.setActive(true).setVisible(true).setOrigin(0).setInteractive();
-    this.finder.findPath(4, 4, 4, 18, (path) => {
-      if (path === null) {
-        console.log('not found');
-      } else {
-        this.path = path;
-        this.moveMonster(monster, this.path);
-      }
-    });
-    this.finder.calculate();
+    console.log(this.path);
+    this.moveMonster(monster, this.path);
+
+    // this.finder.findPath(4, 4, 4, 18, (path) => {
+    //   if (path === null) {
+    //     console.log('not found');
+    //   } else {
+    //     this.path = path;
+    //   }
+    // });
+    // this.finder.calculate();
   }
 
-  checkPath() {
-    this.finder.findPath(4, 4, 4, 18, (path) => {
+  checkPath(from, to, tile, currentlyOver) {
+    this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
       if (path === null) {
-        console.log('not found');
-        this.pathExist = false;
+        console.log('building block');
+        this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
       } else {
         console.log('found');
-        this.pathExist = true;
+        this.path.pop();
+        this.path = this.path.concat(path);
+        if (POINTS.indexOf(to) < POINTS.length - 1) {
+          from = POINTS.at(POINTS.indexOf(to));
+          to = POINTS.at(POINTS.indexOf(to) + 1);
+          this.checkPath(from, to, tile, currentlyOver);
+        } else {
+          this.addNewGem(tile, currentlyOver);
+        }
       }
     });
     this.finder.calculate();
   }
 
   moveMonster(monster, path) {
-    // console.log(monster);
     monster.setActive(true).setVisible(true);
     const tweens = [];
     for (let i = 0; i < path.length - 1; i++) {
@@ -389,14 +413,28 @@ class MyGame extends Phaser.Scene {
       const ey = path[i + 1].y;
       tweens.push({
         targets: monster,
-        x: { value: ex * FRAME_SIZE, duration: 200 },
-        y: { value: ey * FRAME_SIZE, duration: 200 },
+        x: { value: ex * FRAME_SIZE, duration: 100 },
+        y: { value: ey * FRAME_SIZE, duration: 100 },
       });
     }
 
     this.tweens.timeline({
       tweens: tweens,
     });
+  }
+
+  deleteMonster(monster) {
+    console.log(monster);
+    monster.destroy();
+    if (this.monsters.getTotalFree() === this.monsters.maxSize) {
+      this.nextWave();
+    }
+  }
+
+  nextWave() {
+    this.currentWave++;
+    console.log(this.currentWave);
+    this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 }
 
