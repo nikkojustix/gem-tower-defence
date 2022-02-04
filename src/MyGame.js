@@ -36,6 +36,8 @@ class MyGame extends Phaser.Scene {
     this.selectedGem;
 
     this.monsters;
+    this.path;
+    this.pathExist;
 
     this.worldPoint;
     this.pointerTileX;
@@ -92,7 +94,11 @@ class MyGame extends Phaser.Scene {
     this.gems = this.add.group();
     this.newGems = this.add.group({ maxSize: 5 });
 
-    this.monsters = this.add.group({ maxSize: 10 });
+    this.monsters = this.add.group({
+      classType: Monster,
+      defaultKey: 'monster',
+      maxSize: 10,
+    });
 
     this.finder = new EasyStar.js();
     const grid = [];
@@ -105,15 +111,8 @@ class MyGame extends Phaser.Scene {
     }
     this.finder.setGrid(grid);
     this.finder.setAcceptableTiles([0]);
-
-    this.finder.findPath(4, 4, 4, 18, (path) => {
-      if (path === null) {
-        console.log('not found');
-      } else {
-        console.log('found');
-      }
-    });
-    this.finder.calculate();
+    // this.finder.enableDiagonals();
+    // this.finder.disableCornerCutting();
 
     this.marker = this.add.graphics();
     this.marker.lineStyle(2, 0xffffff, 1);
@@ -161,7 +160,7 @@ class MyGame extends Phaser.Scene {
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
-    Phaser.Actions.IncY(this.monsters.getChildren(), 1.74);
+    // Phaser.Actions.IncY(this.monsters.getChildren(), 1.74);
   }
 
   startGame() {
@@ -179,35 +178,46 @@ class MyGame extends Phaser.Scene {
           'bg'
         );
 
-        if (
-          currentlyOver.length != 0 ||
-          tile == null ||
-          tile.index == 2 ||
-          tile.index == 4
-        ) {
-          console.log('building blocked!');
-          return;
-        }
-        const name = this.getFrame();
-        const gemData = this.gemsData.find((value, index, obj) => {
-          if (value.name == name) {
-            return true;
+        this.finder.avoidAdditionalPoint(tile.x, tile.y);
+        this.checkPath();
+
+        if (this.pathExist) {
+          if (
+            currentlyOver.length != 0 ||
+            tile == null ||
+            tile.index == 2 ||
+            tile.index == 4
+          ) {
+            console.log('building blocked!');
+            return;
           }
-        });
-        const gem = new Gem(
-          this,
-          this.map.tileToWorldX(this.pointerTileX) + FRAME_SIZE / 2,
-          this.map.tileToWorldY(this.pointerTileY) + FRAME_SIZE / 2,
-          name,
-          gemData
-        ).setInteractive();
 
-        this.maze.add(gem, true);
-        this.gems.add(gem);
-        this.newGems.add(gem);
+          const name = this.getFrame();
+          const gemData = this.gemsData.find((value, index, obj) => {
+            if (value.name == name) {
+              return true;
+            }
+          });
 
-        if (this.newGems.isFull()) {
-          this.input.off('pointerdown');
+          const gem = new Gem(
+            this,
+            tile.x * FRAME_SIZE,
+            tile.y * FRAME_SIZE,
+            name,
+            gemData
+          )
+            .setInteractive()
+            .setOrigin(0);
+
+          this.maze.add(gem, true);
+          this.gems.add(gem);
+          this.newGems.add(gem);
+
+          if (this.newGems.isFull()) {
+            this.input.off('pointerdown');
+          }
+        } else {
+          this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
         }
       }
     });
@@ -272,6 +282,11 @@ class MyGame extends Phaser.Scene {
 
   removeStone() {
     this.maze.remove(this.stone, true, true);
+    console.log(this.stone.x);
+    this.finder.stopAvoidingAdditionalPoint(
+      (this.stone.x - 16) / 32,
+      (this.stone.y - 16) / 32
+    );
   }
 
   selectGem() {
@@ -315,6 +330,21 @@ class MyGame extends Phaser.Scene {
   }
 
   startWave() {
+    // for (let i = 0; i < this.monsters.maxSize; i++) {
+    //   const monster = new Monster(this, 128, 128).setOrigin(0).setInteractive();
+    //   this.monsters.add(monster);
+    // }
+
+    // this.monsters.createMultiple({
+    //   active: false,
+    //   setXY: {
+    //     x: 128,
+    //     y: 128,
+    //   },
+    //   repeat: this.monsters.maxSize - 1,
+    //   setOrigin: { x: 0.5, y: 0.5 },
+    // });
+
     this.time.addEvent({
       delay: 1000,
       repeat: this.monsters.maxSize - 1,
@@ -324,10 +354,49 @@ class MyGame extends Phaser.Scene {
   }
 
   addMonsters() {
-    const monster = new Monster(this, 128, 128).setOrigin(0).setInteractive();
-    this.monsters.add(monster, true);
-    console.log(monster);
-    // monster.setActive(true);
+    const monster = this.monsters.get(128, 128);
+    monster.setActive(true).setVisible(true).setOrigin(0).setInteractive();
+    this.finder.findPath(4, 4, 4, 18, (path) => {
+      if (path === null) {
+        console.log('not found');
+      } else {
+        this.path = path;
+        this.moveMonster(monster, this.path);
+      }
+    });
+    this.finder.calculate();
+  }
+
+  checkPath() {
+    this.finder.findPath(4, 4, 4, 18, (path) => {
+      if (path === null) {
+        console.log('not found');
+        this.pathExist = false;
+      } else {
+        console.log('found');
+        this.pathExist = true;
+      }
+    });
+    this.finder.calculate();
+  }
+
+  moveMonster(monster, path) {
+    // console.log(monster);
+    monster.setActive(true).setVisible(true);
+    const tweens = [];
+    for (let i = 0; i < path.length - 1; i++) {
+      const ex = path[i + 1].x;
+      const ey = path[i + 1].y;
+      tweens.push({
+        targets: monster,
+        x: { value: ex * FRAME_SIZE, duration: 200 },
+        y: { value: ey * FRAME_SIZE, duration: 200 },
+      });
+    }
+
+    this.tweens.timeline({
+      tweens: tweens,
+    });
   }
 }
 
