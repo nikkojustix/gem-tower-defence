@@ -1,18 +1,11 @@
-import Sprite from "./Sprite.js"
+import Phaser from 'phaser';
 
-export default class Bullet extends Sprite {
-  constructor(props = {}) {
-    super(props)
-
-    this.tower = props.tower ?? null
-    this.hit = props.hit ?? false
-  }
-
-  update() {
-    super.update()
-  }
-
-  draw(ctx) {
-    super.draw(ctx)
+class Bullet extends Phaser.Physics.Arcade.Image {
+  constructor(scene, x, y) {
+    super(scene, x, y, 'bullet');
+    this.scene = scene;
+    this.speed = 900;
+    // this.scene.physics.add.existing(this);
   }
 }
+export default Bullet;

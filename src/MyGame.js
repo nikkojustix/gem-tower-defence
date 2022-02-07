@@ -1,6 +1,7 @@
 import Phaser, { Game } from 'phaser';
 import Gem from './Gem';
 import Monster from './Monster';
+import Bullet from './Bullet';
 
 import EasyStar from 'easystarjs';
 
@@ -12,6 +13,8 @@ import map from './assets/32px/tilemap.json';
 import tileset from './assets/32px/map_tiles.png';
 
 import monsterImg from './assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
+
+import bulletImg from './assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
 
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
@@ -69,6 +72,7 @@ class MyGame extends Phaser.Scene {
     this.load.json('gemsData', gemsData);
 
     this.load.image('monster', monsterImg);
+    this.load.image('bullet', bulletImg);
   }
 
   create() {
@@ -76,6 +80,8 @@ class MyGame extends Phaser.Scene {
     this.ranks = this.cache.json.get('gemsData').ranks;
     this.types = this.cache.json.get('gemsData').types;
     this.gemsData = this.cache.json.get('gemsData').gems;
+
+    this.registry.set({ level: 1, wave: 1, life: 100 });
 
     this.hudScene = this.scene.get('HudScene');
     this.map = this.add.tilemap('map');
@@ -100,11 +106,17 @@ class MyGame extends Phaser.Scene {
       this.map.getLayer('numbers').y
     );
 
+    // this.physics.add.image(140, 440, 'bullet');
+    // const bullet = new Bullet(this, 160, 440);
+    this.bullets = this.physics.add.group();
+    // this.physics.add.existing(bullet);
+    // this.bullets.add(bullet, true);
+    // console.log(bullet);
     this.maze = this.add.group();
     this.gems = this.add.group();
     this.newGems = this.add.group({ maxSize: 5 });
 
-    this.monsters = this.add.group({
+    this.monsters = this.physics.add.group({
       classType: Monster,
       defaultKey: 'monster',
       maxSize: 10,
@@ -178,7 +190,26 @@ class MyGame extends Phaser.Scene {
         this.deleteMonster(monster);
       }
     });
-    // Phaser.Actions.IncY(this.monsters.getChildren(), 1.74);
+
+    this.gems.getChildren().forEach((gem) => {
+      const enemiesToAttack = this.physics.overlapCirc(
+        gem.x,
+        gem.y,
+        gem.radius
+      );
+      if (enemiesToAttack.length > 0) {
+        gem.timer += delta;
+        if (gem.timer >= gem.attackSpeed) {
+          const bullet = new Bullet(this, gem.x, gem.y);
+          this.bullets.add(bullet, true);
+          this.physics.moveToObject(bullet, enemiesToAttack[0], bullet.speed);
+          gem.timer = 0;
+          this.physics.overlap(bullet, enemiesToAttack[0], () => {
+            bullet.destroy();
+          });
+        }
+      }
+    });
   }
 
   startGame() {
@@ -221,13 +252,11 @@ class MyGame extends Phaser.Scene {
 
     const gem = new Gem(
       this,
-      pos.x * FRAME_SIZE,
-      pos.y * FRAME_SIZE,
+      pos.x * FRAME_SIZE + FRAME_SIZE / 2,
+      pos.y * FRAME_SIZE + FRAME_SIZE / 2,
       name,
       gemData
-    )
-      .setInteractive()
-      .setOrigin(0);
+    ).setInteractive();
 
     this.maze.add(gem, true);
     this.gems.add(gem);
@@ -345,21 +374,6 @@ class MyGame extends Phaser.Scene {
   }
 
   startWave() {
-    // for (let i = 0; i < this.monsters.maxSize; i++) {
-    //   const monster = new Monster(this, 128, 128).setOrigin(0).setInteractive();
-    //   this.monsters.add(monster);
-    // }
-
-    // this.monsters.createMultiple({
-    //   active: false,
-    //   setXY: {
-    //     x: 128,
-    //     y: 128,
-    //   },
-    //   repeat: this.monsters.maxSize - 1,
-    //   setOrigin: { x: 0.5, y: 0.5 },
-    // });
-
     this.time.addEvent({
       delay: 1000,
       repeat: this.monsters.maxSize - 1,
@@ -371,17 +385,7 @@ class MyGame extends Phaser.Scene {
   addMonsters() {
     const monster = this.monsters.get(128, 128);
     monster.setActive(true).setVisible(true).setOrigin(0).setInteractive();
-    console.log(this.path);
     this.moveMonster(monster, this.path);
-
-    // this.finder.findPath(4, 4, 4, 18, (path) => {
-    //   if (path === null) {
-    //     console.log('not found');
-    //   } else {
-    //     this.path = path;
-    //   }
-    // });
-    // this.finder.calculate();
   }
 
   checkPath(from, to, tile, currentlyOver) {
@@ -411,10 +415,12 @@ class MyGame extends Phaser.Scene {
     for (let i = 0; i < path.length - 1; i++) {
       const ex = path[i + 1].x;
       const ey = path[i + 1].y;
+
+      const speed = Phaser.Math.GetSpeed(446, 0.001);
       tweens.push({
         targets: monster,
-        x: { value: ex * FRAME_SIZE, duration: 100 },
-        y: { value: ey * FRAME_SIZE, duration: 100 },
+        x: { value: ex * FRAME_SIZE, duration: 225 },
+        y: { value: ey * FRAME_SIZE, duration: 225 },
       });
     }
 
@@ -424,7 +430,6 @@ class MyGame extends Phaser.Scene {
   }
 
   deleteMonster(monster) {
-    console.log(monster);
     monster.destroy();
     if (this.monsters.getTotalFree() === this.monsters.maxSize) {
       this.nextWave();
@@ -433,7 +438,7 @@ class MyGame extends Phaser.Scene {
 
   nextWave() {
     this.currentWave++;
-    console.log(this.currentWave);
+    this.registry.set('wave', this.currentWave);
     this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 }

@@ -8,10 +8,15 @@ const config = {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: 1100,
-    height: 900
+    height: 900,
+  },
+  physics: {
+    default: 'arcade',
+    // arcade: {
+    //   debug: true,
+    // },
   },
   scene: [MyGame, Hud],
 };
-
 
 const game = new Phaser.Game(config);

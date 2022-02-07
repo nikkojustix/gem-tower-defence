@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-class Monster extends Phaser.GameObjects.Image {
+class Monster extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y) {
     super(scene, x, y, 'monster');
 

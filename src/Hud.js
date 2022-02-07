@@ -34,20 +34,20 @@ class Hud extends Phaser.Scene {
     this.add
       .text(952, 30, 'level:', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
-    this.add
-      .text(1027, 30, this.gameScene.currentLevel, FONT_STYLE)
+    const level = this.add
+      .text(1027, 30, '1', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
     this.add
       .text(952, 60, 'wave:', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
-    this.add
-      .text(1027, 60, this.gameScene.currentWave, FONT_STYLE)
+    const wave = this.add
+      .text(1027, 60, '1', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
     this.add
       .text(952, 90, 'life:', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
-    this.add
-      .text(1027, 90, this.gameScene.life, FONT_STYLE)
+    const life = this.add
+      .text(1027, 90, '100', FONT_STYLE)
       .setShadow(1, 1, '#386723', 0, true);
 
     this.buildBtn = this.add.image(930, 140, 'btns', 'build_btn_disable');
@@ -73,8 +73,6 @@ class Hud extends Phaser.Scene {
       this.downgradeBtn,
       this.combineBtn,
     ];
-
-    // this.enableBtn(this.buildBtn);
 
     this.input.on('gameobjectdown', (pointer, gameObject) => {
       gameObject
@@ -116,6 +114,10 @@ class Hud extends Phaser.Scene {
             .removeAllListeners();
           this.disableBtn(gameObject);
         });
+    });
+
+    this.registry.events.on('changedata', (parent, key, data) => {
+      eval(key).setText(data);
     });
   }
 
