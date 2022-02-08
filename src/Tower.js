@@ -1,64 +1,45 @@
-import Sprite from "./Sprite.js"
+import Phaser from 'phaser';
+import Bullet from './Bullet';
 
-export default class Tower extends Sprite {
-  constructor(props = {}) {
-    super(props)
+class Tower extends Phaser.GameObjects.Image {
+  constructor(scene, x, y, texture, name, data) {
+    super(scene, x, y, texture, name);
 
-    this.type = props.type ?? null
-    this.rank = props.rank ?? null
-    this.range = props.range ?? 0
-    this.damage = props.damage ?? 0
-    this.attackSpeed = (170 / props.attackSpeed) * 1000 ?? 0
-    this.ability = props.ability ?? null
-    this.new = props.new ?? false
-    this.combination = props.combination ?? null
-    this.timer = 0
-    this.fire = false
+    this.scene = scene;
+    this.name = name;
+
+    this.damage = data.damage || null;
+    this.attackSpeed = (170 / data.attackSpeed) * 1000 || null;
+    this.radius = data.radius || null;
+    this.ability = data.ability || null;
+
+    this.selected = false;
+
+    this.timer = this.attackSpeed;
   }
 
-  update(delta) {
-    this.timer += delta
-    if (!this.new) {
-      if (this.timer >= this.attackSpeed) {
-        this.fire = true
-        this.timer = 0
-      } else {
-        this.fire = false
-      }
+  setSelected(selected) {
+    this.selected = selected;
+    if (this.selected) {
+      this.marker = this.scene.add.graphics();
+      this.marker.lineStyle(2, 0xffffff, 1);
+      this.marker.strokeCircle(
+        this.getCenter().x,
+        this.getCenter().y,
+        this.radius
+      );
+    } else if (this.marker) {
+      this.marker.destroy();
     }
   }
 
-  inRadius(ctx, enemy) {
-    ctx.beginPath()
-    ctx.arc(
-      (2 * this.x + this.width) / 2,
-      (2 * this.y + this.height) / 2,
-      this.range,
-      0,
-      2 * Math.PI
-    )
-
-    if (
-      ctx.isPointInPath(enemy.x, enemy.y) ||
-      ctx.isPointInPath(enemy.x, enemy.y + enemy.height) ||
-      ctx.isPointInPath(enemy.x + enemy.width, enemy.y) ||
-      ctx.isPointInPath(
-        enemy.x + enemy.width,
-        enemy.y + enemy.height
-      )
-    ) {
-      return true
-    }
-    else {
-      return false
-    }
-  }
-
-  draw(ctx) {
-    super.draw(ctx)
-  }
-
-  get fireStatus() {
-    return this.fire
+  setParams(name, data) {
+    this.name = name;
+    this.damage = data.damage;
+    this.attackSpeed = (170 / data.attackSpeed) * 1000;
+    this.radius = data.radius;
+    this.ability = data.ability;
   }
 }
+
+export default Tower;

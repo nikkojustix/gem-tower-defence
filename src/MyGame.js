@@ -16,6 +16,9 @@ import monsterImg from './assets/32px/Dungeon Crawl Stone Soup Full/monster/anim
 
 import bulletImg from './assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
 
+import towersData from './assets/towersData.json';
+import silverImg from './assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
+
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
 
@@ -64,15 +67,15 @@ class MyGame extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON('map', map);
     this.load.image('tileset', tileset);
-    // this.load.spritesheet('gemImages', gemImages, {
-    //   frameWidth: FRAME_SIZE,
-    //   frameHeight: FRAME_SIZE,
-    // });
     this.load.atlas('gemImages', gemImages, gemAtlas);
     this.load.json('gemsData', gemsData);
 
+    this.load.json('towersData', towersData);
+
     this.load.image('monster', monsterImg);
     this.load.image('bullet', bulletImg);
+
+    this.load.image('silver', silverImg);
   }
 
   create() {
@@ -80,6 +83,8 @@ class MyGame extends Phaser.Scene {
     this.ranks = this.cache.json.get('gemsData').ranks;
     this.types = this.cache.json.get('gemsData').types;
     this.gemsData = this.cache.json.get('gemsData').gems;
+
+    this.towersData = this.cache.json.get('towersData').towers;
 
     this.registry.set({ level: 1, wave: 1, life: 100 });
 
@@ -106,12 +111,7 @@ class MyGame extends Phaser.Scene {
       this.map.getLayer('numbers').y
     );
 
-    // this.physics.add.image(140, 440, 'bullet');
-    // const bullet = new Bullet(this, 160, 440);
     this.bullets = this.physics.add.group();
-    // this.physics.add.existing(bullet);
-    // this.bullets.add(bullet, true);
-    // console.log(bullet);
     this.maze = this.add.group();
     this.gems = this.add.group();
     this.newGems = this.add.group({ maxSize: 5 });
@@ -197,16 +197,17 @@ class MyGame extends Phaser.Scene {
         gem.y,
         gem.radius
       );
+
       if (enemiesToAttack.length > 0) {
         gem.timer += delta;
         if (gem.timer >= gem.attackSpeed) {
           const bullet = new Bullet(this, gem.x, gem.y);
           this.bullets.add(bullet, true);
-          this.physics.moveToObject(bullet, enemiesToAttack[0], bullet.speed);
+          const enemy = enemiesToAttack[0].gameObject;
+
+          this.physics.moveToObject(bullet, enemy, bullet.speed);
           gem.timer = 0;
-          this.physics.overlap(bullet, enemiesToAttack[0], () => {
-            bullet.destroy();
-          });
+          this.physics.add.overlap(bullet, enemy, this.hit(gem, enemy, bullet));
         }
       }
     });
@@ -259,8 +260,20 @@ class MyGame extends Phaser.Scene {
     ).setInteractive();
 
     this.maze.add(gem, true);
-    this.gems.add(gem);
     this.newGems.add(gem);
+
+    const gemNames = this.newGems.getChildren().map((gem) => gem.name);
+
+    this.towersData.forEach((tower) => {
+      if (
+        tower.combination.every((item) => {
+          return gemNames.includes(item);
+        })
+      ) {
+        // TODO: combine;
+        console.log(true);
+      }
+    });
 
     if (this.newGems.isFull()) {
       this.input.off('pointerdown');
@@ -293,7 +306,7 @@ class MyGame extends Phaser.Scene {
   chooseItem(pointer, gameObject) {
     console.log(gameObject);
     this.hudScene.controls.forEach((btn) => {
-      this.hudScene.disableBtn(btn);
+      if (!btn.frame.name.includes('build')) this.hudScene.disableBtn(btn);
     });
     this.maze.children.each((item) => {
       item.setSelected(false);
@@ -338,12 +351,14 @@ class MyGame extends Phaser.Scene {
       if (!gem.selected) {
         gem.setFrame('stone');
         gem.name = 'stone';
+        gem.rank = null;
+        gem.type = null;
         gem.damage = null;
         gem.attackSpeed = null;
         gem.radius = null;
         gem.ability = null;
-        this.gems.remove(gem);
       } else {
+        this.gems.add(gem);
         gem.setSelected(false);
       }
     });
@@ -374,6 +389,13 @@ class MyGame extends Phaser.Scene {
   }
 
   startWave() {
+    this.monsters.createMultiple({
+      active: false,
+      visible: false,
+      key: this.monsters.defaultKey,
+      repeat: this.monsters.maxSize - 1,
+    });
+
     this.time.addEvent({
       delay: 1000,
       repeat: this.monsters.maxSize - 1,
@@ -419,8 +441,8 @@ class MyGame extends Phaser.Scene {
       const speed = Phaser.Math.GetSpeed(446, 0.001);
       tweens.push({
         targets: monster,
-        x: { value: ex * FRAME_SIZE, duration: 225 },
-        y: { value: ey * FRAME_SIZE, duration: 225 },
+        x: { value: ex * FRAME_SIZE, duration: 100 },
+        y: { value: ey * FRAME_SIZE, duration: 100 },
       });
     }
 
@@ -431,7 +453,7 @@ class MyGame extends Phaser.Scene {
 
   deleteMonster(monster) {
     monster.destroy();
-    if (this.monsters.getTotalFree() === this.monsters.maxSize) {
+    if (this.monsters.getLength() === 0) {
       this.nextWave();
     }
   }
@@ -440,6 +462,14 @@ class MyGame extends Phaser.Scene {
     this.currentWave++;
     this.registry.set('wave', this.currentWave);
     this.hudScene.enableBtn(this.hudScene.buildBtn);
+  }
+
+  hit(tower, enemy, bullet) {
+    bullet.destroy();
+    enemy.hp -= tower.damage;
+    if (enemy.hp <= 0) {
+      this.deleteMonster(enemy);
+    }
   }
 }
 

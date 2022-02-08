@@ -2,12 +2,11 @@ import Phaser from 'phaser';
 import Bullet from './Bullet';
 import Tower from './Tower';
 
-class Gem extends Tower {
+class AdvancedTower extends Tower {
   constructor(scene, x, y, name, data) {
-    super(scene, x, y, 'gemImages', name, data);
+    super(scene, x, y, 'silver', name, data);
 
-    this.rank = name.split(' ')[0];
-    this.type = name.split(' ')[1];
+    this.combination = data.combination;
   }
 
   setSelected(selected) {
@@ -15,10 +14,9 @@ class Gem extends Tower {
   }
 
   setParams(name, data) {
+    this.combination = data.combination;
     super.setParams(name, data);
-    this.rank = name.split(' ')[0];
-    this.type = name.split(' ')[1];
   }
 }
 
-export default Gem;
+export default AdvancedTower;

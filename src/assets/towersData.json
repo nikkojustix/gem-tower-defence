@@ -1,0 +1,22 @@
+{
+  "towers": [
+    {
+      "code": "S",
+      "name": "silver",
+      "damage": 40,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": "slow 2",
+      "combination": ["chipped sapphire", "chipped diamond", "chipped topaz"]
+    },
+    {
+      "code": "M",
+      "name": "malachite",
+      "damage": 15,
+      "attackSpeed": 212,
+      "radius": 150,
+      "ability": "split 1",
+      "combination": ["chipped opal", "chipped emerald", "chipped aquamarine"]
+    }
+  ]
+}
