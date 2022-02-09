@@ -32,7 +32,7 @@ const POINTS = [
   { x: 32, y: 32 },
 ];
 
-class MyGame extends Phaser.Scene {
+export default class MyGame extends Phaser.Scene {
   constructor() {
     super({ key: 'GameScene' });
 
@@ -201,13 +201,15 @@ class MyGame extends Phaser.Scene {
       if (enemiesToAttack.length > 0) {
         gem.timer += delta;
         if (gem.timer >= gem.attackSpeed) {
-          const bullet = new Bullet(this, gem.x, gem.y);
+          const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
           this.bullets.add(bullet, true);
+          bullet.setBodySize(8, 8);
           const enemy = enemiesToAttack[0].gameObject;
-
-          this.physics.moveToObject(bullet, enemy, bullet.speed);
-          gem.timer = 0;
-          this.physics.add.overlap(bullet, enemy, this.hit(gem, enemy, bullet));
+          enemy.on('move', () => {
+            this.physics.moveToObject(bullet, enemy, bullet.speed);
+            gem.timer = 0;
+            this.physics.add.overlap(bullet, enemy, this.hit, undefined, this);
+          });
         }
       }
     });
@@ -416,7 +418,6 @@ class MyGame extends Phaser.Scene {
         console.log('building block');
         this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
       } else {
-        console.log('found');
         this.path.pop();
         this.path = this.path.concat(path);
         if (POINTS.indexOf(to) < POINTS.length - 1) {
@@ -441,13 +442,16 @@ class MyGame extends Phaser.Scene {
       const speed = Phaser.Math.GetSpeed(446, 0.001);
       tweens.push({
         targets: monster,
-        x: { value: ex * FRAME_SIZE, duration: 100 },
-        y: { value: ey * FRAME_SIZE, duration: 100 },
+        x: { value: ex * FRAME_SIZE, duration: 250 },
+        y: { value: ey * FRAME_SIZE, duration: 250 },
       });
     }
 
     this.tweens.timeline({
       tweens: tweens,
+      onUpdate: () => {
+        monster.emit('move');
+      },
     });
   }
 
@@ -464,13 +468,12 @@ class MyGame extends Phaser.Scene {
     this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 
-  hit(tower, enemy, bullet) {
+  hit(bullet, enemy) {
+    enemy.off('move');
     bullet.destroy();
-    enemy.hp -= tower.damage;
+    enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {
       this.deleteMonster(enemy);
     }
   }
 }
-
-export default MyGame;

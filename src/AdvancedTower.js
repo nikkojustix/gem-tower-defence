@@ -2,7 +2,7 @@ import Phaser from 'phaser';
 import Bullet from './Bullet';
 import Tower from './Tower';
 
-class AdvancedTower extends Tower {
+export default class AdvancedTower extends Tower {
   constructor(scene, x, y, name, data) {
     super(scene, x, y, 'silver', name, data);
 
@@ -18,5 +18,3 @@ class AdvancedTower extends Tower {
     super.setParams(name, data);
   }
 }
-
-export default AdvancedTower;

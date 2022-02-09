@@ -11,7 +11,7 @@ const FONT_STYLE = {
   stroke: '1px solid #5FB13A',
 };
 
-class Hud extends Phaser.Scene {
+export default class Hud extends Phaser.Scene {
   constructor() {
     super({ key: 'HudScene', active: true });
 
@@ -147,5 +147,3 @@ class Hud extends Phaser.Scene {
     }
   }
 }
-
-export default Hud;

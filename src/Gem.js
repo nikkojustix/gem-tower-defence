@@ -1,8 +1,7 @@
 import Phaser from 'phaser';
-import Bullet from './Bullet';
 import Tower from './Tower';
 
-class Gem extends Tower {
+export default class Gem extends Tower {
   constructor(scene, x, y, name, data) {
     super(scene, x, y, 'gemImages', name, data);
 
@@ -20,5 +19,3 @@ class Gem extends Tower {
     this.type = name.split(' ')[1];
   }
 }
-
-export default Gem;

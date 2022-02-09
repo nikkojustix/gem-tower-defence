@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
 
-class Monster extends Phaser.Physics.Arcade.Image {
+export default class Monster extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y) {
     super(scene, x, y, 'monster');
 
@@ -13,5 +13,3 @@ class Monster extends Phaser.Physics.Arcade.Image {
     this.selected = selected;
   }
 }
-
-export default Monster;
