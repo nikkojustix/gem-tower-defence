@@ -13,6 +13,7 @@ class Tower extends Phaser.GameObjects.Image {
     this.radius = data.radius || null;
     this.ability = data.ability || null;
 
+    this.combineTo = null;
     this.selected = false;
 
     this.timer = this.attackSpeed;

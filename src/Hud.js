@@ -104,6 +104,9 @@ export default class Hud extends Phaser.Scene {
             case 'downgrade_btn_pressed':
               this.gameScene.changeGem(-1);
               break;
+            case 'combine_btn_pressed':
+              this.gameScene.combineGem();
+              break;
             default:
               break;
           }

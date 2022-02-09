@@ -18,6 +18,7 @@ import bulletImg from './assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_
 
 import towersData from './assets/towersData.json';
 import silverImg from './assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
+import AdvancedTower from './AdvancedTower';
 
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
@@ -274,6 +275,11 @@ export default class MyGame extends Phaser.Scene {
       ) {
         // TODO: combine;
         console.log(true);
+        this.newGems.getChildren().forEach((gem) => {
+          if (tower.combination.includes(gem.name)) {
+            gem.combineTo = tower.name;
+          }
+        });
       }
     });
 
@@ -336,6 +342,9 @@ export default class MyGame extends Phaser.Scene {
       if (!gameObject.name.includes(this.ranks[0])) {
         this.hudScene.enableBtn(this.hudScene.downgradeBtn);
       }
+      if (gameObject.combineTo) {
+        this.hudScene.enableBtn(this.hudScene.combineBtn);
+      }
     }
   }
 
@@ -373,20 +382,33 @@ export default class MyGame extends Phaser.Scene {
 
   changeGem(x) {
     const rank = this.ranks.find((value, index, obj) => {
-      if (obj[index - x] == this.selectedGem.rank) {
-        return true;
-      }
+      return obj[index - x] == this.selectedGem.rank;
     });
     const name = `${rank} ${this.selectedGem.type}`;
-    const gemData = this.gemsData.find((value, index, obj) => {
-      if (value.name == name) {
-        return true;
-      }
-    });
+    const gemData = this.gemsData.find((value) => value.name == name);
 
     this.selectedGem.setFrame(name);
     this.selectedGem.setParams(name, gemData);
 
+    this.selectGem();
+  }
+
+  combineGem() {
+    const x = this.selectedGem.x;
+    const y = this.selectedGem.y;
+    const name = this.selectedGem.combineTo;
+    const data = this.towersData.find((value) => value.name == name);
+
+    this.selectedGem.setSelected(false);
+    this.newGems.remove(this.selectedGem, true, true);
+
+    const tower = new AdvancedTower(this, x, y, name, data).setInteractive();
+    tower.selected = true;
+
+    this.maze.add(tower, true);
+    this.newGems.add(tower);
+
+    this.selectedGem = tower;
     this.selectGem();
   }
 
