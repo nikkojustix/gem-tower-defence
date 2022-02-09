@@ -6,6 +6,6 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
 
     this.scene = scene;
     this.damage = damage;
-    this.speed = 900;
+    this.speed = 1200;
   }
 }

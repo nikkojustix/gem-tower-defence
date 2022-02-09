@@ -210,6 +210,9 @@ export default class MyGame extends Phaser.Scene {
             this.physics.moveToObject(bullet, enemy, bullet.speed);
             gem.timer = 0;
             this.physics.add.overlap(bullet, enemy, this.hit, undefined, this);
+            if (!enemy) {
+              bullet.destroy();
+            }
           });
         }
       }
@@ -346,6 +349,9 @@ export default class MyGame extends Phaser.Scene {
         this.hudScene.enableBtn(this.hudScene.combineBtn);
       }
     }
+    if (gameObject.combineTo) {
+      this.hudScene.enableBtn(this.hudScene.combineBtn);
+    }
   }
 
   removeStone() {
@@ -368,6 +374,7 @@ export default class MyGame extends Phaser.Scene {
         gem.attackSpeed = null;
         gem.radius = null;
         gem.ability = null;
+        gem.combineTo = null;
       } else {
         this.gems.add(gem);
         gem.setSelected(false);
@@ -378,6 +385,7 @@ export default class MyGame extends Phaser.Scene {
       this.hudScene.disableBtn(btn);
     });
     this.startWave();
+    this.checkForCombine();
   }
 
   changeGem(x) {
@@ -399,17 +407,56 @@ export default class MyGame extends Phaser.Scene {
     const name = this.selectedGem.combineTo;
     const data = this.towersData.find((value) => value.name == name);
 
-    this.selectedGem.setSelected(false);
-    this.newGems.remove(this.selectedGem, true, true);
+    // this.selectedGem.setSelected(false);
+    // this.newGems.remove(this.selectedGem, true, true);
+    // this.selectedGem.destroy()
 
     const tower = new AdvancedTower(this, x, y, name, data).setInteractive();
     tower.selected = true;
 
     this.maze.add(tower, true);
-    this.newGems.add(tower);
+    this.gems.add(tower);
 
-    this.selectedGem = tower;
-    this.selectGem();
+    // this.selectedGem = tower;
+    this.selectedGem.setSelected(false);
+    if (this.newGems.contains(this.selectedGem)) {
+      this.selectedGem.destroy();
+      this.selectGem();
+    } else {
+      this.gems.children.each((gem) => {
+        if (gem.combineTo) {
+          gem.setFrame('stone');
+          gem.name = 'stone';
+          gem.rank = null;
+          gem.type = null;
+          gem.damage = null;
+          gem.attackSpeed = null;
+          gem.radius = null;
+          gem.ability = null;
+          gem.combineTo = null;
+        }
+      });
+    }
+  }
+
+  checkForCombine() {
+    const gemNames = this.gems.getChildren().map((gem) => gem.name);
+
+    this.towersData.forEach((tower) => {
+      if (
+        tower.combination.every((item) => {
+          return gemNames.includes(item);
+        })
+      ) {
+        // TODO: combine;
+        console.log(true);
+        this.gems.getChildren().forEach((gem) => {
+          if (tower.combination.includes(gem.name)) {
+            gem.combineTo = tower.name;
+          }
+        });
+      }
+    });
   }
 
   startWave() {
