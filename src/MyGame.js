@@ -198,21 +198,49 @@ export default class MyGame extends Phaser.Scene {
         gem.y,
         gem.radius
       );
+      // const circle = this.add.circle(gem.x, gem.y, gem.radius);
+      // this.physics.world.enableBody(circle);
+      // // this.physics.add.existing(circle);
+      // // circle.body.setCollideWorldBounds();
 
-      if (enemiesToAttack.length > 0) {
+      // this.physics.overlap(circle, this.monsters, (obj1, obj2) => {
+      //   // console.log('1');
+      //   gem.timer += delta;
+      //   if (gem.timer >= gem.attackSpeed) {
+      //     const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
+      //     this.bullets.add(bullet, true);
+      //     bullet.setBodySize(8, 8);
+      //     // console.log(enemiesToAttack.length);
+      //     console.log('bullet from: ', gem.name);
+      //     // const enemy = enemiesToAttack[0].gameObject;
+      //     obj2.on('move', () => {
+      //       this.physics.moveToObject(bullet, obj2, bullet.speed);
+      //       gem.timer = 0;
+      //       this.physics.add.overlap(bullet, obj2, this.hit, undefined, this);
+      //       if (!obj2) {
+      //         bullet.destroy();
+      //       }
+      //     });
+      //   }
+      // });
+      if (
+        enemiesToAttack.length > 0 &&
+        enemiesToAttack[0].gameObject instanceof Monster
+      ) {
         gem.timer += delta;
         if (gem.timer >= gem.attackSpeed) {
           const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
           this.bullets.add(bullet, true);
           bullet.setBodySize(8, 8);
+          console.log('bullet from: ', gem.name);
           const enemy = enemiesToAttack[0].gameObject;
           enemy.on('move', () => {
             this.physics.moveToObject(bullet, enemy, bullet.speed);
-            gem.timer = 0;
             this.physics.add.overlap(bullet, enemy, this.hit, undefined, this);
             if (!enemy) {
               bullet.destroy();
             }
+            gem.timer = 0;
           });
         }
       }
@@ -502,7 +530,6 @@ export default class MyGame extends Phaser.Scene {
   }
 
   moveMonster(monster, path) {
-    monster.setActive(true).setVisible(true);
     const tweens = [];
     for (let i = 0; i < path.length - 1; i++) {
       const ex = path[i + 1].x;
@@ -525,7 +552,11 @@ export default class MyGame extends Phaser.Scene {
   }
 
   deleteMonster(monster) {
-    monster.destroy();
+    console.log(monster);
+    // monster.setPosition(monster.x, monster.y);
+    this.time.delayedCall(1000, () => {
+      monster.destroy();
+    });
     if (this.monsters.getLength() === 0) {
       this.nextWave();
     }
