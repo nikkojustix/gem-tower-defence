@@ -552,8 +552,8 @@ export default class MyGame extends Phaser.Scene {
   }
 
   deleteMonster(monster) {
-    console.log(monster);
-    // monster.setPosition(monster.x, monster.y);
+    const tweens = this.tweens.getTweensOf(monster);
+    console.log(tweens);
     this.time.delayedCall(1000, () => {
       monster.destroy();
     });
