@@ -402,5 +402,809 @@
     [0.6, 0.9, 1, 0, 0],
     [0.4, 0.7, 0.9, 1, 0],
     [0.1, 0.4, 0.7, 0.9, 1]
+  ],
+  "advancedTowers": [
+    {
+      "code": "S",
+      "name": "silver",
+      "damage": 40,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["slow 2"],
+      "combination": ["chipped sapphire", "chipped diamond", "chipped topaz"]
+    },
+    {
+      "code": "SK",
+      "name": "silver knight",
+      "damage": 100,
+      "attackSpeed": 212,
+      "radius": 175,
+      "ability": ["cleave 3", "slow 3"],
+      "combination": ["silver", "flawed aquamarine", "normal ruby"]
+    },
+    {
+      "code": "PD",
+      "name": "pink diamond",
+      "damage": 30,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["crit 1", "damage 3"],
+      "combination": ["perfect diamond", "normal topaz", "normal diamond"]
+    },
+    {
+      "code": "HPD",
+      "name": "huge pink diamond",
+      "damage": 150,
+      "attackSpeed": 212,
+      "radius": 175,
+      "ability": ["cleave 3", "crit 1", "damage 4", "slow 3"],
+      "combination": ["pink diamond", "silver knight", "silver"]
+    },
+    {
+      "code": "KD",
+      "name": "koh-i-noor diamond",
+      "damage": 660,
+      "attackSpeed": 283,
+      "radius": 175,
+      "ability": ["cleave 3", "crit 1", "damage max", "pierce max"],
+      "combination": ["huge pink diamond", "huge amethyst", "huge diamond"]
+    },
+    {
+      "code": "M",
+      "name": "malachite",
+      "damage": 15,
+      "attackSpeed": 212,
+      "radius": 150,
+      "ability": ["split 1"],
+      "combination": ["chipped opal", "chipped emerald", "chipped aquamarine"]
+    },
+    {
+      "code": "VM",
+      "name": "vivid malachite",
+      "damage": 50,
+      "attackSpeed": 242,
+      "radius": 175,
+      "ability": ["split 2"],
+      "combination": ["malachite", "flawed diamond", "normal topaz"]
+    },
+    {
+      "code": "U",
+      "name": "uranium-238",
+      "damage": 120,
+      "attackSpeed": 242,
+      "radius": 175,
+      "ability": ["radiation"],
+      "combination": ["perfect topaz", "flawed opal", "normal sapphire"]
+    },
+    {
+      "code": "U",
+      "name": "uranium-235",
+      "damage": 60,
+      "attackSpeed": 242,
+      "radius": 200,
+      "ability": ["radiation", "damage 4"],
+      "combination": ["uranium-238", "vivid malachite", "malachite"]
+    },
+    {
+      "code": "D",
+      "name": "depleted-kyparium",
+      "damage": 90,
+      "attackSpeed": 425,
+      "radius": 1250,
+      "ability": ["damage 5", "radiation"],
+      "combination": ["uranium-235", "huge aquamarine", "huge topaz"]
+    },
+    {
+      "code": "AR",
+      "name": "asteriated ruby",
+      "damage": 0,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["burn 1"],
+      "combination": ["flawed ruby", "chipped ruby", "chipped amethyst"]
+    },
+    {
+      "code": "V",
+      "name": "volcano",
+      "damage": 0,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["burn 2"],
+      "combination": ["asteriated ruby", "flawless ruby", "normal amethyst"]
+    },
+    {
+      "code": "B",
+      "name": "bloodstone",
+      "damage": 35,
+      "attackSpeed": 170,
+      "radius": 175,
+      "ability": ["lightning chain"],
+      "combination": ["perfect ruby", "flawless aquamarine", "normal amethyst"]
+    },
+    {
+      "code": "AB",
+      "name": "antique bloodstone",
+      "damage": 70,
+      "attackSpeed": 170,
+      "radius": 200,
+      "ability": ["forked lightning", "burn 2"],
+      "combination": ["bloodstone", "volcano", "flawed ruby"]
+    },
+    {
+      "code": "TCP",
+      "name": "the crown prince",
+      "damage": 70,
+      "attackSpeed": 170,
+      "radius": 200,
+      "ability": ["forked lightning", "burn 3", "poison max"],
+      "combination": ["antique bloodstone", "huge ruby", "huge emerald"]
+    },
+    {
+      "code": "J",
+      "name": "jade",
+      "damage": 10,
+      "attackSpeed": 340,
+      "radius": 200,
+      "ability": ["poison 4"],
+      "combination": ["normal emerald", "normal opal", "flawed sapphire"]
+    },
+    {
+      "code": "Q",
+      "name": "quartz",
+      "damage": 15,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": ["anti-fly 1"],
+      "combination": ["flawless emerald", "normal ruby", "flawed amethyst"]
+    },
+    {
+      "code": "GJ",
+      "name": "grey jade",
+      "damage": 30,
+      "attackSpeed": 340,
+      "radius": 200,
+      "ability": ["overlook", "poison 5"],
+      "combination": ["jade", "flawless sapphire", "normal aquamarine"]
+    },
+    {
+      "code": "MKJ",
+      "name": "monkey king jade",
+      "damage": 80,
+      "attackSpeed": 340,
+      "radius": 250,
+      "ability": ["poison 5", "overlook", "monkey king bar"],
+      "combination": ["grey jade", "flawless emerald", "flawed amethyst"]
+    },
+    {
+      "code": "DC",
+      "name": "diamond cullinan",
+      "damage": 2514,
+      "attackSpeed": 212,
+      "radius": 300,
+      "ability": ["monkey king bar", "overlook", "damage max", "crit 1"],
+      "combination": ["monkey king jade", "huge diamond", "huge sapphire"]
+    },
+    {
+      "code": "LCJ",
+      "name": "lucky chinese jade",
+      "damage": 30,
+      "attackSpeed": 340,
+      "radius": 225,
+      "ability": ["poison 5", "recover", "anti-fly 1"],
+      "combination": ["jade", "quartz", "normal emerald"]
+    },
+    {
+      "code": "CL",
+      "name": "charming lazurite",
+      "damage": 30,
+      "attackSpeed": 283,
+      "radius": 200,
+      "ability": ["anti-fly 2"],
+      "combination": ["quartz", "flawless amethyst", "flawed topaz"]
+    },
+    {
+      "code": "GJ",
+      "name": "golden jubilee",
+      "damage": 1,
+      "attackSpeed": 242,
+      "radius": 200,
+      "ability": ["anti-fly 2", "burned"],
+      "combination": ["charming lazurite", "huge topaz", "huge ruby"]
+    },
+    {
+      "code": "G",
+      "name": "gold",
+      "damage": 60,
+      "attackSpeed": 212,
+      "radius": 150,
+      "ability": ["corrupt 1"],
+      "combination": ["perfect amethyst", "flawless amethyst", "flawed diamond"]
+    },
+    {
+      "code": "EG",
+      "name": "egypt gold",
+      "damage": 100,
+      "attackSpeed": 212,
+      "radius": 175,
+      "ability": ["corrupt 2", "greedy"],
+      "combination": ["gold", "perfect amethyst", "flawed aquamarine"]
+    },
+    {
+      "code": "DE",
+      "name": "dark emerald",
+      "damage": 80,
+      "attackSpeed": 340,
+      "radius": 175,
+      "ability": ["stun"],
+      "combination": ["perfect emerald", "flawless sapphire", "flawed topaz"]
+    },
+    {
+      "code": "EG",
+      "name": "emerald golem",
+      "damage": 170,
+      "attackSpeed": 340,
+      "radius": 175,
+      "ability": ["stun", "corrupt 1", "stone gaze"],
+      "combination": ["gold", "dark emerald", "normal diamond"]
+    },
+    {
+      "code": "PT",
+      "name": "paraiba tourmaline",
+      "damage": 30,
+      "attackSpeed": 283,
+      "radius": 150,
+      "ability": ["decadent"],
+      "combination": ["perfect aquamarine", "flawless opal", "flawed emerald"]
+    },
+    {
+      "code": "ECT",
+      "name": "elaborately carved tourmaline",
+      "damage": 130,
+      "attackSpeed": 283,
+      "radius": 175,
+      "ability": ["stun", "decadent 2"],
+      "combination": ["paraiba tourmaline", "dark emerald", "flawed emerald"]
+    },
+    {
+      "code": "SSOA",
+      "name": "sapphire star of adam",
+      "damage": 42,
+      "attackSpeed": 170,
+      "radius": 200,
+      "ability": ["poison max", "pierce max", "decadent 2", "freezing cold"],
+      "combination": [
+        "elaborately carved tourmaline",
+        "huge emerald",
+        "huge amethyst"
+      ]
+    },
+    {
+      "code": "DSP",
+      "name": "deep sea pearl",
+      "damage": 80,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": ["resist"],
+      "combination": ["flawless aquamarine", "flawless diamond", "flawed opal"]
+    },
+    {
+      "code": "CCE",
+      "name": "chrysoberyl cat's eye",
+      "damage": 6,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ["aura 5", "true sight", "inspire"],
+      "combination": ["perfect opal", "flawless diamond", "normal aquamarine"]
+    },
+    {
+      "code": "RC",
+      "name": "red coral",
+      "damage": 120,
+      "attackSpeed": 283,
+      "radius": 125,
+      "ability": ["aura 5", "aura 4", "true sight", "inspire", "resist"],
+      "combination": [
+        "chrysoberyl cat's eye",
+        "deep sea pearl",
+        "flawless opal"
+      ]
+    },
+    {
+      "code": "NZ",
+      "name": "natural zumurud",
+      "damage": 80,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ["steal"],
+      "combination": ["deep sea pearl", "perfect emerald", "normal diamond"]
+    },
+    {
+      "code": "C",
+      "name": "carmen-lucia",
+      "damage": 6,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ["resist", "inspire", "otomad", "aura max", "true sight"],
+      "combination": ["red coral", "huge opal", "huge aquamarine"]
+    },
+    {
+      "code": "YS",
+      "name": "yellow sapphire",
+      "damage": 20,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["ice"],
+      "combination": ["perfect sapphire", "flawless topaz", "flawless ruby"]
+    },
+    {
+      "code": "NSE",
+      "name": "northern saber's eye",
+      "damage": 60,
+      "attackSpeed": 170,
+      "radius": 125,
+      "ability": ["ice", "chain frost"],
+      "combination": ["yellow sapphire", "bloodstone", "perfect sapphire"]
+    },
+    {
+      "code": "SS",
+      "name": "star sapphire",
+      "damage": 20,
+      "attackSpeed": 170,
+      "radius": 150,
+      "ability": ["true sight", "aura max", "slow max", "ice 2"],
+      "combination": ["yellow sapphire", "huge sapphire", "huge opal"]
+    }
+  ],
+  "monsters": [
+    {
+      "name": "",
+      "hp": 3,
+      "speed": 287,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 6,
+      "speed": 251,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 12,
+      "speed": 287,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 12,
+      "speed": 150,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 14,
+      "speed": 301,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 60,
+      "speed": 334,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 60,
+      "speed": 251,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 42,
+      "speed": 200,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["invisability"]
+    },
+    {
+      "name": "",
+      "hp": 72,
+      "speed": 251,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["evasion"]
+    },
+    {
+      "name": "",
+      "hp": 1260,
+      "speed": 200,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "boss ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 180,
+      "speed": 287,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 270,
+      "speed": 251,
+      "armor": 4,
+      "magicResistance": 20,
+      "type": "ground",
+      "ability": ["disarm"]
+    },
+    {
+      "name": "",
+      "hp": 480,
+      "speed": 251,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 660,
+      "speed": 251,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["refraction"]
+    },
+    {
+      "name": "",
+      "hp": 264,
+      "speed": 251,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 570,
+      "speed": 188,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["magic immunity"]
+    },
+    {
+      "name": "",
+      "hp": 960,
+      "speed": 251,
+      "armor": 4,
+      "magicResistance": 50,
+      "type": "ground",
+      "ability": ["untouchable"]
+    },
+    {
+      "name": "",
+      "hp": 1800,
+      "speed": 223,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["invisability", "disarm"]
+    },
+    {
+      "name": "",
+      "hp": 1320,
+      "speed": 150,
+      "armor": 4,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["rush"]
+    },
+    {
+      "name": "",
+      "hp": 20400,
+      "speed": 167,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "boss ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 4500,
+      "speed": 223,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 5400,
+      "speed": 251,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["high armor"]
+    },
+    {
+      "name": "",
+      "hp": 6000,
+      "speed": 241,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["physical immune", "refraction"]
+    },
+    {
+      "name": "",
+      "hp": 6000,
+      "speed": 223,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["reactive armor"]
+    },
+    {
+      "name": "",
+      "hp": 2160,
+      "speed": 376,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["high armor"]
+    },
+    {
+      "name": "",
+      "hp": 3780,
+      "speed": 167,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["magic immunity"]
+    },
+    {
+      "name": "",
+      "hp": 1200,
+      "speed": 241,
+      "armor": 8,
+      "magicResistance": 50,
+      "type": "flying",
+      "ability": ["physical immune", "untouchable"]
+    },
+    {
+      "name": "",
+      "hp": 2280,
+      "speed": 200,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["reactive armor"]
+    },
+    {
+      "name": "",
+      "hp": 2700,
+      "speed": 150,
+      "armor": 8,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["evasion", "refraction"]
+    },
+    {
+      "name": "",
+      "hp": 48000,
+      "speed": 200,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "boss flying",
+      "ability": []
+    },
+    {
+      "name": "",
+      "hp": 8400,
+      "speed": 167,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["magic immunity", "refraction"]
+    },
+    {
+      "name": "",
+      "hp": 51000,
+      "speed": 251,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["recharge"]
+    },
+    {
+      "name": "",
+      "hp": 48000,
+      "speed": 215,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["physical immune", "blink"]
+    },
+    {
+      "name": "",
+      "hp": 12000,
+      "speed": 208,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["evasion"]
+    },
+    {
+      "name": "",
+      "hp": 5280,
+      "speed": 215,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["magic immunity"]
+    },
+    {
+      "name": "",
+      "hp": 33000,
+      "speed": 150,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["magic immunity"]
+    },
+    {
+      "name": "",
+      "hp": 72000,
+      "speed": 125,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["blink"]
+    },
+    {
+      "name": "",
+      "hp": 120000,
+      "speed": 150,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["disarm"]
+    },
+    {
+      "name": "",
+      "hp": 9000,
+      "speed": 188,
+      "armor": 12,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["untouchable", "kraken shell", "evasion"]
+    },
+    {
+      "name": "",
+      "hp": 198000,
+      "speed": 188,
+      "armor": 0,
+      "magicResistance": 10,
+      "type": "boss flying",
+      "ability": ["kraken shell"]
+    },
+    {
+      "name": "",
+      "hp": 144000,
+      "speed": 215,
+      "armor": 16,
+      "magicResistance": 50,
+      "type": "ground",
+      "ability": ["refraction"]
+    },
+    {
+      "name": "",
+      "hp": 9000,
+      "speed": 215,
+      "armor": 16,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["magic immunity", "rush"]
+    },
+    {
+      "name": "",
+      "hp": 114000,
+      "speed": 188,
+      "armor": 15,
+      "magicResistance": 50,
+      "type": "ground",
+      "ability": ["untouchable", "evasion", "recharge"]
+    },
+    {
+      "name": "",
+      "hp": 120000,
+      "speed": 301,
+      "armor": 16,
+      "magicResistance": 10,
+      "type": "ground",
+      "ability": ["magic immunity", "blink"]
+    },
+    {
+      "name": "",
+      "hp": 72000,
+      "speed": 63,
+      "armor": 16,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["disarm"]
+    },
+    {
+      "name": "",
+      "hp": 360000,
+      "speed": 188,
+      "armor": 32,
+      "magicResistance": 20,
+      "type": "ground",
+      "ability": ["physical immune"]
+    },
+    {
+      "name": "",
+      "hp": 330000,
+      "speed": 251,
+      "armor": 16,
+      "magicResistance": 80,
+      "type": "ground",
+      "ability": ["untouchable", "rush"]
+    },
+    {
+      "name": "",
+      "hp": 36000,
+      "speed": 273,
+      "armor": 16,
+      "magicResistance": 10,
+      "type": "flying",
+      "ability": ["magic immunity", "disarm", "evasion"]
+    },
+    {
+      "name": "",
+      "hp": 480000,
+      "speed": 215,
+      "armor": 32,
+      "magicResistance": 80,
+      "type": "ground",
+      "ability": ["kraken shell", "recharge"]
+    },
+    {
+      "name": "",
+      "hp": 600000,
+      "speed": 150,
+      "armor": 16,
+      "magicResistance": 20,
+      "type": "boss flying",
+      "ability": ["kraken shell"]
+    }
   ]
 }

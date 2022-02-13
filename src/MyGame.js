@@ -193,11 +193,9 @@ export default class MyGame extends Phaser.Scene {
     });
 
     this.gems.getChildren().forEach((gem) => {
-      const enemiesToAttack = this.physics.overlapCirc(
-        gem.x,
-        gem.y,
-        gem.radius
-      );
+      const enemiesToAttack = this.physics
+        .overlapCirc(gem.x, gem.y, gem.radius)
+        .filter((value) => value.gameObject instanceof Monster);
       // const circle = this.add.circle(gem.x, gem.y, gem.radius);
       // this.physics.world.enableBody(circle);
       // // this.physics.add.existing(circle);
@@ -223,23 +221,43 @@ export default class MyGame extends Phaser.Scene {
       //     });
       //   }
       // });
+      gem.timer += delta;
       if (
         enemiesToAttack.length > 0 &&
         enemiesToAttack[0].gameObject instanceof Monster
       ) {
-        gem.timer += delta;
         if (gem.timer >= gem.attackSpeed) {
           const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
           this.bullets.add(bullet, true);
           bullet.setBodySize(8, 8);
           console.log('bullet from: ', gem.name);
+          console.log(enemiesToAttack);
           const enemy = enemiesToAttack[0].gameObject;
           enemy.on('move', () => {
-            this.physics.moveToObject(bullet, enemy, bullet.speed);
-            this.physics.add.overlap(bullet, enemy, this.hit, undefined, this);
-            if (!enemy) {
+            this.physics.moveTo(
+              bullet,
+              enemy.body.center.x,
+              enemy.body.center.y,
+              bullet.speed
+            );
+
+            const distance = Phaser.Math.Distance.Between(
+              bullet.body.center.x,
+              bullet.body.center.y,
+              enemy.body.center.x,
+              enemy.body.center.y
+            );
+            if (distance < 4) {
+              this.hit(bullet, enemy);
+            }
+
+            // this.physics.overlap(bullet, enemy, this.hit, undefined, this);
+            const tweens = this.tweens.getTweensOf(enemy);
+            if (!tweens[0].isPlaying()) {
+              console.log('no enemy');
               bullet.destroy();
             }
+
             gem.timer = 0;
           });
         }
@@ -552,14 +570,18 @@ export default class MyGame extends Phaser.Scene {
   }
 
   deleteMonster(monster) {
-    const tweens = this.tweens.getTweensOf(monster);
-    console.log(tweens);
-    this.time.delayedCall(1000, () => {
-      monster.destroy();
-    });
+    // setTimeout(() => {
+    monster.destroy();
     if (this.monsters.getLength() === 0) {
       this.nextWave();
     }
+    // }, 100);
+    //
+    //   monster.destroy();
+    //   if (this.monsters.getLength() === 0) {
+    //     this.nextWave();
+    //   }
+    // });
   }
 
   nextWave() {
@@ -573,7 +595,12 @@ export default class MyGame extends Phaser.Scene {
     bullet.destroy();
     enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {
-      this.deleteMonster(enemy);
+      const tweens = this.tweens.getTweensOf(enemy);
+      if (tweens[0].isPlaying()) {
+        tweens[0].stop();
+      }
+      enemy.setVisible(false);
+      this.time.delayedCall(200, this.deleteMonster, [enemy], this);
     }
   }
 }
