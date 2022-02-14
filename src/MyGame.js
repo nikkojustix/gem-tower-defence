@@ -45,6 +45,8 @@ export default class MyGame extends Phaser.Scene {
     this.currentWave = 1;
     this.life = 100;
 
+    this.phase;
+
     this.newGemCounter = 1;
     this.newGems;
     this.maze;
@@ -80,6 +82,12 @@ export default class MyGame extends Phaser.Scene {
   }
 
   create() {
+    this.registry.set({
+      frameSize: FRAME_SIZE,
+      boardSize: BOARD_SIZE,
+      points: POINTS,
+    });
+
     this.chances = this.cache.json.get('gemsData').chances;
     this.ranks = this.cache.json.get('gemsData').ranks;
     this.types = this.cache.json.get('gemsData').types;
@@ -114,13 +122,14 @@ export default class MyGame extends Phaser.Scene {
 
     this.bullets = this.physics.add.group();
     this.maze = this.add.group();
-    this.gems = this.add.group();
+    this.gems = this.add.group({ runChildUpdate: true });
     this.newGems = this.add.group({ maxSize: 5 });
 
     this.monsters = this.physics.add.group({
       classType: Monster,
       defaultKey: 'monster',
       maxSize: 10,
+      runChildUpdate: true,
     });
 
     this.finder = new EasyStar.js();
@@ -168,7 +177,7 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
-    this.input.keyboard.once('keydown', this.startGame, this);
+    this.input.keyboard.once('keydown', this.buildPhase, this);
     this.input.on('gameobjectdown', this.chooseItem, this);
   }
 
@@ -183,93 +192,89 @@ export default class MyGame extends Phaser.Scene {
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
-    this.monsters.getChildren().forEach((monster) => {
-      if (
-        monster.x == POINTS[6].x * FRAME_SIZE &&
-        monster.y == POINTS[6].y * FRAME_SIZE
-      ) {
-        this.deleteMonster(monster);
-      }
-    });
+    if (this.phase === 'attack' && this.monsters.getLength() === 0) {
+      this.nextWave();
+    }
 
-    this.gems.getChildren().forEach((gem) => {
-      const enemiesToAttack = this.physics
-        .overlapCirc(gem.x, gem.y, gem.radius)
-        .filter((value) => value.gameObject instanceof Monster);
-      // const circle = this.add.circle(gem.x, gem.y, gem.radius);
-      // this.physics.world.enableBody(circle);
-      // // this.physics.add.existing(circle);
-      // // circle.body.setCollideWorldBounds();
+    // this.gems.getChildren().forEach((gem) => {
+    //   const enemiesToAttack = this.physics
+    //     .overlapCirc(gem.x, gem.y, gem.radius)
+    //     .filter((value) => value.gameObject instanceof Monster);
+    //   // const circle = this.add.circle(gem.x, gem.y, gem.radius);
+    //   // this.physics.world.enableBody(circle);
+    //   // // this.physics.add.existing(circle);
+    //   // // circle.body.setCollideWorldBounds();
 
-      // this.physics.overlap(circle, this.monsters, (obj1, obj2) => {
-      //   // console.log('1');
-      //   gem.timer += delta;
-      //   if (gem.timer >= gem.attackSpeed) {
-      //     const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
-      //     this.bullets.add(bullet, true);
-      //     bullet.setBodySize(8, 8);
-      //     // console.log(enemiesToAttack.length);
-      //     console.log('bullet from: ', gem.name);
-      //     // const enemy = enemiesToAttack[0].gameObject;
-      //     obj2.on('move', () => {
-      //       this.physics.moveToObject(bullet, obj2, bullet.speed);
-      //       gem.timer = 0;
-      //       this.physics.add.overlap(bullet, obj2, this.hit, undefined, this);
-      //       if (!obj2) {
-      //         bullet.destroy();
-      //       }
-      //     });
-      //   }
-      // });
-      gem.timer += delta;
-      if (
-        enemiesToAttack.length > 0 &&
-        enemiesToAttack[0].gameObject instanceof Monster
-      ) {
-        if (gem.timer >= gem.attackSpeed) {
-          const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
-          this.bullets.add(bullet, true);
-          bullet.setBodySize(8, 8);
-          console.log('bullet from: ', gem.name);
-          console.log(enemiesToAttack);
-          const enemy = enemiesToAttack[0].gameObject;
-          enemy.on('move', () => {
-            this.physics.moveTo(
-              bullet,
-              enemy.body.center.x,
-              enemy.body.center.y,
-              bullet.speed
-            );
+    //   // this.physics.overlap(circle, this.monsters, (obj1, obj2) => {
+    //   //   // console.log('1');
+    //   //   gem.timer += delta;
+    //   //   if (gem.timer >= gem.attackSpeed) {
+    //   //     const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
+    //   //     this.bullets.add(bullet, true);
+    //   //     bullet.setBodySize(8, 8);
+    //   //     // console.log(enemiesToAttack.length);
+    //   //     console.log('bullet from: ', gem.name);
+    //   //     // const enemy = enemiesToAttack[0].gameObject;
+    //   //     obj2.on('move', () => {
+    //   //       this.physics.moveToObject(bullet, obj2, bullet.speed);
+    //   //       gem.timer = 0;
+    //   //       this.physics.add.overlap(bullet, obj2, this.hit, undefined, this);
+    //   //       if (!obj2) {
+    //   //         bullet.destroy();
+    //   //       }
+    //   //     });
+    //   //   }
+    //   // });
+    //   gem.timer += delta;
+    //   if (
+    //     enemiesToAttack.length > 0 &&
+    //     enemiesToAttack[0].gameObject instanceof Monster
+    //   ) {
+    //     if (gem.timer >= gem.attackSpeed) {
+    //       const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
+    //       this.bullets.add(bullet, true);
+    //       bullet.setBodySize(8, 8);
+    //       console.log('bullet from: ', gem.name);
+    //       console.log(enemiesToAttack);
+    //       const enemy = enemiesToAttack[0].gameObject;
+    //       enemy.on('move', () => {
+    //         this.physics.moveTo(
+    //           bullet,
+    //           enemy.body.center.x,
+    //           enemy.body.center.y,
+    //           bullet.speed
+    //         );
 
-            const distance = Phaser.Math.Distance.Between(
-              bullet.body.center.x,
-              bullet.body.center.y,
-              enemy.body.center.x,
-              enemy.body.center.y
-            );
-            if (distance < 4) {
-              this.hit(bullet, enemy);
-            }
+    //         const distance = Phaser.Math.Distance.Between(
+    //           bullet.body.center.x,
+    //           bullet.body.center.y,
+    //           enemy.body.center.x,
+    //           enemy.body.center.y
+    //         );
+    //         if (distance < 4) {
+    //           this.hit(bullet, enemy);
+    //         }
 
-            // this.physics.overlap(bullet, enemy, this.hit, undefined, this);
-            const tweens = this.tweens.getTweensOf(enemy);
-            if (!tweens[0].isPlaying()) {
-              console.log('no enemy');
-              bullet.destroy();
-            }
+    //         // this.physics.overlap(bullet, enemy, this.hit, undefined, this);
+    //         const tweens = this.tweens.getTweensOf(enemy);
+    //         if (!tweens[0].isPlaying()) {
+    //           console.log('no enemy');
+    //           bullet.destroy();
+    //         }
 
-            gem.timer = 0;
-          });
-        }
-      }
-    });
-  }
-
-  startGame() {
-    this.hudScene.enableBtn(this.hudScene.buildBtn);
+    //         gem.timer = 0;
+    //       });
+    //     }
+    //   }
+    // });
   }
 
   buildPhase() {
+    this.phase = 'build';
+    this.hudScene.enableBtn(this.hudScene.buildBtn);
+  }
+
+  startBuild() {
     this.input.on('pointerdown', (pointer, currentlyOver) => {
       if (pointer.button === 0) {
         const tile = this.map.getTileAtWorldXY(
@@ -283,6 +288,43 @@ export default class MyGame extends Phaser.Scene {
         this.finder.avoidAdditionalPoint(tile.x, tile.y);
         this.checkPath(POINTS[0], POINTS[1], tile, currentlyOver);
       }
+    });
+  }
+
+  checkPath(from, to, tile, currentlyOver) {
+    this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
+      if (path === null) {
+        console.log('building block');
+        this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
+      } else {
+        this.path.pop();
+        this.path = this.path.concat(path);
+        if (POINTS.indexOf(to) < POINTS.length - 1) {
+          from = POINTS.at(POINTS.indexOf(to));
+          to = POINTS.at(POINTS.indexOf(to) + 1);
+          this.checkPath(from, to, tile, currentlyOver);
+        } else {
+          this.addNewGem(tile, currentlyOver);
+        }
+      }
+    });
+    this.finder.calculate();
+  }
+
+  attackPhase() {
+    this.phase = 'attack';
+    this.monsters.createMultiple({
+      active: false,
+      visible: false,
+      key: this.monsters.defaultKey,
+      repeat: this.monsters.maxSize - 1,
+    });
+
+    this.time.addEvent({
+      delay: 1000,
+      repeat: this.monsters.maxSize - 1,
+      callback: this.addMonsters,
+      callbackScope: this,
     });
   }
 
@@ -430,7 +472,7 @@ export default class MyGame extends Phaser.Scene {
     this.hudScene.controls.forEach((btn) => {
       this.hudScene.disableBtn(btn);
     });
-    this.startWave();
+    this.attackPhase();
     this.checkForCombine();
   }
 
@@ -505,46 +547,10 @@ export default class MyGame extends Phaser.Scene {
     });
   }
 
-  startWave() {
-    this.monsters.createMultiple({
-      active: false,
-      visible: false,
-      key: this.monsters.defaultKey,
-      repeat: this.monsters.maxSize - 1,
-    });
-
-    this.time.addEvent({
-      delay: 1000,
-      repeat: this.monsters.maxSize - 1,
-      callback: this.addMonsters,
-      callbackScope: this,
-    });
-  }
-
   addMonsters() {
     const monster = this.monsters.get(128, 128);
     monster.setActive(true).setVisible(true).setOrigin(0).setInteractive();
     this.moveMonster(monster, this.path);
-  }
-
-  checkPath(from, to, tile, currentlyOver) {
-    this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
-      if (path === null) {
-        console.log('building block');
-        this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
-      } else {
-        this.path.pop();
-        this.path = this.path.concat(path);
-        if (POINTS.indexOf(to) < POINTS.length - 1) {
-          from = POINTS.at(POINTS.indexOf(to));
-          to = POINTS.at(POINTS.indexOf(to) + 1);
-          this.checkPath(from, to, tile, currentlyOver);
-        } else {
-          this.addNewGem(tile, currentlyOver);
-        }
-      }
-    });
-    this.finder.calculate();
   }
 
   moveMonster(monster, path) {
@@ -569,25 +575,10 @@ export default class MyGame extends Phaser.Scene {
     });
   }
 
-  deleteMonster(monster) {
-    // setTimeout(() => {
-    monster.destroy();
-    if (this.monsters.getLength() === 0) {
-      this.nextWave();
-    }
-    // }, 100);
-    //
-    //   monster.destroy();
-    //   if (this.monsters.getLength() === 0) {
-    //     this.nextWave();
-    //   }
-    // });
-  }
-
   nextWave() {
     this.currentWave++;
     this.registry.set('wave', this.currentWave);
-    this.hudScene.enableBtn(this.hudScene.buildBtn);
+    this.buildPhase();
   }
 
   hit(bullet, enemy) {
@@ -600,7 +591,7 @@ export default class MyGame extends Phaser.Scene {
         tweens[0].stop();
       }
       enemy.setVisible(false);
-      this.time.delayedCall(200, this.deleteMonster, [enemy], this);
+      this.time.delayedCall(200, enemy.delete());
     }
   }
 }

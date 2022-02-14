@@ -87,7 +87,7 @@ export default class Hud extends Phaser.Scene {
         .on('pointerup', () => {
           switch (gameObject.frame.name) {
             case 'build_btn_pressed':
-              this.gameScene.buildPhase();
+              this.gameScene.startBuild();
               break;
             case 'remove_btn_pressed':
               this.gameScene.removeStone();
