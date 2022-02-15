@@ -21,7 +21,7 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.bullets = this.scene.physics.add.group({
       classType: Bullet,
-      runUpdateChild: true,
+      runChildUpdate: true,
     });
   }
 
@@ -53,41 +53,25 @@ class Tower extends Phaser.GameObjects.Image {
       .overlapCirc(this.x, this.y, this.radius)
       .filter((value) => value.gameObject instanceof Monster);
 
-    if (time > this.timer) {
-      if (targets[0] && targets[0].gameObject instanceof Monster) {
+    this.timer += delta;
+    if (targets[0] && targets[0].gameObject.hp > 0) {
+      if (this.timer > this.attackSpeed) {
         const bullet = this.bullets.get(this.x, this.y);
-        this.bullets.add(bullet, true);
+        bullet.damage = this.damage;
         bullet.setBodySize(8, 8);
-        console.log('bullet from: ', this.name);
-        console.log(targets);
         const enemy = targets[0].gameObject;
         enemy.on('move', () => {
-          this.scene.physics.moveTo(
+          bullet.fire(enemy);
+
+          this.scene.physics.overlap(
             bullet,
-            enemy.body.center.x,
-            enemy.body.center.y,
-            bullet.speed
+            enemy,
+            this.scene.hit,
+            undefined,
+            this
           );
-
-          const distance = Phaser.Math.Distance.Between(
-            bullet.body.center.x,
-            bullet.body.center.y,
-            enemy.body.center.x,
-            enemy.body.center.y
-          );
-          if (distance < 4) {
-            this.scene.hit(bullet, enemy);
-          }
-
-          // this.physics.overlap(bullet, enemy, this.hit, undefined, this);
-          const tweens = this.scene.tweens.getTweensOf(enemy);
-          if (!tweens[0].isPlaying()) {
-            console.log('no enemy');
-            bullet.destroy();
-          }
-
-          this.timer = time + this.attackSpeed;
         });
+        this.timer = 0;
       }
     }
   }

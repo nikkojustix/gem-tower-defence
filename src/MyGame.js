@@ -92,8 +92,8 @@ export default class MyGame extends Phaser.Scene {
     this.ranks = this.cache.json.get('gemsData').ranks;
     this.types = this.cache.json.get('gemsData').types;
     this.gemsData = this.cache.json.get('gemsData').gems;
-
-    this.towersData = this.cache.json.get('towersData').towers;
+    this.towersData = this.cache.json.get('gemsData').advancedTowers;
+    this.monstersData = this.cache.json.get('gemsData').monsters;
 
     this.registry.set({ level: 1, wave: 1, life: 100 });
 
@@ -195,78 +195,6 @@ export default class MyGame extends Phaser.Scene {
     if (this.phase === 'attack' && this.monsters.getLength() === 0) {
       this.nextWave();
     }
-
-    // this.gems.getChildren().forEach((gem) => {
-    //   const enemiesToAttack = this.physics
-    //     .overlapCirc(gem.x, gem.y, gem.radius)
-    //     .filter((value) => value.gameObject instanceof Monster);
-    //   // const circle = this.add.circle(gem.x, gem.y, gem.radius);
-    //   // this.physics.world.enableBody(circle);
-    //   // // this.physics.add.existing(circle);
-    //   // // circle.body.setCollideWorldBounds();
-
-    //   // this.physics.overlap(circle, this.monsters, (obj1, obj2) => {
-    //   //   // console.log('1');
-    //   //   gem.timer += delta;
-    //   //   if (gem.timer >= gem.attackSpeed) {
-    //   //     const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
-    //   //     this.bullets.add(bullet, true);
-    //   //     bullet.setBodySize(8, 8);
-    //   //     // console.log(enemiesToAttack.length);
-    //   //     console.log('bullet from: ', gem.name);
-    //   //     // const enemy = enemiesToAttack[0].gameObject;
-    //   //     obj2.on('move', () => {
-    //   //       this.physics.moveToObject(bullet, obj2, bullet.speed);
-    //   //       gem.timer = 0;
-    //   //       this.physics.add.overlap(bullet, obj2, this.hit, undefined, this);
-    //   //       if (!obj2) {
-    //   //         bullet.destroy();
-    //   //       }
-    //   //     });
-    //   //   }
-    //   // });
-    //   gem.timer += delta;
-    //   if (
-    //     enemiesToAttack.length > 0 &&
-    //     enemiesToAttack[0].gameObject instanceof Monster
-    //   ) {
-    //     if (gem.timer >= gem.attackSpeed) {
-    //       const bullet = new Bullet(this, gem.x, gem.y, gem.damage);
-    //       this.bullets.add(bullet, true);
-    //       bullet.setBodySize(8, 8);
-    //       console.log('bullet from: ', gem.name);
-    //       console.log(enemiesToAttack);
-    //       const enemy = enemiesToAttack[0].gameObject;
-    //       enemy.on('move', () => {
-    //         this.physics.moveTo(
-    //           bullet,
-    //           enemy.body.center.x,
-    //           enemy.body.center.y,
-    //           bullet.speed
-    //         );
-
-    //         const distance = Phaser.Math.Distance.Between(
-    //           bullet.body.center.x,
-    //           bullet.body.center.y,
-    //           enemy.body.center.x,
-    //           enemy.body.center.y
-    //         );
-    //         if (distance < 4) {
-    //           this.hit(bullet, enemy);
-    //         }
-
-    //         // this.physics.overlap(bullet, enemy, this.hit, undefined, this);
-    //         const tweens = this.tweens.getTweensOf(enemy);
-    //         if (!tweens[0].isPlaying()) {
-    //           console.log('no enemy');
-    //           bullet.destroy();
-    //         }
-
-    //         gem.timer = 0;
-    //       });
-    //     }
-    //   }
-    // });
   }
 
   buildPhase() {
@@ -318,6 +246,7 @@ export default class MyGame extends Phaser.Scene {
       visible: false,
       key: this.monsters.defaultKey,
       repeat: this.monsters.maxSize - 1,
+      setOrigin: { x: 0, y: 0 },
     });
 
     this.time.addEvent({
@@ -549,7 +478,12 @@ export default class MyGame extends Phaser.Scene {
 
   addMonsters() {
     const monster = this.monsters.get(128, 128);
-    monster.setActive(true).setVisible(true).setOrigin(0).setInteractive();
+    // console.log(monster);
+    monster
+      .setActive(true)
+      .setVisible(true)
+      .setInteractive()
+      .setParams(this.monstersData[this.currentWave - 1]);
     this.moveMonster(monster, this.path);
   }
 
@@ -582,16 +516,15 @@ export default class MyGame extends Phaser.Scene {
   }
 
   hit(bullet, enemy) {
-    enemy.off('move');
     bullet.destroy();
     enemy.hp -= bullet.damage;
-    if (enemy.hp <= 0) {
-      const tweens = this.tweens.getTweensOf(enemy);
-      if (tweens[0].isPlaying()) {
-        tweens[0].stop();
-      }
-      enemy.setVisible(false);
-      this.time.delayedCall(200, enemy.delete());
-    }
+    // if (enemy.hp <= 0) {
+    //   const tweens = this.tweens.getTweensOf(enemy);
+    //   if (tweens[0].isPlaying()) {
+    //     tweens[0].stop();
+    //   }
+    //   enemy.setVisible(false);
+    //   this.time.delayedCall(200, enemy.delete());
+    // }
   }
 }
