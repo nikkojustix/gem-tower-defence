@@ -1,6 +1,6 @@
 import Phaser from 'phaser';
-import MyGame from './MyGame';
-import Hud from './Hud';
+import MyGame from './scripts/MyGame';
+import Hud from './scripts/Hud';
 
 const config = {
   type: Phaser.AUTO,

@@ -14,6 +14,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.magicResistance;
     this.type;
     this.ability;
+    this.exp = Math.floor(this.scene.currentWave / 10 + 1) * 5;
 
     this.selected = false;
   }
@@ -41,10 +42,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         this.scene.registry.get('points')[6].y *
           this.scene.registry.get('frameSize')
     ) {
-      this.delete();
-    }
-
-    if (this.hp <= 0) {
       this.delete();
     }
   }

@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
-import bg from './assets/UI/bg.png';
-import buttons from './assets/UI/buttons/buttons.png';
-import buttonsAtlas from './assets/UI/buttons/buttons_atlas.json';
-import infoField from './assets/UI/buttons/info_field.png';
+import bg from '../assets/UI/bg.png';
+import buttons from '../assets/UI/buttons/buttons.png';
+import buttonsAtlas from '../assets/UI/buttons/buttons_atlas.json';
+import infoField from '../assets/UI/buttons/info_field.png';
 
 const FONT_STYLE = {
   fontSize: '18px',

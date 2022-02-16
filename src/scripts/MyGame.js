@@ -2,36 +2,26 @@ import Phaser, { Game } from 'phaser';
 import Gem from './Gem';
 import Monster from './Monster';
 import Bullet from './Bullet';
+import AdvancedTower from './AdvancedTower';
 
 import EasyStar from 'easystarjs';
 
-import gemImages from './assets/32px/gem_images.png';
-import gemAtlas from './assets/32px/gem_images.json';
-import gemsData from './assets/gemsData.json';
-import atlas from './assets/atlas.json';
-import map from './assets/32px/tilemap.json';
-import tileset from './assets/32px/map_tiles.png';
+import gemImages from '../assets/32px/gem_images.png';
+import gemAtlas from '../assets/32px/gem_images.json';
+import gemsData from '../assets/gemsData.json';
+import atlas from '../assets/atlas.json';
+import map from '../assets/32px/tilemap.json';
+import tileset from '../assets/32px/map_tiles.png';
 
-import monsterImg from './assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
+import monsterImg from '../assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
 
-import bulletImg from './assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
+import bulletImg from '../assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
 
-import towersData from './assets/towersData.json';
-import silverImg from './assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
-import AdvancedTower from './AdvancedTower';
+import silverImg from '../assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
+import Stone from './Stone';
 
 const FRAME_SIZE = 32;
 const BOARD_SIZE = 37;
-
-const POINTS = [
-  { x: 4, y: 4 },
-  { x: 4, y: 18 },
-  { x: 32, y: 18 },
-  { x: 32, y: 4 },
-  { x: 18, y: 4 },
-  { x: 18, y: 32 },
-  { x: 32, y: 32 },
-];
 
 export default class MyGame extends Phaser.Scene {
   constructor() {
@@ -44,6 +34,7 @@ export default class MyGame extends Phaser.Scene {
     this.currentLevel = 1;
     this.currentWave = 1;
     this.life = 100;
+    this.exp = 0;
 
     this.phase;
 
@@ -73,8 +64,6 @@ export default class MyGame extends Phaser.Scene {
     this.load.atlas('gemImages', gemImages, gemAtlas);
     this.load.json('gemsData', gemsData);
 
-    this.load.json('towersData', towersData);
-
     this.load.image('monster', monsterImg);
     this.load.image('bullet', bulletImg);
 
@@ -82,20 +71,25 @@ export default class MyGame extends Phaser.Scene {
   }
 
   create() {
+    this.db = this.cache.json.get('gemsData');
+    this.chances = this.db.chances;
+    this.ranks = this.db.ranks;
+    this.types = this.db.types;
+    this.gemsData = this.db.gems;
+    this.towersData = this.db.advancedTowers;
+    this.monstersData = this.db.monsters;
+    this.waypoints = this.db.points;
+    this.defaultStones = this.db.defaultStones;
+    this.expToNextLevel = this.db.expToNextLevel;
+
     this.registry.set({
       frameSize: FRAME_SIZE,
       boardSize: BOARD_SIZE,
-      points: POINTS,
+      points: this.waypoints,
+      level: 1,
+      wave: 1,
+      life: 100,
     });
-
-    this.chances = this.cache.json.get('gemsData').chances;
-    this.ranks = this.cache.json.get('gemsData').ranks;
-    this.types = this.cache.json.get('gemsData').types;
-    this.gemsData = this.cache.json.get('gemsData').gems;
-    this.towersData = this.cache.json.get('gemsData').advancedTowers;
-    this.monstersData = this.cache.json.get('gemsData').monsters;
-
-    this.registry.set({ level: 1, wave: 1, life: 100 });
 
     this.hudScene = this.scene.get('HudScene');
     this.map = this.add.tilemap('map');
@@ -146,6 +140,12 @@ export default class MyGame extends Phaser.Scene {
     // this.finder.enableDiagonals();
     // this.finder.disableCornerCutting();
 
+    this.defaultStones.forEach((item) => {
+      const stone = new Stone(this, item.x * FRAME_SIZE, item.y * FRAME_SIZE);
+      this.maze.add(stone, true);
+      this.finder.avoidAdditionalPoint(item.x, item.y);
+    });
+
     this.marker = this.add.graphics();
     this.marker.lineStyle(2, 0xffffff, 1);
     this.marker.strokeRect(0, 0, this.map.tileWidth, this.map.tileHeight);
@@ -195,6 +195,11 @@ export default class MyGame extends Phaser.Scene {
     if (this.phase === 'attack' && this.monsters.getLength() === 0) {
       this.nextWave();
     }
+
+    if (this.exp >= this.expToNextLevel[this.currentLevel]) {
+      this.currentLevel++;
+      this.registry.inc('level', 1);
+    }
   }
 
   buildPhase() {
@@ -214,7 +219,12 @@ export default class MyGame extends Phaser.Scene {
         );
         this.path = [];
         this.finder.avoidAdditionalPoint(tile.x, tile.y);
-        this.checkPath(POINTS[0], POINTS[1], tile, currentlyOver);
+        this.checkPath(
+          this.waypoints[0],
+          this.waypoints[1],
+          tile,
+          currentlyOver
+        );
       }
     });
   }
@@ -227,9 +237,9 @@ export default class MyGame extends Phaser.Scene {
       } else {
         this.path.pop();
         this.path = this.path.concat(path);
-        if (POINTS.indexOf(to) < POINTS.length - 1) {
-          from = POINTS.at(POINTS.indexOf(to));
-          to = POINTS.at(POINTS.indexOf(to) + 1);
+        if (this.waypoints.indexOf(to) < this.waypoints.length - 1) {
+          from = this.waypoints.at(this.waypoints.indexOf(to));
+          to = this.waypoints.at(this.waypoints.indexOf(to) + 1);
           this.checkPath(from, to, tile, currentlyOver);
         } else {
           this.addNewGem(tile, currentlyOver);
@@ -518,6 +528,10 @@ export default class MyGame extends Phaser.Scene {
   hit(bullet, enemy) {
     bullet.destroy();
     enemy.hp -= bullet.damage;
+    if (enemy.hp <= 0) {
+      enemy.delete();
+      this.exp += enemy.exp;
+    }
     // if (enemy.hp <= 0) {
     //   const tweens = this.tweens.getTweensOf(enemy);
     //   if (tweens[0].isPlaying()) {

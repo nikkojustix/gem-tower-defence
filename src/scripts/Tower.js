@@ -68,7 +68,7 @@ class Tower extends Phaser.GameObjects.Image {
             enemy,
             this.scene.hit,
             undefined,
-            this
+            this.scene
           );
         });
         this.timer = 0;
