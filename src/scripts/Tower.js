@@ -19,6 +19,7 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.timer = 0;
 
+    this.setInteractive().setOrigin(0);
     this.bullets = this.scene.physics.add.group({
       classType: Bullet,
       runChildUpdate: true,
@@ -56,7 +57,7 @@ class Tower extends Phaser.GameObjects.Image {
     this.timer += delta;
     if (targets[0] && targets[0].gameObject.hp > 0) {
       if (this.timer > this.attackSpeed) {
-        const bullet = this.bullets.get(this.x, this.y);
+        const bullet = this.bullets.get(this.getCenter().x, this.getCenter().y);
         bullet.damage = this.damage;
         bullet.setBodySize(8, 8);
         const enemy = targets[0].gameObject;

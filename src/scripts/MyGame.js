@@ -286,32 +286,16 @@ export default class MyGame extends Phaser.Scene {
 
     const gem = new Gem(
       this,
-      pos.x * FRAME_SIZE + FRAME_SIZE / 2,
-      pos.y * FRAME_SIZE + FRAME_SIZE / 2,
+      pos.x * FRAME_SIZE,
+      pos.y * FRAME_SIZE,
       name,
       gemData
-    ).setInteractive();
+    );
 
     this.maze.add(gem, true);
     this.newGems.add(gem);
 
-    const gemNames = this.newGems.getChildren().map((gem) => gem.name);
-
-    this.towersData.forEach((tower) => {
-      if (
-        tower.combination.every((item) => {
-          return gemNames.includes(item);
-        })
-      ) {
-        // TODO: combine;
-        console.log(true);
-        this.newGems.getChildren().forEach((gem) => {
-          if (tower.combination.includes(gem.name)) {
-            gem.combineTo = tower.name;
-          }
-        });
-      }
-    });
+    this.checkForCombine(this.newGems);
 
     if (this.newGems.isFull()) {
       this.input.off('pointerdown');
@@ -393,15 +377,8 @@ export default class MyGame extends Phaser.Scene {
   selectGem() {
     this.newGems.children.each((gem) => {
       if (!gem.selected) {
-        gem.setFrame('stone');
-        gem.name = 'stone';
-        gem.rank = null;
-        gem.type = null;
-        gem.damage = null;
-        gem.attackSpeed = null;
-        gem.radius = null;
-        gem.ability = null;
-        gem.combineTo = null;
+        this.maze.add(new Stone(this, gem.x, gem.y), true);
+        gem.destroy();
       } else {
         this.gems.add(gem);
         gem.setSelected(false);
@@ -412,7 +389,8 @@ export default class MyGame extends Phaser.Scene {
       this.hudScene.disableBtn(btn);
     });
     this.attackPhase();
-    this.checkForCombine();
+    this.checkForCombine(this.gems);
+    console.log(this.gems);
   }
 
   changeGem(x) {
@@ -433,10 +411,9 @@ export default class MyGame extends Phaser.Scene {
     const y = this.selectedGem.y;
     const name = this.selectedGem.combineTo;
     const data = this.towersData.find((value) => value.name == name);
-
-    // this.selectedGem.setSelected(false);
-    // this.newGems.remove(this.selectedGem, true, true);
-    // this.selectedGem.destroy()
+    const combination = data.combination.filter(
+      (value) => value != this.selectedGem.name
+    );
 
     const tower = new AdvancedTower(this, x, y, name, data).setInteractive();
     tower.selected = true;
@@ -450,24 +427,25 @@ export default class MyGame extends Phaser.Scene {
       this.selectedGem.destroy();
       this.selectGem();
     } else {
-      this.gems.children.each((gem) => {
-        if (gem.combineTo) {
-          gem.setFrame('stone');
-          gem.name = 'stone';
-          gem.rank = null;
-          gem.type = null;
-          gem.damage = null;
-          gem.attackSpeed = null;
-          gem.radius = null;
-          gem.ability = null;
+      this.selectedGem.destroy();
+
+      this.gems.getChildren().forEach((gem) => {
+        if (gem.combineTo === name && combination.includes(gem.name)) {
+          this.maze.add(new Stone(this, gem.x, gem.y), true);
+          const index = combination.findIndex((value) => value === gem.name);
+          combination.splice(index, 1);
+          gem.destroy();
+        } else {
           gem.combineTo = null;
         }
       });
+
+      this.checkForCombine(this.gems);
     }
   }
 
-  checkForCombine() {
-    const gemNames = this.gems.getChildren().map((gem) => gem.name);
+  checkForCombine(gems) {
+    const gemNames = gems.getChildren().map((gem) => gem.name);
 
     this.towersData.forEach((tower) => {
       if (
@@ -477,7 +455,7 @@ export default class MyGame extends Phaser.Scene {
       ) {
         // TODO: combine;
         console.log(true);
-        this.gems.getChildren().forEach((gem) => {
+        gems.getChildren().forEach((gem) => {
           if (tower.combination.includes(gem.name)) {
             gem.combineTo = tower.name;
           }
