@@ -10,13 +10,15 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
     this.incX = 0;
     this.incY = 0;
     this.speed = Phaser.Math.GetSpeed(750, 1);
+    this.target = null;
   }
 
   fire(target) {
+    this.target = target;
     if (target.hp > 0) {
       const angle = Phaser.Math.Angle.Between(
-        this.x,
-        this.y,
+        this.getCenter().x,
+        this.getCenter().y,
         target.body.center.x,
         target.body.center.y
       );
@@ -30,5 +32,9 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
   update(time, delta) {
     this.x += this.incX * (this.speed * delta);
     this.y += this.incY * (this.speed * delta);
+
+    if (this.target && this.target.hp <= 0) {
+      this.destroy();
+    }
   }
 }

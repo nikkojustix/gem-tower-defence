@@ -757,7 +757,7 @@
   ],
   "monsters": [
     {
-      "name": "",
+      "name": "monster",
       "hp": 3,
       "speed": 525,
       "armor": 0,

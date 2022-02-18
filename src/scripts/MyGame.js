@@ -326,7 +326,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   chooseItem(pointer, gameObject) {
-    console.log(gameObject);
+    this.hudScene.showInfo(gameObject);
     this.hudScene.controls.forEach((btn) => {
       if (!btn.frame.name.includes('build')) this.hudScene.disableBtn(btn);
     });
@@ -369,8 +369,8 @@ export default class MyGame extends Phaser.Scene {
     this.maze.remove(this.stone, true, true);
     console.log(this.stone.x);
     this.finder.stopAvoidingAdditionalPoint(
-      (this.stone.x - 16) / 32,
-      (this.stone.y - 16) / 32
+      this.stone.x / FRAME_SIZE,
+      this.stone.y / FRAME_SIZE
     );
   }
 
@@ -427,14 +427,20 @@ export default class MyGame extends Phaser.Scene {
       this.selectedGem.destroy();
       this.selectGem();
     } else {
-      this.selectedGem.destroy();
+      this.selectedGem.name = 'tmp';
+      this.selectedGem.setVisible(false);
+      this.selectedGem.setActive(false);
+      // this.selectedGem.destroy();
 
       this.gems.getChildren().forEach((gem) => {
         if (gem.combineTo === name && combination.includes(gem.name)) {
           this.maze.add(new Stone(this, gem.x, gem.y), true);
           const index = combination.findIndex((value) => value === gem.name);
           combination.splice(index, 1);
-          gem.destroy();
+          gem.name = 'tmp';
+          gem.setVisible(false);
+          gem.setActive(false);
+          // gem.destroy();
         } else {
           gem.combineTo = null;
         }
@@ -458,6 +464,8 @@ export default class MyGame extends Phaser.Scene {
         gems.getChildren().forEach((gem) => {
           if (tower.combination.includes(gem.name)) {
             gem.combineTo = tower.name;
+          } else {
+            gem.combineTo = null;
           }
         });
       }
@@ -498,6 +506,13 @@ export default class MyGame extends Phaser.Scene {
   }
 
   nextWave() {
+    this.gems
+      .getChildren()
+      .filter((value) => value.name === 'tmp')
+      .forEach((value) => {
+        console.log(value);
+        value.destroy();
+      });
     this.currentWave++;
     this.registry.set('wave', this.currentWave);
     this.buildPhase();

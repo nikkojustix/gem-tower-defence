@@ -9,6 +9,15 @@ const FONT_STYLE = {
   fontFamily: 'KenVector',
   color: '#88E060',
   stroke: '1px solid #5FB13A',
+  shadow: { offsetX: 1, offsetY: 1, color: '#386723', stroke: true },
+};
+
+const INFO_STYLE = {
+  fontSize: '12px',
+  fontFamily: 'KenVector',
+  color: '#386723',
+  align: 'center',
+  fixedWidth: 132,
 };
 
 export default class Hud extends Phaser.Scene {
@@ -31,24 +40,12 @@ export default class Hud extends Phaser.Scene {
     this.gameScene = this.scene.get('GameScene');
     const bg = this.add.image(900, 0, 'bg').setOrigin(0);
 
-    this.add
-      .text(952, 30, 'level:', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
-    const level = this.add
-      .text(1027, 30, '1', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
-    this.add
-      .text(952, 60, 'wave:', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
-    const wave = this.add
-      .text(1027, 60, '1', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
-    this.add
-      .text(952, 90, 'life:', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
-    const life = this.add
-      .text(1027, 90, '100', FONT_STYLE)
-      .setShadow(1, 1, '#386723', 0, true);
+    this.add.text(952, 30, 'level:', FONT_STYLE);
+    const level = this.add.text(1027, 30, '1', FONT_STYLE);
+    this.add.text(952, 60, 'wave:', FONT_STYLE);
+    const wave = this.add.text(1027, 60, '1', FONT_STYLE);
+    this.add.text(952, 90, 'life:', FONT_STYLE);
+    const life = this.add.text(1027, 90, '100', FONT_STYLE);
 
     this.buildBtn = this.add.image(930, 140, 'btns', 'build_btn_disable');
     this.removeBtn = this.add.image(930, 210, 'btns', 'remove_btn_disable');
@@ -63,6 +60,8 @@ export default class Hud extends Phaser.Scene {
       'downgrade_btn_disable'
     );
     this.combineBtn = this.add.image(930, 750, 'btns', 'combine_btn_disable');
+
+    this.infoName = this.add.text(934, 292, '', INFO_STYLE);
 
     this.controls = [
       this.buildBtn,
@@ -148,5 +147,9 @@ export default class Hud extends Phaser.Scene {
         .setFrame(btn.frame.name.slice(0, -8))
         .setY(btn.getTopLeft().y - 4);
     }
+  }
+
+  showInfo(obj) {
+    this.infoName.setText(obj.name);
   }
 }
