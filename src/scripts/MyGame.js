@@ -473,7 +473,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   addMonsters() {
-    const monster = this.monsters.get(128, 128);
+    let monster = this.monsters.get(128, 128);
     // console.log(monster);
     monster
       .setActive(true)
@@ -481,6 +481,7 @@ export default class MyGame extends Phaser.Scene {
       .setInteractive()
       .setParams(this.monstersData[this.currentWave - 1]);
     this.moveMonster(monster, this.path);
+    monster = null;
   }
 
   moveMonster(monster, path) {

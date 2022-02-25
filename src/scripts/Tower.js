@@ -6,7 +6,6 @@ class Tower extends Phaser.GameObjects.Image {
   constructor(scene, x, y, texture, name, data) {
     super(scene, x, y, texture, name);
 
-    this.scene = scene;
     this.name = name;
 
     this.damage = data.damage || null;
@@ -18,10 +17,10 @@ class Tower extends Phaser.GameObjects.Image {
     this.selected = false;
 
     this.timer = 0;
-    this.overlap = 0;
+    this.overlap = null;
 
     this.setInteractive().setOrigin(0);
-    this.bullets = this.scene.physics.add.group({
+    this.bullets = scene.physics.add.group({
       runChildUpdate: true,
     });
   }
@@ -74,7 +73,7 @@ class Tower extends Phaser.GameObjects.Image {
           // if (bullet.body.hitTest(enemy.getCenter().x, enemy.getCenter().y)) {
           //   this.scene.hit(bullet, enemy);
           // }
-          this.overlap = this.scene.physics.add.overlap(
+          this.scene.physics.overlap(
             bullet,
             enemy,
             this.scene.hit,
