@@ -32,7 +32,7 @@ export default class MyGame extends Phaser.Scene {
     this.cam;
 
     this.currentLevel = 1;
-    this.currentWave = 1;
+    this.currentWave = 29;
     this.life = 100;
     this.exp = 0;
 
@@ -46,6 +46,9 @@ export default class MyGame extends Phaser.Scene {
     this.selectedGem;
 
     this.monsters;
+    this.monstersCnt = 10;
+    this.grid = [];
+    this.plainGrid = [];
     this.path = [];
     this.pathExist;
 
@@ -81,6 +84,7 @@ export default class MyGame extends Phaser.Scene {
     this.waypoints = this.db.points;
     this.defaultStones = this.db.defaultStones;
     this.expToNextLevel = this.db.expToNextLevel;
+    this.plainGrid = this.db.plainGrid;
 
     this.registry.set({
       frameSize: FRAME_SIZE,
@@ -122,20 +126,19 @@ export default class MyGame extends Phaser.Scene {
     this.monsters = this.physics.add.group({
       classType: Monster,
       defaultKey: 'monster',
-      maxSize: 10,
+      maxSize: this.monstersCnt,
       runChildUpdate: true,
     });
 
     this.finder = new EasyStar.js();
-    const grid = [];
     for (let i = 0; i < BOARD_SIZE; i++) {
       const row = [];
       for (let j = 0; j < BOARD_SIZE; j++) {
         row.push(0);
       }
-      grid.push(row);
+      this.grid.push(row);
     }
-    this.finder.setGrid(grid);
+    this.finder.setGrid(this.grid);
     this.finder.setAcceptableTiles([0]);
     // this.finder.enableDiagonals();
     // this.finder.disableCornerCutting();
@@ -143,7 +146,8 @@ export default class MyGame extends Phaser.Scene {
     this.defaultStones.forEach((item) => {
       const stone = new Stone(this, item.x * FRAME_SIZE, item.y * FRAME_SIZE);
       this.maze.add(stone, true);
-      this.finder.avoidAdditionalPoint(item.x, item.y);
+      this.grid[item.y][item.x] = 1;
+      // this.finder.avoidAdditionalPoint(item.x, item.y);
     });
 
     this.marker = this.add.graphics();
@@ -218,7 +222,9 @@ export default class MyGame extends Phaser.Scene {
           'bg'
         );
         this.path = [];
-        this.finder.avoidAdditionalPoint(tile.x, tile.y);
+        this.grid[tile.y][tile.x] = 1;
+        // this.finder.setGrid(this.grid);
+        // this.finder.avoidAdditionalPoint(tile.x, tile.y);
         this.checkPath(
           this.waypoints[0],
           this.waypoints[1],
@@ -233,7 +239,8 @@ export default class MyGame extends Phaser.Scene {
     this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
       if (path === null) {
         console.log('building block');
-        this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
+        this.grid[tile.y][tile.x] = 0;
+        // this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
       } else {
         this.path.pop();
         this.path = this.path.concat(path);
@@ -368,10 +375,11 @@ export default class MyGame extends Phaser.Scene {
   removeStone() {
     this.maze.remove(this.stone, true, true);
     console.log(this.stone.x);
-    this.finder.stopAvoidingAdditionalPoint(
-      this.stone.x / FRAME_SIZE,
-      this.stone.y / FRAME_SIZE
-    );
+    this.grid[this.stone.y / FRAME_SIZE][this.stone.x / FRAME_SIZE] = 0;
+    // this.finder.stopAvoidingAdditionalPoint(
+    //   this.stone.x / FRAME_SIZE,
+    //   this.stone.y / FRAME_SIZE
+    // );
   }
 
   selectGem() {
@@ -516,6 +524,18 @@ export default class MyGame extends Phaser.Scene {
       });
     this.currentWave++;
     this.registry.set('wave', this.currentWave);
+
+    this.monsters.maxSize = this.monstersCnt;
+    if (this.monstersData[this.currentWave - 1].type.includes('boss')) {
+      this.monsters.maxSize = 1;
+    }
+
+    if (this.monstersData[this.currentWave - 1].type.includes('flying')) {
+      console.log(this.plainGrid);
+      this.finder.setGrid(this.plainGrid);
+    } else {
+      this.finder.setGrid(this.grid);
+    }
     this.buildPhase();
   }
 
