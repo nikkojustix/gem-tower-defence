@@ -32,7 +32,7 @@ export default class MyGame extends Phaser.Scene {
     this.cam;
 
     this.currentLevel = 1;
-    this.currentWave = 29;
+    this.currentWave = 1;
     this.life = 100;
     this.exp = 0;
 
@@ -498,11 +498,16 @@ export default class MyGame extends Phaser.Scene {
       const ex = path[i + 1].x;
       const ey = path[i + 1].y;
 
-      const speed = Phaser.Math.GetSpeed(446, 0.001);
       tweens.push({
         targets: monster,
-        x: { value: ex * FRAME_SIZE, duration: 250 },
-        y: { value: ey * FRAME_SIZE, duration: 250 },
+        x: {
+          value: ex * FRAME_SIZE,
+          duration: (FRAME_SIZE / monster.speed) * 1000,
+        },
+        y: {
+          value: ey * FRAME_SIZE,
+          duration: (FRAME_SIZE / monster.speed) * 1000,
+        },
       });
     }
 
