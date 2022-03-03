@@ -1,3 +1,24 @@
+// TODO:
+// gem can be used in multiple combinations
+//
+// monsters reduce life when riched last waypoint
+//
+// secret towers
+// advanced types of monsters
+//
+// gems abilities
+// advanced towers abilities
+// monsters abilities
+//
+// show info
+// healthbar
+//
+// advanced towers images
+// monster images
+//
+// preloader
+// start menu
+
 import Phaser, { Game } from 'phaser';
 import Gem from './Gem';
 import Monster from './Monster';
@@ -19,9 +40,6 @@ import bulletImg from '../assets/32px/Dungeon Crawl Stone Soup Full/effect/sting
 
 import silverImg from '../assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
 import Stone from './Stone';
-
-const FRAME_SIZE = 32;
-const BOARD_SIZE = 37;
 
 export default class MyGame extends Phaser.Scene {
   constructor() {
@@ -87,9 +105,11 @@ export default class MyGame extends Phaser.Scene {
     this.plainGrid = this.db.plainGrid;
 
     this.registry.set({
-      frameSize: FRAME_SIZE,
-      boardSize: BOARD_SIZE,
+      frameSize: this.db.frameSize,
+      boardSize: this.db.boardSize,
       points: this.waypoints,
+      difficultyHp: this.db.difficultyHp[0],
+      difficultySpeed: this.db.difficultySpeed[0],
       level: 1,
       wave: 1,
       life: 100,
@@ -100,8 +120,8 @@ export default class MyGame extends Phaser.Scene {
     this.tileset = this.map.addTilesetImage(
       'tileset',
       'tileset',
-      FRAME_SIZE,
-      FRAME_SIZE,
+      this.db.frameSize,
+      this.db.frameSize,
       2,
       4
     );
@@ -131,9 +151,9 @@ export default class MyGame extends Phaser.Scene {
     });
 
     this.finder = new EasyStar.js();
-    for (let i = 0; i < BOARD_SIZE; i++) {
+    for (let i = 0; i < this.db.boardSize; i++) {
       const row = [];
-      for (let j = 0; j < BOARD_SIZE; j++) {
+      for (let j = 0; j < this.db.boardSize; j++) {
         row.push(0);
       }
       this.grid.push(row);
@@ -144,10 +164,13 @@ export default class MyGame extends Phaser.Scene {
     // this.finder.disableCornerCutting();
 
     this.defaultStones.forEach((item) => {
-      const stone = new Stone(this, item.x * FRAME_SIZE, item.y * FRAME_SIZE);
+      const stone = new Stone(
+        this,
+        item.x * this.db.frameSize,
+        item.y * this.db.frameSize
+      );
       this.maze.add(stone, true);
       this.grid[item.y][item.x] = 1;
-      // this.finder.avoidAdditionalPoint(item.x, item.y);
     });
 
     this.marker = this.add.graphics();
@@ -157,8 +180,8 @@ export default class MyGame extends Phaser.Scene {
     this.cam = this.cameras.main.setBounds(
       0,
       0,
-      FRAME_SIZE * BOARD_SIZE,
-      FRAME_SIZE * BOARD_SIZE,
+      this.db.frameSize * this.db.boardSize,
+      this.db.frameSize * this.db.boardSize,
       true
     );
     this.cam.setViewport(0, 0, 900, 900);
@@ -223,8 +246,6 @@ export default class MyGame extends Phaser.Scene {
         );
         this.path = [];
         this.grid[tile.y][tile.x] = 1;
-        // this.finder.setGrid(this.grid);
-        // this.finder.avoidAdditionalPoint(tile.x, tile.y);
         this.checkPath(
           this.waypoints[0],
           this.waypoints[1],
@@ -240,7 +261,6 @@ export default class MyGame extends Phaser.Scene {
       if (path === null) {
         console.log('building block');
         this.grid[tile.y][tile.x] = 0;
-        // this.finder.stopAvoidingAdditionalPoint(tile.x, tile.y);
       } else {
         this.path.pop();
         this.path = this.path.concat(path);
@@ -291,10 +311,11 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
+    console.log(this.cam);
     const gem = new Gem(
       this,
-      pos.x * FRAME_SIZE,
-      pos.y * FRAME_SIZE,
+      pos.x * this.db.frameSize,
+      pos.y * this.db.frameSize,
       name,
       gemData
     );
@@ -333,6 +354,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   chooseItem(pointer, gameObject) {
+    console.log(gameObject);
     this.hudScene.showInfo(gameObject);
     this.hudScene.controls.forEach((btn) => {
       if (!btn.frame.name.includes('build')) this.hudScene.disableBtn(btn);
@@ -375,11 +397,9 @@ export default class MyGame extends Phaser.Scene {
   removeStone() {
     this.maze.remove(this.stone, true, true);
     console.log(this.stone.x);
-    this.grid[this.stone.y / FRAME_SIZE][this.stone.x / FRAME_SIZE] = 0;
-    // this.finder.stopAvoidingAdditionalPoint(
-    //   this.stone.x / FRAME_SIZE,
-    //   this.stone.y / FRAME_SIZE
-    // );
+    this.grid[this.stone.y / this.db.frameSize][
+      this.stone.x / this.db.frameSize
+    ] = 0;
   }
 
   selectGem() {
@@ -423,13 +443,12 @@ export default class MyGame extends Phaser.Scene {
       (value) => value != this.selectedGem.name
     );
 
-    const tower = new AdvancedTower(this, x, y, name, data).setInteractive();
+    const tower = new AdvancedTower(this, x, y, name, data);
     tower.selected = true;
 
     this.maze.add(tower, true);
     this.gems.add(tower);
 
-    // this.selectedGem = tower;
     this.selectedGem.setSelected(false);
     if (this.newGems.contains(this.selectedGem)) {
       this.selectedGem.destroy();
@@ -438,7 +457,6 @@ export default class MyGame extends Phaser.Scene {
       this.selectedGem.name = 'tmp';
       this.selectedGem.setVisible(false);
       this.selectedGem.setActive(false);
-      // this.selectedGem.destroy();
 
       this.gems.getChildren().forEach((gem) => {
         if (gem.combineTo === name && combination.includes(gem.name)) {
@@ -448,7 +466,6 @@ export default class MyGame extends Phaser.Scene {
           gem.name = 'tmp';
           gem.setVisible(false);
           gem.setActive(false);
-          // gem.destroy();
         } else {
           gem.combineTo = null;
         }
@@ -467,7 +484,6 @@ export default class MyGame extends Phaser.Scene {
           return gemNames.includes(item);
         })
       ) {
-        // TODO: combine;
         console.log(true);
         gems.getChildren().forEach((gem) => {
           if (tower.combination.includes(gem.name)) {
@@ -481,12 +497,13 @@ export default class MyGame extends Phaser.Scene {
   }
 
   addMonsters() {
-    let monster = this.monsters.get(128, 128);
-    // console.log(monster);
+    let monster = this.monsters.get(
+      this.waypoints[0].x * this.db.frameSize,
+      this.waypoints[0].y * this.db.frameSize
+    );
     monster
       .setActive(true)
       .setVisible(true)
-      .setInteractive()
       .setParams(this.monstersData[this.currentWave - 1]);
     this.moveMonster(monster, this.path);
     monster = null;
@@ -501,12 +518,12 @@ export default class MyGame extends Phaser.Scene {
       tweens.push({
         targets: monster,
         x: {
-          value: ex * FRAME_SIZE,
-          duration: (FRAME_SIZE / monster.speed) * 1000,
+          value: ex * this.db.frameSize,
+          duration: (this.db.frameSize / monster.speed) * 1000,
         },
         y: {
-          value: ey * FRAME_SIZE,
-          duration: (FRAME_SIZE / monster.speed) * 1000,
+          value: ey * this.db.frameSize,
+          duration: (this.db.frameSize / monster.speed) * 1000,
         },
       });
     }
@@ -551,13 +568,5 @@ export default class MyGame extends Phaser.Scene {
       enemy.delete();
       this.exp += enemy.exp;
     }
-    // if (enemy.hp <= 0) {
-    //   const tweens = this.tweens.getTweensOf(enemy);
-    //   if (tweens[0].isPlaying()) {
-    //     tweens[0].stop();
-    //   }
-    //   enemy.setVisible(false);
-    //   this.time.delayedCall(200, enemy.delete());
-    // }
   }
 }

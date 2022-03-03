@@ -14,9 +14,14 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.magicResistance;
     this.type;
     this.ability;
-    this.exp = Math.floor(this.scene.currentWave / 10 + 1) * 5;
+    this.exp =
+      this.scene.currentWave % 10 != 0
+        ? Math.floor(this.scene.currentWave / 10 + 1) * 5
+        : 300;
 
     this.selected = false;
+
+    this.setInteractive();
   }
 
   setSelected(selected) {
@@ -25,8 +30,11 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
 
   setParams(data) {
     this.name = data.name;
-    this.hp = data.hp;
-    this.speed = data.speed;
+    this.hp = Math.round(data.hp * this.scene.registry.get('difficultyHp'));
+    this.speed = Math.round(
+      ((data.speed * this.scene.registry.get('difficultySpeed')) / 128) *
+        this.scene.registry.get('frameSize')
+    );
     this.armor = data.armor;
     this.magicResistance = data.magicResistance;
     this.type = data.type;

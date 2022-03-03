@@ -10,19 +10,21 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.damage = data.damage || null;
     this.attackSpeed = (170 / data.attackSpeed) * 1000 || null;
-    this.radius = data.radius || null;
+    this.radius = (data.radius / 128) * this.scene.registry.get('frameSize');
+
     this.ability = data.ability || null;
 
+    this.targetsCnt = data.ability.includes('split 1') ? 4 : 1;
     this.combineTo = null;
     this.selected = false;
 
     this.timer = 0;
-    this.overlap = null;
 
     this.setInteractive().setOrigin(0);
     this.bullets = scene.physics.add.group({
       runChildUpdate: true,
     });
+    console.log(this.targetsCnt);
   }
 
   setSelected(selected) {
@@ -44,44 +46,42 @@ class Tower extends Phaser.GameObjects.Image {
     this.name = name;
     this.damage = data.damage;
     this.attackSpeed = (170 / data.attackSpeed) * 1000;
-    this.radius = data.radius;
+    this.radius = (data.radius / 128) * this.scene.registry.get('frameSize');
     this.ability = data.ability;
   }
 
   update(time, delta) {
     const targets = this.scene.physics
-      .overlapCirc(this.x, this.y, this.radius)
+      .overlapCirc(this.getCenter().x, this.getCenter().y, this.radius)
       .filter((value) => value.gameObject instanceof Monster);
 
     this.timer += delta;
-    if (targets[0] && targets[0].gameObject.hp > 0) {
-      if (this.timer > this.attackSpeed) {
-        // const bullet = this.bullets.get(this.getCenter().x, this.getCenter().y);
-        const bullet = new Bullet(
-          this.scene,
-          this.getCenter().x,
-          this.getCenter().y,
-          this.damage
-        );
-        this.bullets.add(bullet, true);
-        // bullet.damage = this.damage;
-        // bullet.setBodySize(8, 8);
-        const enemy = targets[0].gameObject;
-        enemy.on('move', () => {
-          bullet.fire(enemy);
-
-          // if (bullet.body.hitTest(enemy.getCenter().x, enemy.getCenter().y)) {
-          //   this.scene.hit(bullet, enemy);
-          // }
-          this.scene.physics.overlap(
-            bullet,
-            enemy,
-            this.scene.hit,
-            undefined,
-            this.scene
+    if (this.timer > this.attackSpeed) {
+      for (let i = 0; i < this.targetsCnt; i++) {
+        if (targets[i] && targets[i].gameObject.hp > 0) {
+          console.log(i);
+          const bullet = new Bullet(
+            this.scene,
+            this.getCenter().x,
+            this.getCenter().y,
+            this.damage
           );
-        });
-        this.timer = 0;
+          this.bullets.add(bullet, true);
+
+          const enemy = targets[i].gameObject;
+          enemy.on('move', () => {
+            bullet.fire(enemy);
+
+            this.scene.physics.overlap(
+              bullet,
+              enemy,
+              this.scene.hit,
+              undefined,
+              this.scene
+            );
+          });
+          this.timer = 0;
+        }
       }
     }
   }
