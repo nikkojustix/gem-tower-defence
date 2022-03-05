@@ -1,11 +1,12 @@
 import Phaser from 'phaser';
 
 export default class Bullet extends Phaser.Physics.Arcade.Image {
-  constructor(scene, x, y, damage) {
+  constructor(scene, x, y, damage, ability) {
     super(scene, x, y, 'bullet');
 
     this.scene = scene;
     this.damage = damage;
+    this.ability = ability;
 
     this.incX = 0;
     this.incY = 0;

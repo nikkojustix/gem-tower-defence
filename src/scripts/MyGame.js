@@ -104,12 +104,15 @@ export default class MyGame extends Phaser.Scene {
     this.expToNextLevel = this.db.expToNextLevel;
     this.plainGrid = this.db.plainGrid;
 
+    this.scale = 128 / this.db.frameSize;
+
     this.registry.set({
       frameSize: this.db.frameSize,
       boardSize: this.db.boardSize,
       points: this.waypoints,
       difficultyHp: this.db.difficultyHp[0],
       difficultySpeed: this.db.difficultySpeed[0],
+      scale: this.scale,
       level: 1,
       wave: 1,
       life: 100,
@@ -562,6 +565,30 @@ export default class MyGame extends Phaser.Scene {
   }
 
   hit(bullet, enemy) {
+    console.log(bullet.ability);
+    if (bullet.ability.includes('slow 1')) {
+      console.log('slow');
+      const timedEvent = new Phaser.Time.TimerEvent({
+        delay: 3000,
+        callback: () => {
+          enemy.speed += 60 / this.scale;
+        },
+      });
+      if (enemy.modifires.includes('slow 1')) {
+        enemy.modifires.push('slow 1');
+      } else {
+        enemy.speed -= 60 / this.scale;
+        enemy.modifires.push('slow 1');
+        this.time.addEvent(timedEvent);
+      }
+    }
+    if (bullet.ability.includes('slow 2')) {
+      enemy.speed -= 90 / this.scale;
+    }
+    if (bullet.ability.includes('slow 3')) {
+      enemy.speed -= 120 / this.scale;
+    }
+
     bullet.destroy();
     enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {

@@ -10,11 +10,12 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.damage = data.damage || null;
     this.attackSpeed = (170 / data.attackSpeed) * 1000 || null;
-    this.radius = (data.radius / 128) * this.scene.registry.get('frameSize');
+    this.radius = data.radius / this.scene.registry.get('scale');
 
     this.ability = data.ability || null;
+    //use ability
+    this.useAbility();
 
-    this.targetsCnt = data.ability.includes('split 1') ? 4 : 1;
     this.combineTo = null;
     this.selected = false;
 
@@ -24,7 +25,6 @@ class Tower extends Phaser.GameObjects.Image {
     this.bullets = scene.physics.add.group({
       runChildUpdate: true,
     });
-    console.log(this.targetsCnt);
   }
 
   setSelected(selected) {
@@ -46,7 +46,7 @@ class Tower extends Phaser.GameObjects.Image {
     this.name = name;
     this.damage = data.damage;
     this.attackSpeed = (170 / data.attackSpeed) * 1000;
-    this.radius = (data.radius / 128) * this.scene.registry.get('frameSize');
+    this.radius = data.radius / this.scene.registry.get('scale');
     this.ability = data.ability;
   }
 
@@ -64,7 +64,8 @@ class Tower extends Phaser.GameObjects.Image {
             this.scene,
             this.getCenter().x,
             this.getCenter().y,
-            this.damage
+            this.damage,
+            this.ability
           );
           this.bullets.add(bullet, true);
 
@@ -84,6 +85,12 @@ class Tower extends Phaser.GameObjects.Image {
         }
       }
     }
+  }
+
+  useAbility() {
+    this.targetsCnt = this.ability.includes('split 2') ? 7 : 1;
+    this.targetsCnt = this.ability.includes('split 1') ? 4 : 1;
+    this.targetsCnt = this.ability.includes('radiation') ? 10 : 1;
   }
 }
 
