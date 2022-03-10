@@ -64,7 +64,7 @@ export default class MyGame extends Phaser.Scene {
     this.selectedGem;
 
     this.monsters;
-    this.monstersCnt = 10;
+    this.monstersCnt = 1;
     this.grid = [];
     this.plainGrid = [];
     this.path = [];
@@ -117,6 +117,7 @@ export default class MyGame extends Phaser.Scene {
       wave: 1,
       life: 100,
     });
+    console.log(this.registry.get('scale'));
 
     this.hudScene = this.scene.get('HudScene');
     this.map = this.add.tilemap('map');
@@ -267,6 +268,7 @@ export default class MyGame extends Phaser.Scene {
       } else {
         this.path.pop();
         this.path = this.path.concat(path);
+        // this.path.push(path);
         if (this.waypoints.indexOf(to) < this.waypoints.length - 1) {
           from = this.waypoints.at(this.waypoints.indexOf(to));
           to = this.waypoints.at(this.waypoints.indexOf(to) + 1);
@@ -509,6 +511,8 @@ export default class MyGame extends Phaser.Scene {
       .setVisible(true)
       .setParams(this.monstersData[this.currentWave - 1]);
     this.moveMonster(monster, this.path);
+    // monster.path = this.path;
+    // monster.pathN = 0;
     monster = null;
   }
 
@@ -566,18 +570,32 @@ export default class MyGame extends Phaser.Scene {
 
   hit(bullet, enemy) {
     console.log(bullet.ability);
+    if (bullet.ability.includes('slow')) {
+      enemy.slow();
+    }
     if (bullet.ability.includes('slow 1')) {
       console.log('slow');
+      console.log(this.tweens);
+      console.log();
       const timedEvent = new Phaser.Time.TimerEvent({
         delay: 3000,
         callback: () => {
-          enemy.speed += 60 / this.scale;
+          // this.tweens.setGlobalTimeScale(1);
+          enemy.speed += 120 / this.scale;
+          this.tweens.getTweensOf(enemy)[0].timeScale +=
+            120 / this.scale / enemy.speed;
+          enemy.modifires.splice(
+            enemy.modifires.findIndex((val) => val === 'slow 1'),
+            1
+          );
         },
       });
       if (enemy.modifires.includes('slow 1')) {
-        enemy.modifires.push('slow 1');
+        this.time.addEvent(timedEvent);
       } else {
-        enemy.speed -= 60 / this.scale;
+        enemy.speed -= 120 / this.scale;
+        this.tweens.getTweensOf(enemy)[0].timeScale -=
+          120 / this.scale / enemy.speed;
         enemy.modifires.push('slow 1');
         this.time.addEvent(timedEvent);
       }
