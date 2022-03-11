@@ -473,7 +473,7 @@
       "damage": 120,
       "attackSpeed": 243,
       "radius": 700,
-      "ability": ["radiation"],
+      "ability": ["split 3"],
       "combination": ["perfect topaz", "flawed opal", "normal sapphire"]
     },
     {
@@ -482,7 +482,7 @@
       "damage": 100,
       "attackSpeed": 243,
       "radius": 800,
-      "ability": ["radiation", "damage 4"],
+      "ability": ["split 3", "damage 4"],
       "combination": ["uranium-238", "vivid malachite", "malachite"]
     },
     {
@@ -491,7 +491,7 @@
       "damage": 90,
       "attackSpeed": 425,
       "radius": 5000,
-      "ability": ["damage 5", "radiation"],
+      "ability": ["damage 5", "split 3"],
       "combination": ["uranium-235", "huge aquamarine", "huge topaz"]
     },
     {
@@ -1455,108 +1455,331 @@
   "boardSize": 37,
   "difficultyHp": [0.69, 2.91, 5.17, 7.81],
   "difficultySpeed": [0.69, 1.01, 1.19, 1.42],
-  "towerAbilities": {
-    "slow": [
-      {
-        "name": "slow 1",
-        "level": 1,
-        "duration": 3000,
-        "value": 60
-      },
-      {
-        "name": "slow 2",
-        "level": 2,
-        "duration": 3000,
-        "value": 90
-      },
-      {
-        "name": "slow 3",
-        "level": 3,
-        "duration": 3000,
-        "value": 120
-      },
-      {
-        "name": "slow 4",
-        "level": 4,
-        "duration": 3000,
-        "value": 150
-      },
-      {
-        "name": "slow 5",
-        "level": 5,
-        "duration": 3000,
-        "value": 180
-      },
-      {
-        "name": "slow 6",
-        "level": 6,
-        "duration": 3000,
-        "value": 480
-      }
-    ],
-    "damage": [
-      {
-        "name": "damage 1",
-        "level": 1,
-        "value": 20
-      },
-      {
-        "name": "damage 2",
-        "level": 2,
-        "value": 30
-      },
-      {
-        "name": "damage 3",
-        "level": 3,
-        "value": 40
-      },
-      {
-        "name": "damage 4",
-        "level": 4,
-        "value": 50
-      },
-      {
-        "name": "damage 5",
-        "level": 5,
-        "value": 60
-      },
-      {
-        "name": "damage 6",
-        "level": 6,
-        "value": 70
-      }
-    ],
-    "aura": [
-      {
-        "name": "aura 1",
-        "level": 1,
-        "value": 20
-      },
-      {
-        "name": "aura 2",
-        "level": 2,
-        "value": 30
-      },
-      {
-        "name": "aura 3",
-        "level": 3,
-        "value": 40
-      },
-      {
-        "name": "aura 4",
-        "level": 4,
-        "value": 50
-      },
-      {
-        "name": "aura 5",
-        "level": 5,
-        "value": 60
-      },
-      {
-        "name": "aura 6",
-        "level": 6,
-        "value": 70
-      }
-    ]
-  }
+  "towerAbilities": [
+    {
+      "name": "slow 1",
+      "level": 1,
+      "duration": 3000,
+      "value": 60,
+      "type": "on hit"
+    },
+    {
+      "name": "slow 2",
+      "level": 2,
+      "duration": 3000,
+      "value": 90,
+      "type": "on hit"
+    },
+    {
+      "name": "slow 3",
+      "level": 3,
+      "duration": 3000,
+      "value": 120,
+      "type": "on hit"
+    },
+    {
+      "name": "slow 4",
+      "level": 4,
+      "duration": 3000,
+      "value": 150,
+      "type": "on hit"
+    },
+    {
+      "name": "slow 5",
+      "level": 5,
+      "duration": 3000,
+      "value": 180,
+      "type": "on hit"
+    },
+    {
+      "name": "slow 6",
+      "level": 6,
+      "duration": 3000,
+      "value": 480,
+      "type": "on hit"
+    },
+    {
+      "name": "true sight",
+      "type": "selfEffect"
+    },
+    {
+      "name": "aura 1",
+      "level": 1,
+      "value": 20,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "aura 2",
+      "level": 2,
+      "value": 30,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "aura 3",
+      "level": 3,
+      "value": 40,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "aura 4",
+      "level": 4,
+      "value": 50,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "aura 5",
+      "level": 5,
+      "value": 60,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "aura 6",
+      "level": 6,
+      "value": 70,
+      "radius": 664,
+      "type": "aura"
+    },
+    {
+      "name": "otomad",
+      "level": 1,
+      "value": 200,
+      "radius": 200,
+      "type": "aura"
+    },
+    {
+      "name": "cleave 1",
+      "level": 1,
+      "value": 0.3,
+      "radius": 300,
+      "type": "on hit"
+    },
+    {
+      "name": "cleave 2",
+      "level": 2,
+      "value": 0.4,
+      "radius": 350,
+      "type": "on hit"
+    },
+    {
+      "name": "cleave 3",
+      "level": 3,
+      "value": 0.5,
+      "radius": 400,
+      "type": "on hit"
+    },
+    {
+      "name": "cleave 4",
+      "level": 4,
+      "value": 0.6,
+      "radius": 450,
+      "type": "on hit"
+    },
+    {
+      "name": "cleave 5",
+      "level": 5,
+      "value": 0.7,
+      "radius": 500,
+      "type": "on hit"
+    },
+    {
+      "name": "cleave 6",
+      "level": 6,
+      "value": 1,
+      "radius": 700,
+      "type": "on hit"
+    },
+    {
+      "name": "burned",
+      "level": 1,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 1",
+      "level": 1,
+      "duration": 10000,
+      "value": 2,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 2",
+      "level": 2,
+      "duration": 10000,
+      "value": 4,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 3",
+      "level": 3,
+      "duration": 10000,
+      "value": 8,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 4",
+      "level": 4,
+      "duration": 10000,
+      "value": 16,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 5",
+      "level": 5,
+      "duration": 10000,
+      "value": 32,
+      "type": "on hit"
+    },
+    {
+      "name": "poison 6",
+      "level": 6,
+      "duration": 10000,
+      "value": 128,
+      "type": "on hit"
+    },
+    {
+      "name": "recover",
+      "chance": 1,
+      "value": 1,
+      "type": "on hit"
+    },
+    {
+      "name": "greedy",
+      "chance": 5,
+      "value": 10,
+      "type": "aura"
+    },
+    {
+      "name": "split 1",
+      "level": 1,
+      "value": 4,
+      "type": "selfEffect"
+    },
+    {
+      "name": "split 2",
+      "level": 2,
+      "value": 7,
+      "type": "selfEffect"
+    },
+    {
+      "name": "split 3",
+      "level": 3,
+      "value": 10,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 1",
+      "level": 1,
+      "value": 20,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 2",
+      "level": 2,
+      "value": 40,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 3",
+      "level": 3,
+      "value": 80,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 4",
+      "level": 4,
+      "value": 160,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 5",
+      "level": 5,
+      "value": 320,
+      "type": "selfEffect"
+    },
+    {
+      "name": "damage 6",
+      "level": 6,
+      "value": 640,
+      "type": "selfEffect"
+    },
+    {
+      "name": "speed 1",
+      "level": 1,
+      "value": 200,
+      "type": "selfEffect"
+    },
+    {
+      "name": "speed 2",
+      "level": 2,
+      "value": 500,
+      "type": "selfEffect"
+    },
+    {
+      "name": "pierce 1",
+      "level": 1,
+      "duration": 3000,
+      "value": 2,
+      "type": "on hit"
+    },
+    {
+      "name": "pierce 2",
+      "level": 2,
+      "duration": 3000,
+      "value": 4,
+      "type": "on hit"
+    },
+    {
+      "name": "pierce 3",
+      "level": 3,
+      "duration": 3000,
+      "value": 8,
+      "type": "on hit"
+    },
+    {
+      "name": "pierce 4",
+      "level": 4,
+      "duration": 3000,
+      "value": 16,
+      "type": "on hit"
+    },
+    {
+      "name": "pierce 5",
+      "level": 5,
+      "duration": 3000,
+      "value": 32,
+      "type": "on hit"
+    },
+    {
+      "name": "pierce 6",
+      "level": 6,
+      "duration": 3000,
+      "value": 64,
+      "type": "on hit"
+    },
+    {
+      "name": "burn 1",
+      "level": 1,
+      "radius": 500,
+      "interval": 250,
+      "value": 20
+    },
+    {
+      "name": "burn 2",
+      "level": 2,
+      "radius": 800,
+      "interval": 500,
+      "value": 250
+    },
+    {
+      "name": "burn 3",
+      "level": 3,
+      "radius": 1000,
+      "interval": 2000,
+      "value": 5000
+    }
+  ]
 }

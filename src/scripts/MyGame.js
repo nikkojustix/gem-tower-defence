@@ -64,7 +64,7 @@ export default class MyGame extends Phaser.Scene {
     this.selectedGem;
 
     this.monsters;
-    this.monstersCnt = 1;
+    this.monstersCnt = 10;
     this.grid = [];
     this.plainGrid = [];
     this.path = [];
@@ -103,6 +103,7 @@ export default class MyGame extends Phaser.Scene {
     this.defaultStones = this.db.defaultStones;
     this.expToNextLevel = this.db.expToNextLevel;
     this.plainGrid = this.db.plainGrid;
+    this.abilitiesData = this.db.towerAbilities;
 
     this.scale = 128 / this.db.frameSize;
 
@@ -526,11 +527,11 @@ export default class MyGame extends Phaser.Scene {
         targets: monster,
         x: {
           value: ex * this.db.frameSize,
-          duration: (this.db.frameSize / monster.speed) * 1000,
+          duration: (this.db.frameSize / monster.baseSpeed) * 1000,
         },
         y: {
           value: ey * this.db.frameSize,
-          duration: (this.db.frameSize / monster.speed) * 1000,
+          duration: (this.db.frameSize / monster.baseSpeed) * 1000,
         },
       });
     }
@@ -569,43 +570,12 @@ export default class MyGame extends Phaser.Scene {
   }
 
   hit(bullet, enemy) {
-    console.log(bullet.ability);
-    if (bullet.ability.includes('slow')) {
-      enemy.slow();
-    }
-    if (bullet.ability.includes('slow 1')) {
-      console.log('slow');
-      console.log(this.tweens);
-      console.log();
-      const timedEvent = new Phaser.Time.TimerEvent({
-        delay: 3000,
-        callback: () => {
-          // this.tweens.setGlobalTimeScale(1);
-          enemy.speed += 120 / this.scale;
-          this.tweens.getTweensOf(enemy)[0].timeScale +=
-            120 / this.scale / enemy.speed;
-          enemy.modifires.splice(
-            enemy.modifires.findIndex((val) => val === 'slow 1'),
-            1
-          );
-        },
-      });
-      if (enemy.modifires.includes('slow 1')) {
-        this.time.addEvent(timedEvent);
-      } else {
-        enemy.speed -= 120 / this.scale;
-        this.tweens.getTweensOf(enemy)[0].timeScale -=
-          120 / this.scale / enemy.speed;
-        enemy.modifires.push('slow 1');
-        this.time.addEvent(timedEvent);
+    bullet.ability.forEach((value) => {
+      const data = this.abilitiesData.find((val) => val.name === value);
+      if (data.type === 'on hit') {
+        enemy.effect(data);
       }
-    }
-    if (bullet.ability.includes('slow 2')) {
-      enemy.speed -= 90 / this.scale;
-    }
-    if (bullet.ability.includes('slow 3')) {
-      enemy.speed -= 120 / this.scale;
-    }
+    });
 
     bullet.destroy();
     enemy.hp -= bullet.damage;

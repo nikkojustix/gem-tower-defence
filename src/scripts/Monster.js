@@ -9,7 +9,8 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.y = y;
     this.name;
     this.hp;
-    this.speed;
+    this.baseSpeed;
+    this.currentSpeed;
     this.armor;
     this.magicResistance;
     this.type;
@@ -43,9 +44,10 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   setParams(data) {
     this.name = data.name;
     this.hp = Math.round(data.hp * this.difficultyHp);
-    this.speed = Math.round(
+    this.baseSpeed = Math.round(
       (data.speed * this.difficultySpeed) / this.scaleSize
     );
+    this.currentSpeed = this.baseSpeed;
     this.armor = data.armor;
     this.magicResistance = data.magicResistance;
     this.type = data.type;
@@ -92,8 +94,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     // console.log(this.y);
     // this.scene.physics.moveTo(this, 192, 192, 91);
 
-    console.log(this.x, this.y);
-
     if (
       this.x == this.points[6].x * this.frameSize &&
       this.y == this.points[6].y * this.frameSize
@@ -108,5 +108,31 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.destroy();
   }
 
-  slow() {}
+  effect(data) {
+    if (data.name.includes('slow')) {
+      const timedEvent = new Phaser.Time.TimerEvent({
+        delay: data.duration,
+        callback: () => {
+          this.currentSpeed += data.value / this.scaleSize;
+          if (this.hp > 0) {
+            this.scene.tweens.getTweensOf(this)[0].timeScale +=
+              data.value / this.scaleSize / this.baseSpeed;
+          }
+          this.modifires.splice(
+            this.modifires.findIndex((val) => val === data.name),
+            1
+          );
+        },
+      });
+      if (this.modifires.includes(data.name)) {
+        this.scene.time.addEvent(timedEvent);
+      } else {
+        this.currentSpeed -= data.value / this.scaleSize;
+        this.scene.tweens.getTweensOf(this)[0].timeScale -=
+          data.value / this.scaleSize / this.baseSpeed;
+        this.modifires.push(data.name);
+        this.scene.time.addEvent(timedEvent);
+      }
+    }
+  }
 }

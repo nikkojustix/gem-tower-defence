@@ -88,8 +88,8 @@ class Tower extends Phaser.GameObjects.Image {
   }
 
   useAbility() {
-    this.targetsCnt = this.ability.includes('split 2') ? 7 : 1;
     this.targetsCnt = this.ability.includes('split 1') ? 4 : 1;
+    this.targetsCnt = this.ability.includes('split 2') ? 7 : 1;
     this.targetsCnt = this.ability.includes('radiation') ? 10 : 1;
   }
 }
