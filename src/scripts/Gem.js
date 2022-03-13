@@ -13,9 +13,9 @@ export default class Gem extends Tower {
     super.setSelected(selected);
   }
 
-  setParams(name, data) {
-    super.setParams(name, data);
-    this.rank = name.split(' ')[0];
-    this.type = name.split(' ')[1];
+  setParams(data) {
+    super.setParams(data);
+    this.rank = data.name.split(' ')[0];
+    this.type = data.name.split(' ')[1];
   }
 }

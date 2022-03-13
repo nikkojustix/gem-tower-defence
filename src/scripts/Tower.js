@@ -8,13 +8,18 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.name = name;
 
-    this.damage = data.damage || null;
-    this.attackSpeed = (170 / data.attackSpeed) * 1000 || null;
-    this.radius = data.radius / this.scene.registry.get('scale');
+    this.baseDamage = data.damage || null;
+    this.curDamage = this.baseDamage;
+
+    this.baseAttackSpeed = data.attackSpeed || null;
+    this.curAttackSpeed = this.baseAttackSpeed;
+    this.attackRate = (170 / this.curAttackSpeed) * 1000;
+
+    this.baseRadius = data.radius / this.scene.registry.get('scale');
+    this.curRadius = this.baseRadius;
 
     this.ability = data.ability || null;
-    //use ability
-    this.useAbility();
+    this.targetsCnt = 1;
 
     this.combineTo = null;
     this.selected = false;
@@ -24,6 +29,15 @@ class Tower extends Phaser.GameObjects.Image {
     this.setInteractive().setOrigin(0);
     this.bullets = scene.physics.add.group({
       runChildUpdate: true,
+    });
+
+    this.on('addedtoscene', () => {
+      this.ability.forEach((value) => {
+        const data = this.scene.abilitiesData.find((val) => val.name === value);
+        if (data.type === 'selfEffect') {
+          this.useEffect(data);
+        }
+      });
     });
   }
 
@@ -35,36 +49,44 @@ class Tower extends Phaser.GameObjects.Image {
       this.marker.strokeCircle(
         this.getCenter().x,
         this.getCenter().y,
-        this.radius
+        this.curRadius
       );
     } else if (this.marker) {
       this.marker.destroy();
     }
   }
 
-  setParams(name, data) {
-    this.name = name;
-    this.damage = data.damage;
-    this.attackSpeed = (170 / data.attackSpeed) * 1000;
-    this.radius = data.radius / this.scene.registry.get('scale');
+  setParams(data) {
+    this.name = data.name;
+
+    this.baseDamage = data.damage;
+    this.curDamage = this.baseDamage;
+
+    this.baseAttackSpeed = data.attackSpeed;
+    this.curAttackSpeed = this.baseAttackSpeed;
+    this.attackRate = (170 / this.curAttackSpeed) * 1000;
+
+    this.baseRadius = data.radius / this.scene.registry.get('scale');
+    this.curRadius = this.baseRadius;
+
     this.ability = data.ability;
+    this.emit('addedtoscene');
   }
 
   update(time, delta) {
     const targets = this.scene.physics
-      .overlapCirc(this.getCenter().x, this.getCenter().y, this.radius)
+      .overlapCirc(this.getCenter().x, this.getCenter().y, this.curRadius)
       .filter((value) => value.gameObject instanceof Monster);
 
     this.timer += delta;
-    if (this.timer > this.attackSpeed) {
+    if (this.timer > this.attackRate) {
       for (let i = 0; i < this.targetsCnt; i++) {
         if (targets[i] && targets[i].gameObject.hp > 0) {
-          console.log(i);
           const bullet = new Bullet(
             this.scene,
             this.getCenter().x,
             this.getCenter().y,
-            this.damage,
+            this.curDamage,
             this.ability
           );
           this.bullets.add(bullet, true);
@@ -87,10 +109,17 @@ class Tower extends Phaser.GameObjects.Image {
     }
   }
 
-  useAbility() {
-    this.targetsCnt = this.ability.includes('split 1') ? 4 : 1;
-    this.targetsCnt = this.ability.includes('split 2') ? 7 : 1;
-    this.targetsCnt = this.ability.includes('radiation') ? 10 : 1;
+  useEffect(data) {
+    if (data.name.includes('split')) {
+      this.targetsCnt = data.value;
+    }
+    if (data.name.includes('damage')) {
+      this.curDamage += data.value;
+    }
+    if (data.name.includes('speed')) {
+      this.curAttackSpeed += (this.baseAttackSpeed * data.value) / 100;
+      this.attackRate = (170 / this.curAttackSpeed) * 1000;
+    }
   }
 }
 

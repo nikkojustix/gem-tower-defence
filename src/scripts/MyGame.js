@@ -435,7 +435,7 @@ export default class MyGame extends Phaser.Scene {
     const gemData = this.gemsData.find((value) => value.name == name);
 
     this.selectedGem.setFrame(name);
-    this.selectedGem.setParams(name, gemData);
+    this.selectedGem.setParams(gemData);
 
     this.selectGem();
   }
