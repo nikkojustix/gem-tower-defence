@@ -1,8 +1,9 @@
 import Phaser from 'phaser';
 import Bullet from './Bullet';
 import Monster from './Monster';
+import Gem from './Gem';
 
-class Tower extends Phaser.GameObjects.Image {
+class Tower extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y, texture, name, data) {
     super(scene, x, y, texture, name);
 
@@ -13,12 +14,14 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.baseAttackSpeed = data.attackSpeed || null;
     this.curAttackSpeed = this.baseAttackSpeed;
-    this.attackRate = (170 / this.curAttackSpeed) * 1000;
+    this.setAttackRate();
 
     this.baseRadius = data.radius / this.scene.registry.get('scale');
     this.curRadius = this.baseRadius;
 
     this.ability = data.ability || null;
+    this.auras = new Set();
+
     this.targetsCnt = 1;
 
     this.combineTo = null;
@@ -64,7 +67,7 @@ class Tower extends Phaser.GameObjects.Image {
 
     this.baseAttackSpeed = data.attackSpeed;
     this.curAttackSpeed = this.baseAttackSpeed;
-    this.attackRate = (170 / this.curAttackSpeed) * 1000;
+    this.setAttackRate();
 
     this.baseRadius = data.radius / this.scene.registry.get('scale');
     this.curRadius = this.baseRadius;
@@ -118,8 +121,49 @@ class Tower extends Phaser.GameObjects.Image {
     }
     if (data.name.includes('speed')) {
       this.curAttackSpeed += (this.baseAttackSpeed * data.value) / 100;
-      this.attackRate = (170 / this.curAttackSpeed) * 1000;
+      this.setAttackRate();
     }
+  }
+
+  updateAuras() {
+    this.ability.forEach((value) => {
+      const data = this.scene.abilitiesData.find((val) => val.name === value);
+      if (data.type === 'aura') {
+        this.auras.add(data);
+        const towers = this.scene.physics
+          .overlapCirc(
+            this.getCenter().x,
+            this.getCenter().y,
+            data.radius / this.scene.registry.get('scale')
+          )
+          .filter((value) => value.gameObject instanceof Tower);
+        towers.forEach((tower) => {
+          tower.gameObject.auras.add(data);
+        });
+      }
+    });
+  }
+
+  enableAuras() {
+    for (const aura of this.auras) {
+      if (aura.name.includes('aura')) {
+        this.curAttackSpeed += (this.baseAttackSpeed * aura.value) / 100;
+        this.setAttackRate();
+      }
+    }
+  }
+
+  disableAuras() {
+    for (const aura of this.auras) {
+      if (aura.name.includes('aura')) {
+        this.curAttackSpeed -= (this.baseAttackSpeed * aura.value) / 100;
+        this.setAttackRate();
+      }
+    }
+  }
+
+  setAttackRate() {
+    this.attackRate = (170 / this.curAttackSpeed) * 1000;
   }
 }
 

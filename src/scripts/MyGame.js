@@ -144,9 +144,9 @@ export default class MyGame extends Phaser.Scene {
     );
 
     this.bullets = this.physics.add.group();
-    this.maze = this.add.group();
-    this.gems = this.add.group({ runChildUpdate: true });
-    this.newGems = this.add.group({ maxSize: 5 });
+    this.maze = this.physics.add.group();
+    this.gems = this.physics.add.group({ runChildUpdate: true });
+    this.newGems = this.physics.add.group({ maxSize: 5 });
 
     this.monsters = this.physics.add.group({
       classType: Monster,
@@ -402,7 +402,6 @@ export default class MyGame extends Phaser.Scene {
 
   removeStone() {
     this.maze.remove(this.stone, true, true);
-    console.log(this.stone.x);
     this.grid[this.stone.y / this.db.frameSize][
       this.stone.x / this.db.frameSize
     ] = 0;
@@ -422,12 +421,24 @@ export default class MyGame extends Phaser.Scene {
     this.hudScene.controls.forEach((btn) => {
       this.hudScene.disableBtn(btn);
     });
+
+    this.gems.getChildren().forEach((gem) => {
+      gem.updateAuras();
+    });
+    this.gems.getChildren().forEach((gem) => {
+      gem.enableAuras();
+    });
+
     this.attackPhase();
     this.checkForCombine(this.gems);
     console.log(this.gems);
   }
 
   changeGem(x) {
+    this.gems.getChildren().forEach((gem) => {
+      gem.disableAuras();
+      gem.auras.clear();
+    });
     const rank = this.ranks.find((value, index, obj) => {
       return obj[index - x] == this.selectedGem.rank;
     });
@@ -438,9 +449,20 @@ export default class MyGame extends Phaser.Scene {
     this.selectedGem.setParams(gemData);
 
     this.selectGem();
+
+    this.gems.getChildren().forEach((gem) => {
+      gem.updateAuras();
+    });
+    this.gems.getChildren().forEach((gem) => {
+      gem.enableAuras();
+    });
   }
 
   combineGem() {
+    this.gems.getChildren().forEach((gem) => {
+      gem.disableAuras();
+      gem.auras.clear();
+    });
     const x = this.selectedGem.x;
     const y = this.selectedGem.y;
     const name = this.selectedGem.combineTo;
@@ -461,8 +483,9 @@ export default class MyGame extends Phaser.Scene {
       this.selectGem();
     } else {
       this.selectedGem.name = 'tmp';
-      this.selectedGem.setVisible(false);
-      this.selectedGem.setActive(false);
+      this.selectedGem.removeFromDisplayList();
+      // this.selectedGem.setVisible(false);
+      // this.selectedGem.setActive(false);
 
       this.gems.getChildren().forEach((gem) => {
         if (gem.combineTo === name && combination.includes(gem.name)) {
@@ -470,10 +493,21 @@ export default class MyGame extends Phaser.Scene {
           const index = combination.findIndex((value) => value === gem.name);
           combination.splice(index, 1);
           gem.name = 'tmp';
-          gem.setVisible(false);
-          gem.setActive(false);
+          gem.removeFromDisplayList();
+          // gem.setVisible(false);
+          // gem.setActive(false);
         } else {
           gem.combineTo = null;
+        }
+      });
+      this.gems.getChildren().forEach((gem) => {
+        if (gem.name != 'tmp') {
+          gem.updateAuras();
+        }
+      });
+      this.gems.getChildren().forEach((gem) => {
+        if (gem.name != 'tmp') {
+          gem.enableAuras();
         }
       });
 
@@ -545,7 +579,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   nextWave() {
-    this.gems
+    this.maze
       .getChildren()
       .filter((value) => value.name === 'tmp')
       .forEach((value) => {

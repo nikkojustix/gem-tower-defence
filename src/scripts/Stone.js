@@ -9,6 +9,9 @@ export default class Stone extends Phaser.GameObjects.Image {
 
     this.setOrigin(0);
     this.setInteractive();
+    this.on('destroy', () => {
+      console.log(this);
+    });
   }
 
   setSelected(selected) {
