@@ -9,10 +9,6 @@ export default class Gem extends Tower {
     this.type = name.split(' ')[1];
   }
 
-  setSelected(selected) {
-    super.setSelected(selected);
-  }
-
   setParams(data) {
     super.setParams(data);
     this.rank = data.name.split(' ')[0];

@@ -129,27 +129,35 @@ class Tower extends Phaser.Physics.Arcade.Image {
     this.ability.forEach((value) => {
       const data = this.scene.abilitiesData.find((val) => val.name === value);
       if (data.type === 'aura') {
-        this.auras.add(data);
+        if (!this.auras.has(data)) {
+          this.auras.add(data);
+          this.enableAura(data);
+        }
         const towers = this.scene.physics
           .overlapCirc(
             this.getCenter().x,
             this.getCenter().y,
-            data.radius / this.scene.registry.get('scale')
+            data.radius / this.scene.registry.get('scale'),
+            true,
+            true
           )
           .filter((value) => value.gameObject instanceof Tower);
+        console.log(towers);
         towers.forEach((tower) => {
-          tower.gameObject.auras.add(data);
+          if (!tower.gameObject.auras.has(data)) {
+            tower.gameObject.auras.add(data);
+            tower.gameObject.enableAura(data);
+            console.log(tower);
+          }
         });
       }
     });
   }
 
-  enableAuras() {
-    for (const aura of this.auras) {
-      if (aura.name.includes('aura')) {
-        this.curAttackSpeed += (this.baseAttackSpeed * aura.value) / 100;
-        this.setAttackRate();
-      }
+  enableAura(aura) {
+    if (aura.name.includes('aura')) {
+      this.curAttackSpeed += (this.baseAttackSpeed * aura.value) / 100;
+      this.setAttackRate();
     }
   }
 

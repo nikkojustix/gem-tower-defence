@@ -241,14 +241,11 @@ export default class MyGame extends Phaser.Scene {
 
   startBuild() {
     this.input.on('pointerdown', (pointer, currentlyOver) => {
+      const worldPoint = pointer.positionToCamera(this.cam);
+      const x = this.map.worldToTileX(worldPoint.x);
+      const y = this.map.worldToTileY(worldPoint.y);
       if (pointer.button === 0) {
-        const tile = this.map.getTileAtWorldXY(
-          pointer.x / this.cam.zoom,
-          pointer.y / this.cam.zoom,
-          true,
-          this.cam,
-          'bg'
-        );
+        const tile = this.map.getTileAt(x, y, true, 'bg');
         this.path = [];
         this.grid[tile.y][tile.x] = 1;
         this.checkPath(
@@ -317,7 +314,6 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
-    console.log(this.cam);
     const gem = new Gem(
       this,
       pos.x * this.db.frameSize,
@@ -425,9 +421,6 @@ export default class MyGame extends Phaser.Scene {
     this.gems.getChildren().forEach((gem) => {
       gem.updateAuras();
     });
-    this.gems.getChildren().forEach((gem) => {
-      gem.enableAuras();
-    });
 
     this.attackPhase();
     this.checkForCombine(this.gems);
@@ -453,9 +446,6 @@ export default class MyGame extends Phaser.Scene {
     this.gems.getChildren().forEach((gem) => {
       gem.updateAuras();
     });
-    this.gems.getChildren().forEach((gem) => {
-      gem.enableAuras();
-    });
   }
 
   combineGem() {
@@ -474,8 +464,10 @@ export default class MyGame extends Phaser.Scene {
     const tower = new AdvancedTower(this, x, y, name, data);
     tower.selected = true;
 
-    this.maze.add(tower, true);
-    this.gems.add(tower);
+    this.gems.add(tower, true);
+    this.maze.add(tower);
+    console.log(tower);
+    tower.refreshBody();
 
     this.selectedGem.setSelected(false);
     if (this.newGems.contains(this.selectedGem)) {
@@ -483,9 +475,8 @@ export default class MyGame extends Phaser.Scene {
       this.selectGem();
     } else {
       this.selectedGem.name = 'tmp';
-      this.selectedGem.removeFromDisplayList();
-      // this.selectedGem.setVisible(false);
-      // this.selectedGem.setActive(false);
+      this.selectedGem.setVisible(false);
+      this.selectedGem.setActive(false);
 
       this.gems.getChildren().forEach((gem) => {
         if (gem.combineTo === name && combination.includes(gem.name)) {
@@ -493,26 +484,26 @@ export default class MyGame extends Phaser.Scene {
           const index = combination.findIndex((value) => value === gem.name);
           combination.splice(index, 1);
           gem.name = 'tmp';
-          gem.removeFromDisplayList();
-          // gem.setVisible(false);
-          // gem.setActive(false);
+          gem.setVisible(false);
+          gem.setActive(false);
         } else {
           gem.combineTo = null;
         }
       });
-      this.gems.getChildren().forEach((gem) => {
-        if (gem.name != 'tmp') {
-          gem.updateAuras();
-        }
-      });
-      this.gems.getChildren().forEach((gem) => {
-        if (gem.name != 'tmp') {
-          gem.enableAuras();
-        }
-      });
-
       this.checkForCombine(this.gems);
     }
+
+    const timedEvent = new Phaser.Time.TimerEvent({
+      delay: 100,
+      callback: () => {
+        this.gems.getChildren().forEach((gem) => {
+          if (gem.name != 'tmp') {
+            gem.updateAuras();
+          }
+        });
+      },
+    });
+    this.time.addEvent(timedEvent);
   }
 
   checkForCombine(gems) {
@@ -595,7 +586,6 @@ export default class MyGame extends Phaser.Scene {
     }
 
     if (this.monstersData[this.currentWave - 1].type.includes('flying')) {
-      console.log(this.plainGrid);
       this.finder.setGrid(this.plainGrid);
     } else {
       this.finder.setGrid(this.grid);

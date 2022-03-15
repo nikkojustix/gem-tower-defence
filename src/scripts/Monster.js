@@ -55,45 +55,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   }
 
   update(time, delta) {
-    // this.x += this.speedX;
-    // this.y += this.speedY;
-    // this.emit('move');
-    // for (let j = 0; j < this.path[this.pathN].length; j++) {
-    //   if (
-    //     this.x == this.path[this.pathN][j].x * this.frameSize &&
-    //     this.y == this.path[this.pathN][j].y * this.frameSize
-    //   ) {
-    //     if (j == this.path[this.pathN].length - 1) {
-    //       console.log('1');
-    //       this.pathN++;
-    //       // this.speedX =
-    //       //   (this.path[this.pathN][1].x - this.path[this.pathN][0].x) * 4;
-    //       // this.speedY =
-    //       //   (this.path[this.pathN][1].y - this.path[this.pathN][0].y) * 4;
-    //       this.scene.physics.moveTo(
-    //         this,
-    //         this.path[this.pathN][1].x * this.frameSize,
-    //         this.path[this.pathN][1].y * this.frameSize,
-    //         91
-    //       );
-    //     } else {
-    //       console.log('2');
-    //       // this.speedX =
-    //       //   (this.path[this.pathN][j + 1].x - this.path[this.pathN][j].x) * 4;
-    //       // this.speedY =
-    //       //   (this.path[this.pathN][j + 1].y - this.path[this.pathN][j].y) * 4;
-    //       this.scene.physics.moveTo(
-    //         this,
-    //         this.path[this.pathN][j + 1].x * this.frameSize,
-    //         this.path[this.pathN][j + 1].y * this.frameSize,
-    //         91
-    //       );
-    //     }
-    //   }
-    // }
-    // console.log(this.y);
-    // this.scene.physics.moveTo(this, 192, 192, 91);
-
     if (
       this.x == this.points[6].x * this.frameSize &&
       this.y == this.points[6].y * this.frameSize

@@ -9,12 +9,8 @@ export default class AdvancedTower extends Tower {
     this.combination = data.combination;
   }
 
-  setSelected(selected) {
-    super.setSelected(selected);
-  }
-
-  setParams(name, data) {
+  setParams(data) {
     this.combination = data.combination;
-    super.setParams(name, data);
+    super.setParams(data);
   }
 }
