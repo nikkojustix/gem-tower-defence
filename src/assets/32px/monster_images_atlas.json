@@ -1,0 +1,658 @@
+{
+  "frames": [
+    {
+      "filename": "pig",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 0,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "frog",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 32,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "yak",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 64,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "wolf",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 96,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "wasp",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 128,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "turtle",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 160,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "snake",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 192,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "spider",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 224,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "bear",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 256,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "catoblepas",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 0
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "giant slug",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 0,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "scorpion",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 32,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "basilisk",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 64,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "elephant",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 96,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "bat",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 128,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "anaconda",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 160,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "beetle",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 192,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "hound",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 224,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "raiju",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 256,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "salamander",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "treant",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 0,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "mushroom",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 32,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "jelly",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 64,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "iron golem",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 96,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "wraith",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 128,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "wood golem",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 160,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "flying skull",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 192,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "efreet",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 224,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "air elemental",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 256,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "unseen horror",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "spectral naga",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 0,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "zombie orge",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 32,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "crystal golem",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 64,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "shadow",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 96,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "sceleton bat",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 128,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "clay golem",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 160,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "shark",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 192,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "guardian mummy",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 224,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "fire elemental",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 256,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "angel",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 96
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "demon",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 0,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "vampire",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 32,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "hydra",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 64,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "lich",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 96,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "wyvern",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 128,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "sceleton animal",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 160,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "red devil",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 192,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "quicksilver dragon",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 224,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "golden dragon",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 256,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    {
+      "filename": "balgur",
+      "frame": {
+        "w": 32,
+        "h": 32,
+        "x": 288,
+        "y": 128
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  ],
+  "meta": {
+    "description": "Atlas generado con Atlas Packer Gamma V2",
+    "web": "https://gammafp.github.io/atlas-packer-phaser/"
+  }
+}

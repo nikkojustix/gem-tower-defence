@@ -757,7 +757,7 @@
   ],
   "monsters": [
     {
-      "name": "",
+      "name": "pig",
       "level": 1,
       "hp": 5,
       "speed": 525,
@@ -767,7 +767,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "frog",
       "level": 2,
       "hp": 10,
       "speed": 700,
@@ -777,7 +777,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "yak",
       "level": 3,
       "hp": 20,
       "speed": 525,
@@ -787,7 +787,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "wolf",
       "level": 4,
       "hp": 18,
       "speed": 1000,
@@ -797,7 +797,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "wasp",
       "level": 5,
       "hp": 22,
       "speed": 500,
@@ -807,7 +807,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "turtle",
       "level": 6,
       "hp": 80,
       "speed": 450,
@@ -817,7 +817,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "snake",
       "level": 7,
       "hp": 120,
       "speed": 600,
@@ -827,7 +827,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "spider",
       "level": 8,
       "hp": 80,
       "speed": 750,
@@ -837,7 +837,7 @@
       "ability": ["invisability"]
     },
     {
-      "name": "",
+      "name": "bear",
       "level": 9,
       "hp": 180,
       "speed": 600,
@@ -847,7 +847,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "catoblepas",
       "level": 10,
       "hp": 2100,
       "speed": 750,
@@ -857,7 +857,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "giant slug",
       "level": 11,
       "hp": 400,
       "speed": 525,
@@ -867,7 +867,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "scorpion",
       "level": 12,
       "hp": 500,
       "speed": 600,
@@ -877,7 +877,7 @@
       "ability": ["disarm"]
     },
     {
-      "name": "",
+      "name": "basilisk",
       "level": 13,
       "hp": 900,
       "speed": 600,
@@ -887,7 +887,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "elephant",
       "level": 14,
       "hp": 1100,
       "speed": 600,
@@ -897,7 +897,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "bat",
       "level": 15,
       "hp": 270,
       "speed": 600,
@@ -907,7 +907,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "anaconda",
       "level": 16,
       "hp": 950,
       "speed": 800,
@@ -917,7 +917,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "beetle",
       "level": 17,
       "hp": 2200,
       "speed": 600,
@@ -927,7 +927,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "hound",
       "level": 18,
       "hp": 3300,
       "speed": 675,
@@ -937,7 +937,7 @@
       "ability": ["invisability"]
     },
     {
-      "name": "",
+      "name": "raiju",
       "level": 19,
       "hp": 3200,
       "speed": 1000,
@@ -947,7 +947,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "salamander",
       "level": 20,
       "hp": 30000,
       "speed": 900,
@@ -957,7 +957,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "treant",
       "level": 21,
       "hp": 7500,
       "speed": 675,
@@ -967,7 +967,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "mushroom",
       "level": 22,
       "hp": 11000,
       "speed": 600,
@@ -977,7 +977,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "jelly",
       "level": 23,
       "hp": 10000,
       "speed": 625,
@@ -987,7 +987,7 @@
       "ability": ["physical immune"]
     },
     {
-      "name": "",
+      "name": "iron golem",
       "level": 24,
       "hp": 20000,
       "speed": 675,
@@ -997,7 +997,7 @@
       "ability": ["reactive armor"]
     },
     {
-      "name": "",
+      "name": "wraith",
       "level": 25,
       "hp": 4500,
       "speed": 400,
@@ -1007,7 +1007,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "wood golem",
       "level": 26,
       "hp": 11000,
       "speed": 900,
@@ -1017,7 +1017,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "flying skull",
       "level": 27,
       "hp": 2000,
       "speed": 625,
@@ -1027,7 +1027,7 @@
       "ability": ["physical immune"]
     },
     {
-      "name": "",
+      "name": "efreet",
       "level": 28,
       "hp": 5000,
       "speed": 750,
@@ -1037,7 +1037,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "air elemental",
       "level": 29,
       "hp": 6000,
       "speed": 775,
@@ -1047,7 +1047,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "unseen horror",
       "level": 30,
       "hp": 100000,
       "speed": 750,
@@ -1057,7 +1057,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "spectral naga",
       "level": 31,
       "hp": 24000,
       "speed": 900,
@@ -1067,7 +1067,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "zombie orge",
       "level": 32,
       "hp": 95000,
       "speed": 600,
@@ -1077,7 +1077,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "crystal golem",
       "level": 33,
       "hp": 85000,
       "speed": 700,
@@ -1087,7 +1087,7 @@
       "ability": ["physical immune"]
     },
     {
-      "name": "",
+      "name": "shadow",
       "level": 34,
       "hp": 19000,
       "speed": 725,
@@ -1097,7 +1097,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "sceleton bat",
       "level": 35,
       "hp": 9500,
       "speed": 700,
@@ -1107,7 +1107,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "clay golem",
       "level": 36,
       "hp": 65000,
       "speed": 1000,
@@ -1117,7 +1117,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "shark",
       "level": 37,
       "hp": 160000,
       "speed": 1200,
@@ -1127,7 +1127,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "guardian mummy",
       "level": 38,
       "hp": 150000,
       "speed": 1000,
@@ -1137,7 +1137,7 @@
       "ability": ["disarm"]
     },
     {
-      "name": "",
+      "name": "fire elemental",
       "level": 39,
       "hp": 55000,
       "speed": 600,
@@ -1147,7 +1147,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "angel",
       "level": 40,
       "hp": 330000,
       "speed": 800,
@@ -1157,7 +1157,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "demon",
       "level": 41,
       "hp": 170000,
       "speed": 1300,
@@ -1167,7 +1167,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "vampire",
       "level": 42,
       "hp": 18000,
       "speed": 700,
@@ -1177,7 +1177,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "hydra",
       "level": 43,
       "hp": 200000,
       "speed": 800,
@@ -1187,7 +1187,7 @@
       "ability": ["untouchable", "evasion", "recharge"]
     },
     {
-      "name": "",
+      "name": "lich",
       "level": 44,
       "hp": 240000,
       "speed": 500,
@@ -1197,7 +1197,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "wyvern",
       "level": 45,
       "hp": 120000,
       "speed": 2000,
@@ -1207,7 +1207,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "sceleton animal",
       "level": 46,
       "hp": 550000,
       "speed": 800,
@@ -1217,7 +1217,7 @@
       "ability": ["physical immune"]
     },
     {
-      "name": "",
+      "name": "red devil",
       "level": 47,
       "hp": 550000,
       "speed": 600,
@@ -1227,7 +1227,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "quicksilver dragon",
       "level": 48,
       "hp": 50000,
       "speed": 500,
@@ -1237,7 +1237,7 @@
       "ability": ["magic immunity"]
     },
     {
-      "name": "",
+      "name": "golden dragon",
       "level": 49,
       "hp": 650000,
       "speed": 700,
@@ -1247,7 +1247,7 @@
       "ability": []
     },
     {
-      "name": "",
+      "name": "balgur",
       "level": 50,
       "hp": 1000000,
       "speed": 1000,

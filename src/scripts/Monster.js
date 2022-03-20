@@ -1,13 +1,13 @@
 import Phaser from 'phaser';
 
 export default class Monster extends Phaser.Physics.Arcade.Image {
-  constructor(scene, x, y, data) {
-    super(scene, x, y, 'monster');
+  constructor(scene, x, y, texture, name, data) {
+    super(scene, x, y, texture, name);
 
     this.scene = scene;
     this.x = x;
     this.y = y;
-    this.name;
+    this.name = name;
     this.hp;
     this.baseSpeed;
     this.currentSpeed;
@@ -75,7 +75,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         delay: data.duration,
         callback: () => {
           this.currentSpeed += data.value / this.scaleSize;
-          if (this.hp > 0) {
+          if (this.scene && this.hp > 0) {
             this.scene.tweens.getTweensOf(this)[0].timeScale +=
               data.value / this.scaleSize / this.baseSpeed;
           }

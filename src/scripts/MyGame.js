@@ -34,6 +34,9 @@ import atlas from '../assets/atlas.json';
 import map from '../assets/32px/tilemap.json';
 import tileset from '../assets/32px/map_tiles.png';
 
+import monsterImages from '../assets/32px/monster_images.png';
+import monsterAtlas from '../assets/32px/monster_images_atlas.json';
+
 import monsterImg from '../assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
 
 import bulletImg from '../assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
@@ -50,7 +53,7 @@ export default class MyGame extends Phaser.Scene {
     this.cam;
 
     this.currentLevel = 1;
-    this.currentWave = 1;
+    this.currentWave = 9;
     this.life = 100;
     this.exp = 0;
 
@@ -84,6 +87,8 @@ export default class MyGame extends Phaser.Scene {
     this.load.image('tileset', tileset);
     this.load.atlas('gemImages', gemImages, gemAtlas);
     this.load.json('gemsData', gemsData);
+
+    this.load.atlas('monsterImages', monsterImages, monsterAtlas);
 
     this.load.image('monster', monsterImg);
     this.load.image('bullet', bulletImg);
@@ -150,7 +155,7 @@ export default class MyGame extends Phaser.Scene {
 
     this.monsters = this.physics.add.group({
       classType: Monster,
-      defaultKey: 'monster',
+      defaultKey: 'monsterImages',
       maxSize: this.monstersCnt,
       runChildUpdate: true,
     });
@@ -287,6 +292,7 @@ export default class MyGame extends Phaser.Scene {
       key: this.monsters.defaultKey,
       repeat: this.monsters.maxSize - 1,
       setOrigin: { x: 0, y: 0 },
+      frame: this.monstersData[this.currentWave - 1].name,
     });
 
     this.time.addEvent({
