@@ -22,7 +22,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
 
     this.selected = false;
 
-    this.modifires = [];
+    this.modifires = {};
     this.speedX = 0;
     this.speedY = 0;
     this.path;
@@ -71,7 +71,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
 
   effect(data) {
     if (data.name.includes('slow')) {
-      const timedEvent = new Phaser.Time.TimerEvent({
+      const timedEventConfig = {
         delay: data.duration,
         callback: () => {
           this.currentSpeed += data.value / this.scaleSize;
@@ -79,20 +79,21 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
             this.scene.tweens.getTweensOf(this)[0].timeScale +=
               data.value / this.scaleSize / this.baseSpeed;
           }
-          this.modifires.splice(
-            this.modifires.findIndex((val) => val === data.name),
-            1
-          );
+          delete this.modifires[data.name];
+          console.log(this.currentSpeed, this.baseSpeed);
         },
-      });
-      if (this.modifires.includes(data.name)) {
-        this.scene.time.addEvent(timedEvent);
+      };
+
+      if (data.name in this.modifires) {
+        this.modifires[data.name].reset(timedEventConfig);
+        console.log(this.currentSpeed, this.baseSpeed);
       } else {
         this.currentSpeed -= data.value / this.scaleSize;
         this.scene.tweens.getTweensOf(this)[0].timeScale -=
           data.value / this.scaleSize / this.baseSpeed;
-        this.modifires.push(data.name);
-        this.scene.time.addEvent(timedEvent);
+        const slowEvent = this.scene.time.addEvent(timedEventConfig);
+        this.modifires[data.name] = slowEvent;
+        console.log(this.currentSpeed, this.baseSpeed);
       }
     }
   }
