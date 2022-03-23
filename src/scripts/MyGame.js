@@ -603,7 +603,7 @@ export default class MyGame extends Phaser.Scene {
     bullet.ability.forEach((value) => {
       const data = this.abilitiesData.find((val) => val.name === value);
       if (data.type === 'on hit') {
-        enemy.effect(data);
+        enemy.effect(data, bullet.damage);
       }
     });
 

@@ -69,7 +69,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.destroy();
   }
 
-  effect(data) {
+  effect(data, damage) {
     if (data.name.includes('slow')) {
       const timedEventConfig = {
         delay: data.duration,
@@ -80,21 +80,77 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
               data.value / this.scaleSize / this.baseSpeed;
           }
           delete this.modifires[data.name];
-          console.log(this.currentSpeed, this.baseSpeed);
         },
       };
 
       if (data.name in this.modifires) {
         this.modifires[data.name].reset(timedEventConfig);
-        console.log(this.currentSpeed, this.baseSpeed);
       } else {
         this.currentSpeed -= data.value / this.scaleSize;
         this.scene.tweens.getTweensOf(this)[0].timeScale -=
           data.value / this.scaleSize / this.baseSpeed;
         const slowEvent = this.scene.time.addEvent(timedEventConfig);
         this.modifires[data.name] = slowEvent;
-        console.log(this.currentSpeed, this.baseSpeed);
       }
+    }
+
+    if (data.name.includes('pierce')) {
+      const timedEventConfig = {
+        delay: data.duration,
+        callback: () => {
+          this.armor += data.value;
+          delete this.modifires[data.name];
+        },
+      };
+
+      if (data.name in this.modifires) {
+        this.modifires[data.name].reset(timedEventConfig);
+      } else {
+        this.armor -= data.value;
+        const pierceEvent = this.scene.time.addEvent(timedEventConfig);
+        this.modifires[data.name] = pierceEvent;
+      }
+    }
+
+    if (data.name.includes('poison')) {
+      const timedEventConfig = {
+        delay: 1000,
+        repeat: data.duration / 1000,
+        callback: () => {
+          this.hp -= data.value;
+          if (poisonEvent.repeatCount === 0) {
+            console.log('finished');
+
+            const index = this.modifires[data.name].findIndex(
+              (value) => value === poisonEvent
+            );
+            this.modifires[data.name].splice(index, 1);
+            console.log(this.modifires);
+          }
+        },
+      };
+      const poisonEvent = this.scene.time.addEvent(timedEventConfig);
+      if (this.modifires[data.name]) {
+        this.modifires[data.name].push(poisonEvent);
+      } else {
+        this.modifires[data.name] = [poisonEvent];
+      }
+
+      console.log(this.modifires);
+    }
+
+    if (data.name.includes('cleave')) {
+      const nearMonsters = this.scene.physics
+        .overlapCirc(
+          this.getCenter().x,
+          this.getCenter().y,
+          data.radius / this.scale
+        )
+        .filter((value) => value.gameObject instanceof Monster);
+      nearMonsters.forEach((monster) => {
+        monster.gameObject.hp -= damage * data.value;
+        console.log(monster.gameObject.hp);
+      });
     }
   }
 }
