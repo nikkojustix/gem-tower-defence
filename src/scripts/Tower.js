@@ -23,6 +23,8 @@ class Tower extends Phaser.Physics.Arcade.Image {
     this.auras = new Set();
 
     this.targetsCnt = 1;
+    this.tmpTargets = [[], [], [], [], [], []];
+    this.targets = [];
 
     this.combineTo = null;
     this.selected = false;
@@ -81,10 +83,25 @@ class Tower extends Phaser.Physics.Arcade.Image {
       .overlapCirc(this.getCenter().x, this.getCenter().y, this.curRadius)
       .filter((value) => value.gameObject instanceof Monster);
 
+    targets.forEach((target) => {
+      if (!this.targets.includes(target)) {
+        console.log(target.gameObject.richedPoints);
+        // this.tmpTargets[target.gameObject.richedPoints].push(target);
+
+        // console.log(this.tmpTargets);
+      }
+    });
+    this.targets.forEach((target, index) => {
+      if (!targets.includes(target)) {
+        this.targets.splice(index, 1);
+      }
+    });
+
     this.timer += delta;
     if (this.timer > this.attackRate) {
       for (let i = 0; i < this.targetsCnt; i++) {
-        if (targets[i] && targets[i].gameObject.hp > 0) {
+        if (this.targets[i] && this.targets[i].gameObject.hp > 0) {
+          // console.log(targets);
           const bullet = new Bullet(
             this.scene,
             this.getCenter().x,
@@ -93,8 +110,10 @@ class Tower extends Phaser.Physics.Arcade.Image {
             this.ability
           );
           this.bullets.add(bullet, true);
+          // console.log('targets[i]: ', targets[i]);
 
-          const enemy = targets[i].gameObject;
+          const enemy = this.targets[i].gameObject;
+          // enemy.setTint(0xcccccc);
           enemy.on('move', () => {
             bullet.fire(enemy);
 
@@ -122,6 +141,31 @@ class Tower extends Phaser.Physics.Arcade.Image {
     if (data.name.includes('speed')) {
       this.curAttackSpeed += (this.baseAttackSpeed * data.value) / 100;
       this.setAttackRate();
+    }
+    if (data.name.includes('burn')) {
+      const timedEventConfig = {
+        delay: data.interval,
+        loop: true,
+        callback: () => {
+          const monsters = this.scene.physics
+            .overlapCirc(
+              this.getCenter().x,
+              this.getCenter().y,
+              data.radius / this.scale
+            )
+            .filter((value) => value.gameObject instanceof Monster);
+          this.hp -= data.value;
+          if (poisonEvent.repeatCount === 0) {
+            console.log('finished');
+
+            const index = this.modifires[data.name].findIndex(
+              (value) => value === poisonEvent
+            );
+            this.modifires[data.name].splice(index, 1);
+            console.log(this.modifires);
+          }
+        },
+      };
     }
   }
 
