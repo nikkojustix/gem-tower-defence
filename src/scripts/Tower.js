@@ -23,7 +23,6 @@ class Tower extends Phaser.Physics.Arcade.Image {
     this.auras = new Set();
 
     this.targetsCnt = 1;
-    this.tmpTargets = [[], [], [], [], [], []];
     this.targets = [];
 
     this.combineTo = null;
@@ -85,23 +84,29 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
     targets.forEach((target) => {
       if (!this.targets.includes(target)) {
-        console.log(target.gameObject.richedPoints);
-        // this.tmpTargets[target.gameObject.richedPoints].push(target);
-
-        // console.log(this.tmpTargets);
+        this.targets.push(target);
+        this.targets[0].gameObject.isTarget = true;
       }
     });
     this.targets.forEach((target, index) => {
       if (!targets.includes(target)) {
         this.targets.splice(index, 1);
+        target.gameObject.isTarget = false;
       }
     });
 
+    // this.target = this.targets[0]
     this.timer += delta;
     if (this.timer > this.attackRate) {
+      // this.targets.sort((a, b) => {
+      //   const tweenA = this.scene.tweens.getTweensOf(a.gameObject);
+      //   const tweenB = this.scene.tweens.getTweensOf(b.gameObject);
+      //   if (tweenA[0].progress > tweenB[0].progress) return -1;
+      //   if (tweenA[0].progress < tweenB[0].progress) return 1
+      //   return 0;
+      // });
       for (let i = 0; i < this.targetsCnt; i++) {
         if (this.targets[i] && this.targets[i].gameObject.hp > 0) {
-          // console.log(targets);
           const bullet = new Bullet(
             this.scene,
             this.getCenter().x,
@@ -110,10 +115,10 @@ class Tower extends Phaser.Physics.Arcade.Image {
             this.ability
           );
           this.bullets.add(bullet, true);
-          // console.log('targets[i]: ', targets[i]);
 
           const enemy = this.targets[i].gameObject;
           // enemy.setTint(0xcccccc);
+          // enemy.isTarget = true;
           enemy.on('move', () => {
             bullet.fire(enemy);
 

@@ -607,6 +607,7 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
+    // enemy.isTarget = false;
     bullet.destroy();
     enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {

@@ -27,7 +27,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.speedY = 0;
     this.path;
     this.pathN = 0;
-    this.richedPoints = 0;
+    this.isTarget = false;
 
     this.difficultyHp = this.scene.registry.get('difficultyHp');
     this.difficultySpeed = this.scene.registry.get('difficultySpeed');
@@ -56,15 +56,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   }
 
   update(time, delta) {
-    console.log(this.scene.tweens.getTweensOf(this, true));
-    this.points.forEach((point, index) => {
-      if (
-        this.x == point.x * this.frameSize &&
-        this.y == point.y * this.frameSize
-      ) {
-        this.richedPoints = index;
-      }
-    });
+    this.tint = this.isTarget ? 0xcccccc : 0xffffff;
     if (
       this.x == this.points[6].x * this.frameSize &&
       this.y == this.points[6].y * this.frameSize
