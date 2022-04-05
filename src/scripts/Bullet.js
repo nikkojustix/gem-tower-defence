@@ -1,8 +1,8 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
 export default class Bullet extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y, damage, ability) {
-    super(scene, x, y, 'bullet');
+    super(scene, x, y, "bullet");
 
     this.scene = scene;
     this.damage = damage;
@@ -10,7 +10,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
 
     this.incX = 0;
     this.incY = 0;
-    this.speed = Phaser.Math.GetSpeed(750, 1);
+    this.speed = Phaser.Math.GetSpeed(800, 1);
     this.target = null;
   }
 

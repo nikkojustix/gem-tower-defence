@@ -1,4 +1,4 @@
-import Phaser from 'phaser';
+import Phaser from "phaser";
 
 export default class Monster extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y, texture, name, data) {
@@ -27,13 +27,11 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.speedY = 0;
     this.path;
     this.pathN = 0;
-    this.isTarget = false;
-
-    this.difficultyHp = this.scene.registry.get('difficultyHp');
-    this.difficultySpeed = this.scene.registry.get('difficultySpeed');
-    this.scaleSize = this.scene.registry.get('scale');
-    this.frameSize = this.scene.registry.get('frameSize');
-    this.points = this.scene.registry.get('points');
+    this.difficultyHp = this.scene.registry.get("difficultyHp");
+    this.difficultySpeed = this.scene.registry.get("difficultySpeed");
+    this.scaleSize = this.scene.registry.get("scale");
+    this.frameSize = this.scene.registry.get("frameSize");
+    this.points = this.scene.registry.get("points");
 
     this.setInteractive();
   }
@@ -56,7 +54,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   }
 
   update(time, delta) {
-    this.tint = this.isTarget ? 0xcccccc : 0xffffff;
     if (
       this.x == this.points[6].x * this.frameSize &&
       this.y == this.points[6].y * this.frameSize
@@ -72,7 +69,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   }
 
   effect(data, damage) {
-    if (data.name.includes('slow')) {
+    if (data.name.includes("slow")) {
       const timedEventConfig = {
         delay: data.duration,
         callback: () => {
@@ -96,7 +93,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       }
     }
 
-    if (data.name.includes('pierce')) {
+    if (data.name.includes("pierce")) {
       const timedEventConfig = {
         delay: data.duration,
         callback: () => {
@@ -114,14 +111,14 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       }
     }
 
-    if (data.name.includes('poison')) {
+    if (data.name.includes("poison")) {
       const timedEventConfig = {
         delay: 1000,
         repeat: data.duration / 1000,
         callback: () => {
           this.hp -= data.value;
           if (poisonEvent.repeatCount === 0) {
-            console.log('finished');
+            console.log("finished");
 
             const index = this.modifires[data.name].findIndex(
               (value) => value === poisonEvent
@@ -141,7 +138,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       console.log(this.modifires);
     }
 
-    if (data.name.includes('cleave')) {
+    if (data.name.includes("cleave")) {
       const nearMonsters = this.scene.physics
         .overlapCirc(
           this.getCenter().x,
@@ -151,7 +148,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         .filter((value) => value.gameObject instanceof Monster);
       nearMonsters.forEach((monster) => {
         monster.gameObject.hp -= damage * data.value;
-        console.log(monster.gameObject.hp);
       });
     }
   }

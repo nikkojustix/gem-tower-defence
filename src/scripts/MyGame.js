@@ -19,41 +19,41 @@
 // preloader
 // start menu
 
-import Phaser, { Game } from 'phaser';
-import Gem from './Gem';
-import Monster from './Monster';
-import Bullet from './Bullet';
-import AdvancedTower from './AdvancedTower';
+import Phaser, { Game } from "phaser";
+import Gem from "./Gem";
+import Monster from "./Monster";
+import Bullet from "./Bullet";
+import AdvancedTower from "./AdvancedTower";
 
-import EasyStar from 'easystarjs';
+import EasyStar from "easystarjs";
 
-import gemImages from '../assets/32px/gem_images.png';
-import gemAtlas from '../assets/32px/gem_images.json';
-import gemsData from '../assets/gemsData.json';
-import atlas from '../assets/atlas.json';
-import map from '../assets/32px/tilemap.json';
-import tileset from '../assets/32px/map_tiles.png';
+import gemImages from "../assets/32px/gem_images.png";
+import gemAtlas from "../assets/32px/gem_images.json";
+import gemsData from "../assets/gemsData.json";
+import atlas from "../assets/atlas.json";
+import map from "../assets/32px/tilemap.json";
+import tileset from "../assets/32px/map_tiles.png";
 
-import monsterImages from '../assets/32px/monster_images.png';
-import monsterAtlas from '../assets/32px/monster_images_atlas.json';
+import monsterImages from "../assets/32px/monster_images.png";
+import monsterAtlas from "../assets/32px/monster_images_atlas.json";
 
-import monsterImg from '../assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png';
+import monsterImg from "../assets/32px/Dungeon Crawl Stone Soup Full/monster/animals/spider.png";
 
-import bulletImg from '../assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png';
+import bulletImg from "../assets/32px/Dungeon Crawl Stone Soup Full/effect/sting_2.png";
 
-import silverImg from '../assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png';
-import Stone from './Stone';
+import silverImg from "../assets/32px/Dungeon Crawl Stone Soup Full/dungeon/altars/altar_okawaru.png";
+import Stone from "./Stone";
 
 export default class MyGame extends Phaser.Scene {
   constructor() {
-    super({ key: 'GameScene' });
+    super({ key: "GameScene" });
 
     this.map;
     this.atlas;
     this.cam;
 
     this.currentLevel = 1;
-    this.currentWave = 9;
+    this.currentWave = 1;
     this.life = 100;
     this.exp = 0;
 
@@ -83,21 +83,21 @@ export default class MyGame extends Phaser.Scene {
   }
 
   preload() {
-    this.load.tilemapTiledJSON('map', map);
-    this.load.image('tileset', tileset);
-    this.load.atlas('gemImages', gemImages, gemAtlas);
-    this.load.json('gemsData', gemsData);
+    this.load.tilemapTiledJSON("map", map);
+    this.load.image("tileset", tileset);
+    this.load.atlas("gemImages", gemImages, gemAtlas);
+    this.load.json("gemsData", gemsData);
 
-    this.load.atlas('monsterImages', monsterImages, monsterAtlas);
+    this.load.atlas("monsterImages", monsterImages, monsterAtlas);
 
-    this.load.image('monster', monsterImg);
-    this.load.image('bullet', bulletImg);
+    this.load.image("monster", monsterImg);
+    this.load.image("bullet", bulletImg);
 
-    this.load.image('silver', silverImg);
+    this.load.image("silver", silverImg);
   }
 
   create() {
-    this.db = this.cache.json.get('gemsData');
+    this.db = this.cache.json.get("gemsData");
     this.chances = this.db.chances;
     this.ranks = this.db.ranks;
     this.types = this.db.types;
@@ -123,29 +123,29 @@ export default class MyGame extends Phaser.Scene {
       wave: 1,
       life: 100,
     });
-    console.log(this.registry.get('scale'));
+    console.log(this.registry.get("scale"));
 
-    this.hudScene = this.scene.get('HudScene');
-    this.map = this.add.tilemap('map');
+    this.hudScene = this.scene.get("HudScene");
+    this.map = this.add.tilemap("map");
     this.tileset = this.map.addTilesetImage(
-      'tileset',
-      'tileset',
+      "tileset",
+      "tileset",
       this.db.frameSize,
       this.db.frameSize,
       2,
       4
     );
     this.bgLayer = this.map.createLayer(
-      this.map.getLayer('bg').name,
+      this.map.getLayer("bg").name,
       this.tileset,
-      this.map.getLayer('bg').x,
-      this.map.getLayer('bg').y
+      this.map.getLayer("bg").x,
+      this.map.getLayer("bg").y
     );
     this.pointsLayer = this.map.createLayer(
-      this.map.getLayer('numbers').name,
+      this.map.getLayer("numbers").name,
       this.tileset,
-      this.map.getLayer('numbers').x,
-      this.map.getLayer('numbers').y
+      this.map.getLayer("numbers").x,
+      this.map.getLayer("numbers").y
     );
 
     this.bullets = this.physics.add.group();
@@ -155,7 +155,7 @@ export default class MyGame extends Phaser.Scene {
 
     this.monsters = this.physics.add.group({
       classType: Monster,
-      defaultKey: 'monsterImages',
+      defaultKey: "monsterImages",
       maxSize: this.monstersCnt,
       runChildUpdate: true,
     });
@@ -197,7 +197,7 @@ export default class MyGame extends Phaser.Scene {
     this.cam.setViewport(0, 0, 900, 900);
     this.cam.zoom = 0.76;
 
-    this.input.on('pointermove', (e) => {
+    this.input.on("pointermove", (e) => {
       if (!e.isDown) return;
       if (e.button === 1) {
         this.cam.scrollX -= (e.x - e.prevPosition.x) / this.cam.zoom;
@@ -205,7 +205,7 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
-    this.input.on('wheel', (e) => {
+    this.input.on("wheel", (e) => {
       if (this.cam.zoom > 0.76 && e.deltaY > 0) {
         this.cam.zoom -= 0.01;
       }
@@ -214,8 +214,8 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
-    this.input.keyboard.once('keydown', this.buildPhase, this);
-    this.input.on('gameobjectdown', this.chooseItem, this);
+    this.input.keyboard.once("keydown", this.buildPhase, this);
+    this.input.on("gameobjectdown", this.chooseItem, this);
   }
 
   update(time, delta) {
@@ -229,28 +229,28 @@ export default class MyGame extends Phaser.Scene {
     this.marker.x = this.map.tileToWorldX(this.pointerTileX);
     this.marker.y = this.map.tileToWorldY(this.pointerTileY);
 
-    if (this.phase === 'attack' && this.monsters.getLength() === 0) {
+    if (this.phase === "attack" && this.monsters.getLength() === 0) {
       this.nextWave();
     }
 
     if (this.exp >= this.expToNextLevel[this.currentLevel]) {
       this.currentLevel++;
-      this.registry.inc('level', 1);
+      this.registry.inc("level", 1);
     }
   }
 
   buildPhase() {
-    this.phase = 'build';
+    this.phase = "build";
     this.hudScene.enableBtn(this.hudScene.buildBtn);
   }
 
   startBuild() {
-    this.input.on('pointerdown', (pointer, currentlyOver) => {
+    this.input.on("pointerdown", (pointer, currentlyOver) => {
       const worldPoint = pointer.positionToCamera(this.cam);
       const x = this.map.worldToTileX(worldPoint.x);
       const y = this.map.worldToTileY(worldPoint.y);
       if (pointer.button === 0) {
-        const tile = this.map.getTileAt(x, y, true, 'bg');
+        const tile = this.map.getTileAt(x, y, true, "bg");
         this.path = [];
         this.grid[tile.y][tile.x] = 1;
         this.checkPath(
@@ -266,12 +266,11 @@ export default class MyGame extends Phaser.Scene {
   checkPath(from, to, tile, currentlyOver) {
     this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
       if (path === null) {
-        console.log('building block');
+        console.log("building block");
         this.grid[tile.y][tile.x] = 0;
       } else {
         this.path.pop();
         this.path = this.path.concat(path);
-        // this.path.push(path);
         if (this.waypoints.indexOf(to) < this.waypoints.length - 1) {
           from = this.waypoints.at(this.waypoints.indexOf(to));
           to = this.waypoints.at(this.waypoints.indexOf(to) + 1);
@@ -285,7 +284,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   attackPhase() {
-    this.phase = 'attack';
+    this.phase = "attack";
     this.monsters.createMultiple({
       active: false,
       visible: false,
@@ -310,7 +309,7 @@ export default class MyGame extends Phaser.Scene {
       pos.index == 2 ||
       pos.index == 4
     ) {
-      console.log('building blocked!');
+      console.log("building blocked!");
       return;
     }
     const name = this.getFrame();
@@ -334,7 +333,7 @@ export default class MyGame extends Phaser.Scene {
     this.checkForCombine(this.newGems);
 
     if (this.newGems.isFull()) {
-      this.input.off('pointerdown');
+      this.input.off("pointerdown");
     }
   }
 
@@ -365,7 +364,7 @@ export default class MyGame extends Phaser.Scene {
     console.log(gameObject);
     this.hudScene.showInfo(gameObject);
     this.hudScene.controls.forEach((btn) => {
-      if (!btn.frame.name.includes('build')) this.hudScene.disableBtn(btn);
+      if (!btn.frame.name.includes("build")) this.hudScene.disableBtn(btn);
     });
     this.maze.children.each((item) => {
       item.setSelected(false);
@@ -374,14 +373,14 @@ export default class MyGame extends Phaser.Scene {
     gameObject.setSelected(true);
     this.selectedGem = gameObject;
 
-    if (gameObject.name === 'stone') {
+    if (gameObject.name === "stone") {
       this.hudScene.enableBtn(this.hudScene.removeBtn);
       this.stone = gameObject;
     }
 
     if (this.newGems.contains(gameObject) && this.newGems.isFull()) {
       this.hudScene.enableBtn(this.hudScene.selectBtn);
-      switch (this.newGems.getMatching('name', gameObject.name).length) {
+      switch (this.newGems.getMatching("name", gameObject.name).length) {
         case 5:
         case 4:
           this.hudScene.enableBtn(this.hudScene.merge2Btn);
@@ -480,7 +479,7 @@ export default class MyGame extends Phaser.Scene {
       this.selectedGem.destroy();
       this.selectGem();
     } else {
-      this.selectedGem.name = 'tmp';
+      this.selectedGem.name = "tmp";
       this.selectedGem.setVisible(false);
       this.selectedGem.setActive(false);
 
@@ -489,7 +488,7 @@ export default class MyGame extends Phaser.Scene {
           this.maze.add(new Stone(this, gem.x, gem.y), true);
           const index = combination.findIndex((value) => value === gem.name);
           combination.splice(index, 1);
-          gem.name = 'tmp';
+          gem.name = "tmp";
           gem.setVisible(false);
           gem.setActive(false);
         } else {
@@ -503,7 +502,7 @@ export default class MyGame extends Phaser.Scene {
       delay: 100,
       callback: () => {
         this.gems.getChildren().forEach((gem) => {
-          if (gem.name != 'tmp') {
+          if (gem.name != "tmp") {
             gem.updateAuras();
           }
         });
@@ -543,8 +542,6 @@ export default class MyGame extends Phaser.Scene {
       .setVisible(true)
       .setParams(this.monstersData[this.currentWave - 1]);
     this.moveMonster(monster, this.path);
-    // monster.path = this.path;
-    // monster.pathN = 0;
     monster = null;
   }
 
@@ -570,7 +567,7 @@ export default class MyGame extends Phaser.Scene {
     this.tweens.timeline({
       tweens: tweens,
       onUpdate: () => {
-        monster.emit('move');
+        monster.emit("move");
       },
     });
   }
@@ -578,20 +575,20 @@ export default class MyGame extends Phaser.Scene {
   nextWave() {
     this.maze
       .getChildren()
-      .filter((value) => value.name === 'tmp')
+      .filter((value) => value.name === "tmp")
       .forEach((value) => {
         console.log(value);
         value.destroy();
       });
     this.currentWave++;
-    this.registry.set('wave', this.currentWave);
+    this.registry.set("wave", this.currentWave);
 
     this.monsters.maxSize = this.monstersCnt;
-    if (this.monstersData[this.currentWave - 1].type.includes('boss')) {
+    if (this.monstersData[this.currentWave - 1].type.includes("boss")) {
       this.monsters.maxSize = 1;
     }
 
-    if (this.monstersData[this.currentWave - 1].type.includes('flying')) {
+    if (this.monstersData[this.currentWave - 1].type.includes("flying")) {
       this.finder.setGrid(this.plainGrid);
     } else {
       this.finder.setGrid(this.grid);
@@ -602,12 +599,11 @@ export default class MyGame extends Phaser.Scene {
   hit(bullet, enemy) {
     bullet.ability.forEach((value) => {
       const data = this.abilitiesData.find((val) => val.name === value);
-      if (data.type === 'on hit') {
+      if (data.type === "on hit") {
         enemy.effect(data, bullet.damage);
       }
     });
 
-    // enemy.isTarget = false;
     bullet.destroy();
     enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {
