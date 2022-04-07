@@ -105,30 +105,33 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
     this.timer += delta;
     if (this.timer > this.attackRate && this.targets.getLength() != 0) {
+      console.log("shoot");
       this.targets.getChildren().forEach((target) => {
-        // if (target && target.hp > 0) {
-        const bullet = new Bullet(
-          this.scene,
-          this.getCenter().x,
-          this.getCenter().y,
-          this.curDamage,
-          this.ability
-        );
-        this.bullets.add(bullet, true);
-
-        target.on("move", () => {
+        console.log("creating bullet");
+        if (target && target.hp > 0) {
+          const bullet = new Bullet(
+            this.scene,
+            this.getCenter().x,
+            this.getCenter().y,
+            this.curDamage,
+            this.ability
+          );
+          this.bullets.add(bullet, true);
+          console.log("bullet created", bullet);
+          // target.on("move", () => {
+          // console.log("bullet fires");
           bullet.fire(target);
 
-          this.scene.physics.overlap(
-            bullet,
-            target,
-            this.scene.hit,
-            undefined,
-            this.scene
-          );
-        });
-        this.timer = 0;
-        // }
+          // this.scene.physics.overlap(
+          //   bullet,
+          //   target,
+          //   this.scene.hit,
+          //   undefined,
+          //   this.scene
+          // );
+          // });
+          this.timer = 0;
+        }
       });
     }
   }
@@ -145,7 +148,7 @@ class Tower extends Phaser.Physics.Arcade.Image {
       this.setAttackRate();
     }
     if (data.name.includes("burn")) {
-      const timedEventConfig = {
+      this.timedEventConfig = {
         delay: data.interval,
         loop: true,
         callback: () => {
@@ -153,21 +156,17 @@ class Tower extends Phaser.Physics.Arcade.Image {
             .overlapCirc(
               this.getCenter().x,
               this.getCenter().y,
-              data.radius / this.scale
+              data.radius / this.scene.registry.get("scale")
             )
             .filter((value) => value.gameObject instanceof Monster);
-          this.hp -= data.value;
-          if (poisonEvent.repeatCount === 0) {
-            console.log("finished");
 
-            const index = this.modifires[data.name].findIndex(
-              (value) => value === poisonEvent
-            );
-            this.modifires[data.name].splice(index, 1);
-            console.log(this.modifires);
-          }
+          monsters.forEach((monster) => {
+            monster.gameObject.decreaseHp(data.value);
+            console.log(monster.hp);
+          });
         },
       };
+      this.scene.time.addEvent(this.timedEventConfig);
     }
   }
 

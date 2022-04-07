@@ -4,10 +4,15 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   constructor(scene, x, y, texture, name, data) {
     super(scene, x, y, texture, name);
 
+    this.helthBar = this.scene.add
+      .rectangle(this.x, this.y - 8, 32, 4, 0x000000)
+      .setOrigin(0);
+
     this.scene = scene;
     this.x = x;
     this.y = y;
     this.name = name;
+    this.baseHp;
     this.hp;
     this.baseSpeed;
     this.currentSpeed;
@@ -42,7 +47,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
 
   setParams(data) {
     this.name = data.name;
-    this.hp = Math.round(data.hp * this.difficultyHp);
+    this.hp = this.baseHp = Math.round(data.hp * this.difficultyHp);
     this.baseSpeed = Math.round(
       (data.speed * this.difficultySpeed) / this.scaleSize
     );
@@ -51,15 +56,46 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.magicResistance = data.magicResistance;
     this.type = data.type;
     this.ability = data.ability;
+    // this.drawBar();
+    // this.scene.add.existing(this.helthBar);
+  }
+
+  decreaseHp(damage) {
+    this.hp -= damage;
+    if (this.hp <= 0) {
+      this.delete();
+    }
+    this.helthBar.displayWidth = Math.max(
+      0,
+      (this.frameSize / this.baseHp) * this.hp
+    );
+    // this.drawBar();
   }
 
   update(time, delta) {
+    this.helthBar.setX(this.x);
+    this.helthBar.setY(this.y - 8);
+
     if (
       this.x == this.points[6].x * this.frameSize &&
       this.y == this.points[6].y * this.frameSize
     ) {
       this.delete();
     }
+  }
+
+  drawBar() {
+    this.helthBar.clear();
+
+    this.helthBar.fillStyle(0x000000);
+
+    this.helthBar.fillRect(
+      this.x * this.scene.cam.zoom,
+      this.y - 8,
+      (this.frameSize / this.baseHp) * this.hp,
+      4
+    );
+    console.log(this.x, this.helthBar.x);
   }
 
   delete() {
@@ -116,7 +152,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         delay: 1000,
         repeat: data.duration / 1000,
         callback: () => {
-          this.hp -= data.value;
+          this.decreaseHp(data.value);
           if (poisonEvent.repeatCount === 0) {
             console.log("finished");
 
@@ -143,11 +179,14 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         .overlapCirc(
           this.getCenter().x,
           this.getCenter().y,
-          data.radius / this.scale
+          data.radius / this.scaleSize
         )
-        .filter((value) => value.gameObject instanceof Monster);
+        .filter(
+          (value) =>
+            value.gameObject instanceof Monster && value.gameObject != this
+        );
       nearMonsters.forEach((monster) => {
-        monster.gameObject.hp -= damage * data.value;
+        monster.gameObject.decreaseHp(damage * data.value);
       });
     }
   }

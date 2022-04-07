@@ -16,23 +16,42 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
 
   fire(target) {
     this.target = target;
-    if (target.hp > 0) {
-      const angle = Phaser.Math.Angle.Between(
-        this.getCenter().x,
-        this.getCenter().y,
-        target.body.center.x,
-        target.body.center.y
-      );
-      this.incX = Math.cos(angle);
-      this.incY = Math.sin(angle);
-    } else {
-      this.destroy();
-    }
   }
 
   update(time, delta) {
+    if (this.target.hp > 0) {
+      const angle = Phaser.Math.Angle.Between(
+        this.getCenter().x,
+        this.getCenter().y,
+        this.target.body.center.x,
+        this.target.body.center.y
+      );
+      this.incX = Math.cos(angle);
+      this.incY = Math.sin(angle);
+      if (
+        Phaser.Math.Distance.Between(
+          this.getCenter().x,
+          this.getCenter().y,
+          this.target.body.center.x,
+          this.target.body.center.y
+        ) < 8
+      ) {
+        this.scene.hit(this, this.target);
+      }
+    } else {
+      this.destroy();
+    }
+
     this.x += this.incX * (this.speed * delta);
     this.y += this.incY * (this.speed * delta);
+
+    // this.scene.physics.overlap(
+    //   this,
+    //   this.target,
+    //   this.scene.hit,
+    //   undefined,
+    //   this.scene
+    // );
 
     if (this.target && this.target.hp <= 0) {
       this.destroy();

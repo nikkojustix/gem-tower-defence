@@ -1765,7 +1765,8 @@
       "level": 1,
       "radius": 500,
       "interval": 250,
-      "value": 20
+      "value": 20,
+      "type": "selfEffect"
     },
     {
       "name": "burn 2",

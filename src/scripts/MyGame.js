@@ -604,10 +604,10 @@ export default class MyGame extends Phaser.Scene {
       }
     });
 
+    enemy.decreaseHp(bullet.damage);
     bullet.destroy();
-    enemy.hp -= bullet.damage;
     if (enemy.hp <= 0) {
-      enemy.delete();
+      // enemy.delete();
       this.exp += enemy.exp;
     }
   }
