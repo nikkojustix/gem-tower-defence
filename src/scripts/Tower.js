@@ -105,9 +105,7 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
     this.timer += delta;
     if (this.timer > this.attackRate && this.targets.getLength() != 0) {
-      console.log("shoot");
       this.targets.getChildren().forEach((target) => {
-        console.log("creating bullet");
         if (target && target.hp > 0) {
           const bullet = new Bullet(
             this.scene,
@@ -117,7 +115,6 @@ class Tower extends Phaser.Physics.Arcade.Image {
             this.ability
           );
           this.bullets.add(bullet, true);
-          console.log("bullet created", bullet);
           // target.on("move", () => {
           // console.log("bullet fires");
           bullet.fire(target);
@@ -162,7 +159,7 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
           monsters.forEach((monster) => {
             monster.gameObject.decreaseHp(data.value);
-            console.log(monster.hp);
+            console.log(monster.gameObject.hp);
           });
         },
       };

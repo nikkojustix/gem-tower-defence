@@ -99,9 +99,11 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   }
 
   delete() {
-    const tween = this.scene.tweens.getTweensOf(this);
-    if (tween[0]) tween[0].destroy();
-    this.destroy();
+    if (this.scene) {
+      const tween = this.scene.tweens.getTweensOf(this);
+      if (tween[0]) tween[0].destroy();
+      this.destroy();
+    }
   }
 
   effect(data, damage) {
