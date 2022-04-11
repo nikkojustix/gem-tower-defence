@@ -104,7 +104,11 @@ class Tower extends Phaser.Physics.Arcade.Image {
     });
 
     this.timer += delta;
-    if (this.timer > this.attackRate && this.targets.getLength() != 0) {
+    if (
+      this.baseDamage != 0 &&
+      this.timer > this.attackRate &&
+      this.targets.getLength() != 0
+    ) {
       this.targets.getChildren().forEach((target) => {
         if (target && target.hp > 0) {
           const bullet = new Bullet(

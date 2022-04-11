@@ -1773,14 +1773,115 @@
       "level": 2,
       "radius": 800,
       "interval": 500,
-      "value": 250
+      "value": 250,
+      "type": "selfEffect"
     },
     {
       "name": "burn 3",
       "level": 3,
       "radius": 1000,
       "interval": 2000,
-      "value": 5000
+      "value": 5000,
+      "type": "selfEffect"
+    },
+    {
+      "name": "anti-fly 1",
+      "level": 1,
+      "radius": 600,
+      "armor": -10,
+      "speed": -250,
+      "magicResist": 0,
+      "type": "aura"
+    },
+    {
+      "name": "anti-fly 2",
+      "level": 2,
+      "radius": 600,
+      "armor": -10,
+      "speed": -250,
+      "magicResist": -40,
+      "type": "aura"
+    },
+    {
+      "name": "anti-fly 3",
+      "level": 3,
+      "radius": 600,
+      "armor": -30,
+      "speed": -500,
+      "magicResist": -80,
+      "type": "aura"
+    },
+    {
+      "name": "decadent",
+      "level": 1,
+      "radius": 800,
+      "armor": -10,
+      "magicResist": -10,
+      "type": "aura"
+    },
+    {
+      "name": "decadent 2",
+      "level": 2,
+      "radius": 1200,
+      "armor": -20,
+      "magicResist": -20,
+      "type": "aura"
+    },
+    {
+      "name": "crit 1",
+      "level": 1,
+      "chance": 10,
+      "value": 500,
+      "type": "selfEffect"
+    },
+    {
+      "name": "ice",
+      "level": 1,
+      "radius": 300,
+      "speed": -70,
+      "type": "aura"
+    },
+    {
+      "name": "ice 2",
+      "level": 2,
+      "radius": 800,
+      "speed": -80,
+      "type": "aura"
+    },
+    {
+      "name": "freezing cold",
+      "level": 1,
+      "radius": 400,
+      "duration": 3000,
+      "speed": -50,
+      "magicResist": -50,
+      "healing": false,
+      "damage": 128,
+      "interval": 1000,
+      "type": "on hit"
+    },
+    {
+      "name": "monkey king bar",
+      "radius": 300,
+      "cannotMiss": true,
+      "type": "aura"
+    },
+    {
+      "name": "stun",
+      "chance": 10,
+      "duration": 2000,
+      "type": "on hit"
+    },
+    {
+      "name": "stone gaze",
+      "chance": 1,
+      "type": "on hit"
+    },
+    {
+      "name": "inspire",
+      "radius": 500,
+      "damage": 30,
+      "type": "aura"
     }
   ]
 }
