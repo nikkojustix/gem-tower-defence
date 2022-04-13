@@ -105,7 +105,7 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
     this.timer += delta;
     if (
-      this.baseDamage != 0 &&
+      this.baseDamage > 0 &&
       this.timer > this.attackRate &&
       this.targets.getLength() != 0
     ) {

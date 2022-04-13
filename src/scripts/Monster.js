@@ -5,7 +5,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     super(scene, x, y, texture, name);
 
     this.helthBar = this.scene.add
-      .rectangle(this.x, this.y - 8, 32, 4, 0x000000)
+      .rectangle(this.x, this.y - 8, 32, 4, 0x00ff00)
       .setOrigin(0);
 
     this.scene = scene;
@@ -87,7 +87,7 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
   drawBar() {
     this.helthBar.clear();
 
-    this.helthBar.fillStyle(0x000000);
+    this.helthBar.fillStyle(0x00ff00);
 
     this.helthBar.fillRect(
       this.x * this.scene.cam.zoom,
