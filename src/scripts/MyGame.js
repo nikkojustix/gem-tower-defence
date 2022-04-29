@@ -120,6 +120,7 @@ export default class MyGame extends Phaser.Scene {
       difficultySpeed: this.db.difficultySpeed[0],
       scale: this.scale,
       level: 1,
+      exp: this.exp,
       wave: 1,
       life: 100,
     });
@@ -606,9 +607,10 @@ export default class MyGame extends Phaser.Scene {
 
     enemy.decreaseHp(bullet.damage);
     bullet.destroy();
-    if (enemy.hp <= 0) {
-      // enemy.delete();
-      this.exp += enemy.exp;
-    }
+    // if (enemy.hp <= 0) {
+    //   // enemy.delete();
+    //   this.exp += enemy.exp;
+    //   this.registry.set("exp", this.exp);
+    // }
   }
 }

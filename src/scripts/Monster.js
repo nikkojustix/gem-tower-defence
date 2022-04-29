@@ -100,6 +100,8 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
 
   delete() {
     if (this.scene) {
+      this.scene.exp += this.exp;
+      this.scene.registry.set("exp", this.scene.exp);
       const tween = this.scene.tweens.getTweensOf(this);
       if (tween[0]) tween[0].destroy();
       this.destroy();
