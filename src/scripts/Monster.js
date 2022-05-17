@@ -56,8 +56,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
     this.magicResistance = data.magicResistance;
     this.type = data.type;
     this.ability = data.ability;
-    // this.drawBar();
-    // this.scene.add.existing(this.helthBar);
   }
 
   decreaseHp(damage) {
@@ -69,7 +67,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       0,
       (this.frameSize / this.baseHp) * this.hp
     );
-    // this.drawBar();
   }
 
   update(time, delta) {
@@ -95,7 +92,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       (this.frameSize / this.baseHp) * this.hp,
       4
     );
-    console.log(this.x, this.helthBar.x);
   }
 
   delete() {
@@ -158,13 +154,10 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
         callback: () => {
           this.decreaseHp(data.value);
           if (poisonEvent.repeatCount === 0) {
-            console.log("finished");
-
             const index = this.modifires[data.name].findIndex(
               (value) => value === poisonEvent
             );
             this.modifires[data.name].splice(index, 1);
-            console.log(this.modifires);
           }
         },
       };
@@ -174,8 +167,6 @@ export default class Monster extends Phaser.Physics.Arcade.Image {
       } else {
         this.modifires[data.name] = [poisonEvent];
       }
-
-      console.log(this.modifires);
     }
 
     if (data.name.includes("cleave")) {

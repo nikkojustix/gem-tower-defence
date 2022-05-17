@@ -253,31 +253,43 @@ export default class MyGame extends Phaser.Scene {
       if (pointer.button === 0) {
         const tile = this.map.getTileAt(x, y, true, "bg");
         this.path = [];
-        this.grid[tile.y][tile.x] = 1;
-        this.checkPath(
-          this.waypoints[0],
-          this.waypoints[1],
-          tile,
-          currentlyOver
-        );
+        if (this.grid[tile.y][tile.x]) {
+          const object = this.maze.getChildren().find((value) => {
+            return (
+              value.x === tile.x * this.db.frameSize &&
+              value.y === tile.y * this.db.frameSize
+            );
+          });
+          if (object instanceof Stone) {
+            object.destroy();
+            this.grid[tile.y][tile.x] = 1;
+            this.checkPath(this.waypoints[0], this.waypoints[1], tile);
+          } else {
+            console.log("building blocked");
+          }
+        } else {
+          this.grid[tile.y][tile.x] = 1;
+          this.checkPath(this.waypoints[0], this.waypoints[1], tile);
+        }
       }
     });
   }
 
-  checkPath(from, to, tile, currentlyOver) {
+  checkPath(from, to, tile) {
     this.finder.findPath(from.x, from.y, to.x, to.y, (path) => {
       if (path === null) {
-        console.log("building block");
+        console.log("path not found");
         this.grid[tile.y][tile.x] = 0;
       } else {
+        console.log("path found");
         this.path.pop();
         this.path = this.path.concat(path);
         if (this.waypoints.indexOf(to) < this.waypoints.length - 1) {
           from = this.waypoints.at(this.waypoints.indexOf(to));
           to = this.waypoints.at(this.waypoints.indexOf(to) + 1);
-          this.checkPath(from, to, tile, currentlyOver);
+          this.checkPath(from, to, tile);
         } else {
-          this.addNewGem(tile, currentlyOver);
+          this.addNewGem(tile);
         }
       }
     });
@@ -303,16 +315,12 @@ export default class MyGame extends Phaser.Scene {
     });
   }
 
-  addNewGem(pos, currentlyOver) {
-    if (
-      currentlyOver.length != 0 ||
-      pos == null ||
-      pos.index == 2 ||
-      pos.index == 4
-    ) {
+  addNewGem(pos) {
+    if (pos == null || pos.index == 2 || pos.index == 4) {
       console.log("building blocked!");
       return;
     }
+    this.grid[pos.y][pos.x] = 1;
     const name = this.getFrame();
     const gemData = this.gemsData.find((value, index, obj) => {
       if (value.name == name) {

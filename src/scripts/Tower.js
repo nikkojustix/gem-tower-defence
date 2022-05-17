@@ -163,7 +163,6 @@ class Tower extends Phaser.Physics.Arcade.Image {
 
           monsters.forEach((monster) => {
             monster.gameObject.decreaseHp(data.value);
-            console.log(monster.gameObject.hp);
           });
         },
       };
@@ -188,12 +187,10 @@ class Tower extends Phaser.Physics.Arcade.Image {
             true
           )
           .filter((value) => value.gameObject instanceof Tower);
-        console.log(towers);
         towers.forEach((tower) => {
           if (!tower.gameObject.auras.has(data)) {
             tower.gameObject.auras.add(data);
             tower.gameObject.enableAura(data);
-            console.log(tower);
           }
         });
       }
