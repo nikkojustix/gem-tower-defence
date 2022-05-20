@@ -555,6 +555,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   moveMonster(monster, path) {
+    console.log(path);
     const tweens = [];
     for (let i = 0; i < path.length - 1; i++) {
       const ex = path[i + 1].x;
@@ -606,6 +607,7 @@ export default class MyGame extends Phaser.Scene {
   }
 
   hit(bullet, enemy) {
+    // enemy.setBodySize(32, 32);
     bullet.ability.forEach((value) => {
       const data = this.abilitiesData.find((val) => val.name === value);
       if (data.type === "on hit") {

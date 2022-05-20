@@ -28,30 +28,29 @@ export default class Bullet extends Phaser.Physics.Arcade.Image {
       );
       this.incX = Math.cos(angle);
       this.incY = Math.sin(angle);
-      if (
-        Phaser.Math.Distance.Between(
-          this.getCenter().x,
-          this.getCenter().y,
-          this.target.body.center.x,
-          this.target.body.center.y
-        ) < 8
-      ) {
-        this.scene.hit(this, this.target);
-      }
+      //   if (
+      //     Phaser.Math.Distance.Between(
+      //       this.getCenter().x,
+      //       this.getCenter().y,
+      //       this.target.body.center.x,
+      //       this.target.body.center.y
+      //     ) < 8
+      //   ) {
+      //     this.scene.hit(this, this.target);
+      //   }
+      this.scene.physics.overlap(
+        this,
+        this.target,
+        this.scene.hit,
+        undefined,
+        this.scene
+      );
     } else {
       this.destroy();
     }
 
     this.x += this.incX * (this.speed * delta);
     this.y += this.incY * (this.speed * delta);
-
-    // this.scene.physics.overlap(
-    //   this,
-    //   this.target,
-    //   this.scene.hit,
-    //   undefined,
-    //   this.scene
-    // );
 
     if (this.target && this.target.hp <= 0) {
       this.destroy();
